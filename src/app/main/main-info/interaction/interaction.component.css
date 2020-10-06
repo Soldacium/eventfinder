@@ -1,0 +1,276 @@
+section{
+    margin-bottom: 3rem;
+}
+.section-title{
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin: 1rem 0;
+}
+
+/* more Section */
+.going{
+    display: flex;
+    width: 100%;
+    height: 20vh;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    padding: 30% 10%;
+    
+
+}
+.going-vote{
+    border: none;
+    transition: 0.3s ease;
+    cursor: pointer;
+    margin: 0 1rem;
+    padding: 1rem 3rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    background: linear-gradient(37deg,var(--color2), var(--color1)) ;
+    color: white;
+    border-radius: 1rem;
+    transition: 0.3s;
+    filter: grayscale(100%);
+
+    background-color: #171717;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='203' height='203' viewBox='0 0 200 200'%3E%3Cg %3E%3Cpolygon fill='%23072426' points='100 57.1 64 93.1 71.5 100.6 100 72.1'/%3E%3Cpolygon fill='%23092b2e' points='100 57.1 100 72.1 128.6 100.6 136.1 93.1'/%3E%3Cpolygon fill='%23072426' points='100 163.2 100 178.2 170.7 107.5 170.8 92.4'/%3E%3Cpolygon fill='%23092b2e' points='100 163.2 29.2 92.5 29.2 107.5 100 178.2'/%3E%3Cpath fill='%230a3336' d='M100 21.8L29.2 92.5l70.7 70.7l70.7-70.7L100 21.8z M100 127.9L64.6 92.5L100 57.1l35.4 35.4L100 127.9z'/%3E%3Cpolygon fill='%23260019' points='0 157.1 0 172.1 28.6 200.6 36.1 193.1'/%3E%3Cpolygon fill='%232e001f' points='70.7 200 70.8 192.4 63.2 200'/%3E%3Cpolygon fill='%23360024' points='27.8 200 63.2 200 70.7 192.5 0 121.8 0 157.2 35.3 192.5'/%3E%3Cpolygon fill='%232e001f' points='200 157.1 164 193.1 171.5 200.6 200 172.1'/%3E%3Cpolygon fill='%23260019' points='136.7 200 129.2 192.5 129.2 200'/%3E%3Cpolygon fill='%23360024' points='172.1 200 164.6 192.5 200 157.1 200 157.2 200 121.8 200 121.8 129.2 192.5 136.7 200'/%3E%3Cpolygon fill='%23260019' points='129.2 0 129.2 7.5 200 78.2 200 63.2 136.7 0'/%3E%3Cpolygon fill='%23360024' points='200 27.8 200 27.9 172.1 0 136.7 0 200 63.2 200 63.2'/%3E%3Cpolygon fill='%232e001f' points='63.2 0 0 63.2 0 78.2 70.7 7.5 70.7 0'/%3E%3Cpolygon fill='%23360024' points='0 63.2 63.2 0 27.8 0 0 27.8'/%3E%3C/g%3E%3C/svg%3E");
+
+}
+
+.going-vote:hover{
+    filter: grayscale(0%);
+}
+/*
+.going-yes{margin-top: 0;}
+.going-maybe{margin-top: 5rem;}
+.going-no{margin-top: 10rem;}
+
+
+.going-yes:hover{
+    background-color: greenyellow;
+}
+.going-maybe:hover{
+    background-color: rgb(255, 234, 47);
+}
+.going-no:hover{
+    background-color: rgb(255, 47, 92);
+}
+
+.going-vote.active{
+    box-shadow: 0 0 3px 2px rgba(128, 128, 128, 0.116);
+}
+*/
+
+
+/* messsages */
+
+.more-info{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.more-info > *{
+    width: 100%;
+}
+.messages-option{
+    display: flex;
+    align-items: center;
+}
+.message{
+    display: flex;
+    margin: 1rem auto;
+    padding: 1rem 1.5rem;
+    font-size: 1.3rem;
+    font-weight: 1.5rem;
+    background-color: transparent;
+    border: 1px dashed rgba(128, 128, 128, 0);
+    border-radius: 15px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    background-color: var(--color1);
+    filter: brightness(94%);
+    color: white;
+}
+.message:hover{
+    filter: brightness(100%);
+}
+.message:nth-of-type(2){
+    background-color: var(--color2);
+}
+.message:nth-of-type(1):hover{
+    filter: brightness(100%);
+    box-shadow: 0 0 3px 2px var(--color1);
+    
+}
+.message:nth-of-type(2):hover{
+    filter: brightness(100%);
+    box-shadow: 0 0 3px 2px var(--color2);
+    
+}
+
+textarea:focus, button:focus{
+    outline: none;
+}
+
+.write-comment,
+.write-response{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    margin-bottom: 2rem;
+}
+
+.write-comment textarea,
+.write-response textarea{
+    width: 100%;
+    display: flex;
+    padding: 1rem;
+    font-size: 1rem;
+    border-radius: 1rem;
+    height: 160px;
+    resize: vertical;
+    background-color: rgb(245, 245, 245);
+    border: none;
+}
+
+.write-comment button{
+    padding: 1rem 3rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+    background-color: rgb(65, 65, 65);
+    
+    border-radius: 1rem;
+    border: none;
+    color: white;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    transition: 0.3s;
+}
+
+.write-comment button:hover{
+    background-color: var(--color1);
+}
+
+.write-response{
+    margin: 0.5rem 0;
+}
+
+.write-response textarea{
+    height: 100px;
+    border-radius: 1rem;
+    width: calc(100% - 3.5rem);
+}
+
+.write-response-buttons{
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+}
+
+
+
+.write-response-buttons button{
+    margin-top: 1rem;
+    margin-left: 0.5rem;
+    padding: 0.6rem 1.6rem;
+    font-size: 1rem;
+    font-weight: 600;
+    background-color: rgba(0, 0, 0, 0);
+    box-shadow: 0 2px 2px rgba(128, 128, 128, 0.233);
+    border-radius: 1rem;
+    border: none;
+    color: rgb(49, 49, 49);
+    cursor: pointer;
+}
+
+.write-response .cancel-button{
+    box-shadow: none;
+}
+.write-response .accept-button{
+    box-shadow: none;
+    color: white;
+    background-color: var(--color1);
+}
+
+.comments{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 2rem 0;
+    position: relative;
+}
+
+.comment-thread{
+    position: relative;
+    margin: 0.5rem 0;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    background-color: rgb(255, 255, 255);
+    
+    border-radius: 0.5rem;
+    box-shadow: 0px 2px 2px 1px rgb(243, 243, 243);
+}
+
+.comment{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+}
+
+.comment-content{
+    display: flex;
+}
+.comment-content > *{
+    position: relative;
+}
+
+.comment-image{
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0.2rem;
+    background-color: rgba(0, 0, 0, 0.116);
+    margin-right: 1rem;
+    border-radius: 50%;
+}
+
+
+.comment-creator{
+    word-wrap: none;
+    white-space: nowrap;
+    text-decoration: none;
+    font-weight: 500;
+    color: var(--color1);
+    margin-right: 1rem;
+    
+}
+.comment-content img,
+.comment-content a{  }
+.comment-content div{}
+
+.comment-options{
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding: 0.5rem 3.5rem;
+}
+.comment-options > button{
+    background-color: transparent;
+    border: none;
+    color: rgba(0, 0, 0, 0.295);
+    font-weight: 600;
+    padding: 0;
+    margin-right: 1.5rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.comment-options > button:hover{
+    color: rgba(0, 0, 0, 0.76);
+}
+
+.comment-responses{
+    padding-left: 4rem;
+}

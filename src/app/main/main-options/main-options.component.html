@@ -1,0 +1,76 @@
+
+
+<main>
+    <div class="section-title">
+        Name and ogranisator
+    </div>
+    <section class='name'>
+        <div class="input-box field">
+            <input type="text" class="input-field" placeholder="Name" name="name" id='name' required 
+            [(ngModel)] = 'options.name'/>
+            <label for="name" class="input-label">Event name</label>
+        </div> 
+        <div class="input-box field">
+            <input type="text" class="input-field" placeholder="Name" name="name" id='name' required 
+            [(ngModel)] = 'options.organisator'/>
+            <label for="name" class="input-label">Organisator</label>
+        </div> 
+    </section>
+    <div class="section-title">
+        Event type
+    </div>
+    <section class="types">
+        <div class="event-types">
+            <button class="event-type" *ngFor='let type of eventTypes' (click)='pickType(type)' [ngClass]="(chosenType === type?'active':'naah')">
+                <span [class]='[type]' class="img" alt=""></span>
+                <div>{{type}}</div>
+            </button>
+        </div>
+    </section>
+    <div class="section-title">
+        Tags
+    </div>
+    <section class="tags">
+        <div class="event-tags">
+
+            <button class="event-tag" *ngFor='let tag of eventTags' (click)='pickTag(tag)' [ngClass]="(chosenTags.includes(tag)?'active':'naah')">
+                <div>{{tag}}</div>
+            </button>
+        </div>
+    </section>
+    <div class="section-title">
+        Time
+    </div>
+    <section class="date">
+        <div class="date-wrap">
+            <div class="input-box field">
+                <input type="datetime-local" class="input-field" placeholder="Name" name="name" id='name' required 
+                [(ngModel)]='options.start'/>
+                <label for="name" class="input-label">From</label>
+            </div> 
+            <div class="input-box field">
+                <input type="datetime-local" class="input-field" placeholder="Name" name="name" id='name' required 
+                [(ngModel)]='options.end'/>
+                <label for="name" class="input-label">To</label>
+            </div> 
+        </div>
+    </section>
+    <div class="section-title">
+        Pricing
+    </div>
+    <section class='price'>
+        <div class="input-box field">
+            <input type="range" class="input-field slider" placeholder="Name" name="name" id='name' required min="0" max="1000"
+            [(ngModel)]='options.maxPrice' value="999"/>
+            
+            <label for="name" class="input-label">Max {{options.maxPrice}}$</label> 
+            
+            
+        </div> 
+    </section>
+    <section class='buttons'>
+        <button class='search-button' (click)='search()'><div>Search </div> <img src="assets/icons/general/search.svg" alt=""></button>
+        <button class='redo-button' (click)='resetSearchOptions()'><div></div> <img src="assets/icons/general/redo2.svg" alt=""></button>        
+    </section>
+
+</main>

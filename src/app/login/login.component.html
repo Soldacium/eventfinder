@@ -1,0 +1,84 @@
+<main>
+    <div class="login flex-center" [ngClass]='login?"active":"naah"'>
+        <div class="img-wrap">
+            <img src="assets/icons/account/logo2.svg" alt="">
+        </div>
+        <h1 class="black">Login</h1>
+        <form action="" class="flex-center white">
+            <div class="input-box">
+                <input class="name" name="name" type="email" id="name" required
+                [(ngModel)]='loginmodel.email'>
+                <label >Email</label>
+            </div>
+            <div class="input-box">
+                <input class="email" name="email" type="password" id="email" required
+                [(ngModel)]='loginmodel.password'>
+                <label >Password</label>
+            </div>
+
+            
+        </form>
+        
+        <button class="submit" class="black" (click)='loginUser()'>Log in</button>
+        <a (click)='changeType()'>Or just create an account...</a>
+    </div>
+    
+    <div class="desc-wrap" [ngClass]='login?"naah":"active"'>
+        <div class="title"></div>
+        <div class="desc">
+            <ul class="check-list">
+                <li>100% Cotton</li>
+                <li>Strong bounds</li>
+                <li>Natural</li>
+                <li>Colorful</li>
+                <li>For many sizes</li>
+              </ul>
+        </div>
+    </div>        
+    
+
+    <div class="register flex-center" [ngClass]='login?"naah":"active"'>
+        <div class="img-wrap">
+            <img src="assets/icons/account/logo2.svg" alt="">
+        </div>
+        <h1 class="black">Register</h1>
+        <form action="" class="flex-center white">
+            <div class="input-box">
+                <input class="name" name="name" type="text" id="name" required
+                [(ngModel)]='registermodel.email'>
+                <label >Email</label>
+            </div>
+            <div class="input-box">
+                <input class="email" name="email" type="password" id="email" required
+                [(ngModel)]='registermodel.pass1'>
+                <label >Password</label>
+            </div>
+            <div class="input-box">
+                <input class="email" name="email" type="password" id="email" required
+                [(ngModel)]='registermodel.pass2'>
+                <label >Password repeat</label>
+            </div>
+            <div class="input-box">
+                <input class="name" name="name" type="text" id="name" required
+                [(ngModel)]='registermodel.name'>
+                <label >Account name</label>
+            </div>
+
+            
+        </form>
+        
+        <button class="submit" class="black" (click)='registerUser()'>Register</button>
+        <a (click)='changeType()'>Or if you already have an account...</a>
+    </div>
+    <!--
+    <div class="desc-wrap">
+        <div class="title"></div>
+        <div class="desc">
+            
+        </div>
+    </div>        
+    -->
+
+        
+    
+</main>

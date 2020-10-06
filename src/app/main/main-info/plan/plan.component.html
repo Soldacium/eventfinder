@@ -1,0 +1,15 @@
+<section id="timeline-content">
+            
+    <ul class="timeline">
+		<li class="event" *ngFor='let event of plan' [attr.data-date]="event.time" >
+			<h3>{{event.title}}</h3>
+			<p>{{event.desc}}</p>
+		</li>
+		<!-- Placeholder
+		<li class="event" data-date="2017">
+			<h3>Start of the journey</h3>
+			<p>Decided to go for extended programming classes in high school,  <strong>C++ as my first language.</strong> </p>
+		</li>      
+		-->
+    </ul>
+</section>

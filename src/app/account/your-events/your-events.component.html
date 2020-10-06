@@ -1,0 +1,46 @@
+<div class="events">
+    <div class="event" *ngFor='let event of events'>
+        <div class="visual">
+            <img [src]='event.iconImg' alt="">
+            <div class="visual-type">
+                <div>{{event.type}}</div>
+                <img src="assets/icons/tags/fist.svg" alt="">
+            </div>
+            <div class="visual-tags">
+                <div class="tag" *ngFor='let tag of event.tags'>
+                    {{tag}}
+                </div>
+ 
+            </div>
+        </div>
+        <div class="info">
+            <div class="name">
+                {{event.title}}
+            </div>
+            <div class="organisator">
+                {{event.organisator}}
+            </div>
+            <div class="requirements">
+                <div class="requirements-price">{{event.price}}</div>
+            </div>
+            <div class="stats">
+                <div class="stats-going"><div>100</div></div>
+                <div class="stats-comments"><div>35</div></div>
+            </div>
+            <div class="buttons">
+                <button (click)='edit(event)'>
+                    <img src="assets/icons/account/edit.svg" alt="">
+                </button>
+                <button (click)='delete(event)'>
+                    <img src="assets/icons/account/close.svg" alt="">
+                </button>
+                <button (click)='navigate()'>
+                    <img src="assets/icons/account/compass.svg" alt="">
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="add-event event" (click)='navigateNewEvent()'>
+        <img src="assets/icons/general/calendar.svg" alt="">
+    </div>
+</div>

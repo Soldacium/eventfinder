@@ -1,0 +1,149 @@
+
+
+<section class="wrap">
+
+
+    <div class="intro">
+        <div class="intro-icon">
+            <img [src]='dataset.image' alt="">
+        </div>
+        <div class="intro-desc">
+            <div class="desc-name">
+                {{dataset.title}}
+            </div>
+            <div class="desc-organisator">
+            <a href="">{{dataset.organisator}}</a> 
+            </div>
+        </div>
+    </div>  
+
+
+    <div class="intro-type">
+        <div class="type">
+            <div>{{dataset.type}}</div> <img src="assets/icons/tags/party.svg" alt="">
+        </div>
+    </div>
+
+
+    <div class="tags flex-center">
+        <div class="tag flex-center"  *ngFor='let tag of tags' 
+        [style.background-color]="tag.bgColor" 
+        [style.color]='tag.textColor'>
+            <div >{{tag.name}}</div>
+        </div>
+    </div>      
+
+
+    <div class="date">
+
+        <div class="date-start"> 
+            <div class='date-text-bigger'>{{time.startDate}}</div>
+            <div>{{time.startTime}}</div>
+        </div>
+        
+        <img class='date-img' src="assets/icons/general/time-left.svg" alt="">
+        
+        <div class="date-end"> 
+            <div class='date-text-bigger'>{{time.endDate}}</div>
+            <div>{{time.endTime}}</div>
+        </div>
+        
+    </div> 
+
+
+    <div class="place" (click)='findPlace()'> 
+        
+        <div>{{dataset.place}}</div><img src="assets/icons/general/place.svg" alt=""> 
+    </div>
+
+</section>
+  
+
+
+
+
+
+<section class="specs with-padding">
+
+    <header class="section-title">Specifications</header>
+    <!--
+    <div class="specs-website spec">
+        <img src="assets/icons/general/www.svg" alt="">
+        <a href=""> www.poolyGeng.com</a>
+    </div>
+    
+    <div class="info-static">
+        <div *ngIf='userProfileInfo.name == "" || userProfileInfo.name === undefined' class='text-inactive'>Not provided</div>
+        <div name='name'>{{userProfileInfo.name}}</div>
+        <label for="name">Name</label>
+    </div>        
+    -->
+    <div class="info-static">
+        <div name='name'>wojtekmein3@gmail.com</div>
+        <label for="name">Email</label>
+    </div>
+    <div class="info-static">
+        <div name='name'>wojtekmein3-contact@gmail.com</div>
+        <label for="name">Email</label>
+    </div>
+    <div class="info-static">
+        <div name='name'>+48 696 969 696</div>
+        <label for="name">Phone</label>
+    </div>
+    <div class="info-static">
+        <div name='name'><a href=""> www.poolyGeng.com</a></div>
+        <label for="name">Website</label>
+    </div>
+    <!--
+    <div class="spec">
+        <div>+69 703 643 643</div>
+    </div>  
+    <div class="spec">
+        <div>poolyGeng-contact@gmail.com</div>
+    </div> 
+    <div class="spec">
+        <div>poolyGeng-help@gmail.com</div>
+    </div>         
+    -->
+
+
+</section>      
+
+
+
+
+
+
+<section class="requirements with-padding">
+
+    <header class="section-title">Requirements</header>
+    <div class="price-wrap">
+        <div class="price">
+            <h3 *ngIf='dataset.price !== 0 && dataset.price !== "0"'>{{dataset.price}}$</h3>
+            <h3 *ngIf='dataset.price === 0 || dataset.price === "0"'>FREE</h3>
+        </div>     
+        <button>Buy tickets</button>   
+    </div>
+
+
+    <ul class="requirement" *ngFor='let r of dataset.req'>  
+        <li>
+            {{r}}
+        </li>
+    </ul>
+
+</section>    
+
+
+<!--
+<section class="gallery">
+
+    <img src="assets/images/events-bg/poolparty.jpg" alt="">
+
+</section>      
+-->
+  
+
+
+
+

@@ -1,0 +1,20 @@
+<main class="events">
+    <section class="event" (click)='openEvent(data)'>
+
+        <div class="text-wrap">
+            
+            <div class="name">{{data.title}}</div>
+            <div class='organisator'>{{data.organisator}}</div>                
+            
+        </div>
+        
+
+        <div class="image-wrap" >
+
+            <img src="assets/icons/tags/fist.svg" [src]='data.iconImg' alt="">
+            <img src="assets/icons/tags/party.svg"  alt="">  
+
+        </div>
+
+    </section>
+</main>

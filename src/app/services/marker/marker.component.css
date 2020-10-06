@@ -1,0 +1,47 @@
+.events{
+    display: flex;
+    flex-direction: column;
+    max-height: 40vh;
+    
+}
+
+.event{
+    display: flex;
+    padding: 0.5rem 1rem;
+    margin-bottom: 0.5rem;
+    transition: 0.2s;
+    border-radius: 0.5rem;
+}
+
+.event:hover{
+    background-color: rgba(128, 128, 128, 0.11);
+    cursor: pointer;
+}
+
+.image-wrap{
+    display: flex;
+    align-items: center;
+    margin-left: 1rem;
+}
+
+.image-wrap img{
+    width: 2.3rem;
+    height: 2.3rem;
+    border-radius: 50%;
+    margin-left: 0.7rem;
+    border: var(--color2) 2px solid;
+}
+.image-wrap img:nth-of-type(2){
+    padding: 0.3rem;
+    border: var(--color1) 2px solid;
+}
+
+.text-wrap{
+    margin: 0 0rem;
+}
+
+.name{
+    font-size: 1rem;
+    font-weight: 600;
+}
+

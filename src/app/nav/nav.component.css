@@ -1,0 +1,239 @@
+@import url('https://fonts.googleapis.com/css2?family=Coming+Soon&display=swap');
+
+.bonus{
+    width: 100%;
+    height: 4.5rem;
+    position: relative;
+}
+nav{
+    top: 0;
+    right: 0;
+    width: 40%;
+    position: fixed;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center; 
+    padding: 0.5rem 1rem;
+    z-index: 100000000000;
+}
+
+.links{
+    display: flex;
+    justify-content: flex-end; 
+    flex: 1 1 20rem;
+    
+ }
+
+nav a{
+    text-decoration: none;
+    font-weight: 500;
+    font-size: calc(0.8rem + 0.4vw);
+    
+    position: relative;
+    padding: 0.5rem 1.5rem;
+    border-radius: 20px;
+    
+    color: white;
+    transition: 0.3s;
+    cursor: pointer;
+    
+}
+
+nav a:hover{
+    background-color: rgb(80, 80, 80);
+}
+nav a.active{
+    background-color: rgb(80, 80, 80);;
+}
+
+nav.nav-dark a{
+    color: black;
+}
+nav.nav-dark a:hover{
+    color: white;
+}
+nav.nav-dark a.active{
+    color: white;
+}
+
+ul{
+    list-style: none;
+}
+
+nav li{
+    margin: 0rem 0.5rem;
+}
+
+li a{
+    
+}
+
+.logo{
+    position: absolute;
+    top: 55%;
+    left: 2rem;
+    margin: 0;
+    padding: 0;
+    letter-spacing: -10px;
+    transform: translate(0,-50%);
+    font-weight: 600;
+    font-family: 'Coming Soon', cursive;
+    font-size: 2rem;
+    color: var(--primaryColor);
+    cursor: pointer;
+    outline: none;
+}
+
+
+/* SECOND NAV */
+
+.hamburger{
+    position: absolute;
+    right: 2rem;
+    top: 2rem;
+    width: 40px;
+    height: 50px;
+    display: none;
+    cursor: pointer;
+    z-index: 150;
+
+}
+
+.hamburger span{
+    position: absolute;
+    height: 4px;
+    border-radius: 3px;
+    width: 100%;
+    background: #e6e6e6;
+    top: 0;
+    transition: transform .2s ease-in-out, opacity .2s ease-in-out;
+}
+
+.hamburger span:nth-child(1){
+    top:0px;
+ }
+
+.hamburger span:nth-child(2),
+.hamburger span:nth-child(3){
+    top: 13px;
+ }
+
+.hamburger span:nth-child(4){
+    top:26px;
+ }
+
+ .hamburger.active span:nth-child(1),
+ .hamburger.active span:nth-child(4){
+     opacity: 0;
+ }
+
+ .hamburger.active span:nth-child(2){
+     transform: rotate(45deg);
+ }
+ .hamburger.active span:nth-child(3){
+     transform: rotate(-45deg);
+ }
+
+/********************* style overlay ***********************/
+.overlay {
+    position: fixed;
+    background: rgba(22, 22, 22, 0.973);
+    
+    right: 0;
+    width: 0%;
+    height: 100%;
+    z-index: 90;
+    padding-bottom: 30%;
+
+    opacity: 0;
+    visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: .4s;
+    
+
+    
+}
+
+.nav2 {
+   font-size: 2rem;
+   text-align: center;
+}
+
+.nav2 ul {
+   list-style: none;
+   padding: 0;
+   margin: 0;
+}
+
+.nav2 ul li {
+   opacity: 0;
+   margin: 26px 0;
+}
+
+.nav2 ul li a {
+   color: rgb(255, 255, 255);
+   
+   padding: 10px;
+   font-size: var(--biggestText);
+   font-weight: 600;
+   text-decoration: none;
+   transition: all .5s;
+  
+}
+
+.nav2 ul li a:hover{
+   box-shadow: white 0px 0px 12px;
+}
+
+/* the animations */
+
+@keyframes fadeInLeft {
+   0% {
+       opacity: 0;
+       transform: translate3d(-25%,0,0);
+   }
+
+   100% {
+       opacity: 1;
+       transform: translate3d(0,0,0);
+   }
+}
+
+/*make overlay visible */
+.overlay.visible{
+   opacity: 1;
+   visibility: visible;
+   width: 100%;
+}
+
+.overlay.visible li{
+    animation: fadeInLeft .3s ease-in-out forwards;
+}
+.overlay.visible li:nth-of-type(1){
+    animation-delay:  .24s;
+}
+.overlay.visible li:nth-of-type(2){
+    animation-delay:  .28s;
+}
+.overlay.visible li:nth-of-type(3){
+    animation-delay:  .32s;
+}
+.overlay.visible li:nth-of-type(4){
+    animation-delay:  .36s;
+}
+.overlay.visible li:nth-of-type(5){
+    animation-delay:  .40s;
+}
+
+@media screen and (max-width:950px){
+    .links{
+        display: none;
+    }
+
+    .hamburger{
+        display: flex;
+    }
+}
+

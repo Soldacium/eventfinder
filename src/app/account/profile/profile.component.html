@@ -1,0 +1,249 @@
+
+<main>
+    <div class="profile-background">
+        
+    </div>
+
+
+    <section class="profile-general">
+
+        <div class="image">
+            <img src="assets/icons/account/logo2.svg" alt="">
+            <div class="image-wrap-buttons">
+                <button class="img-accept" *ngIf='imagePath !== undefined' (click)='updateUserImage()'></button>
+                <button class="img-decline" *ngIf='imagePath !== undefined' (click)='cancelUpdatingUserImage()'></button>                    
+            </div>
+
+            <div class="image-wrap">
+                <input #file type="file" id="selectedFile" style="display: none;"
+                accept='image/*' 
+                (change)="previewImage(file.files)"/>
+                <input type="button" (click)="clickImage()" />
+                <img [src]="imgURL" *ngIf="imgURL">
+
+
+
+            </div>
+
+        </div>
+
+
+        <div class="name">{{userProfileInfo.name}}</div>
+        <div class="email">{{userProfileInfo.email}}</div>
+    </section>
+
+
+
+
+    <header class="section-title">
+        <div>Info</div>  <button (click)='editUserProfileInfo()'></button>
+    </header>
+
+    <section class='profile-info'>
+
+        <div class="info" *ngIf='userProfileIsEdited'>
+
+
+            <header class="subsection-title">Personal</header>
+
+            <div class="input-box field">
+                <input type="tel" class="input-field" placeholder="End" name="end" required 
+                [(ngModel)] = 'userProfileInfo.name'/>
+                <label for="end" class="input-label">Phone</label>
+            </div>  
+
+            <div class="input-box field">
+                <input type="text" class="input-field" placeholder="End" name="end" required 
+                [(ngModel)] = 'userProfileInfo.name'/>
+                <label for="end" class="input-label">Adress</label>
+            </div>  
+
+
+
+            <div class="subsection-title">Contact</div>
+
+            <div class="input-box field">
+                <input type="text" class="input-field" placeholder="End" name="end" required 
+                [(ngModel)] = 'userProfileInfo.email'/>
+                <label for="end" class="input-label">Email</label>
+            </div>  
+
+            <div class="input-box field">
+                <input type="tel" class="input-field" placeholder="End" name="end" required 
+                [(ngModel)] = 'userProfileInfo.phone'/>
+                <label for="end" class="input-label">Phone</label>
+            </div>  
+
+            <div class="input-box field">
+                <input type="text" class="input-field" placeholder="End" name="end" required 
+                [(ngModel)] = 'userProfileInfo.website1'/>
+                <label for="end" class="input-label">Website 1</label>
+            </div>  
+
+            <div class="input-box field">
+                <input type="text" class="input-field" placeholder="End" name="end" required 
+                [(ngModel)] = 'userProfileInfo.website1'/>
+                <label for="end" class="input-label">Website 2</label>
+            </div> 
+
+            <div class="subsection-title">Other media</div>
+
+            <div class="input-box field">
+                <input type="text" class="input-field" placeholder="End" name="end" required 
+                [(ngModel)] = 'userProfileInfo.instagram'/>
+                <label for="end" class="input-label">Instagram</label>
+            </div> 
+
+            <div class="input-box field">
+                <input type="text" class="input-field" placeholder="End" name="end" required 
+                [(ngModel)] = 'userProfileInfo.facebook'/>
+                <label for="end" class="input-label">Facebook</label>
+            </div> 
+
+            <div class="input-box field">
+                <input type="text" class="input-field" placeholder="End" name="end" required 
+                [(ngModel)] = 'userProfileInfo.linkedin'/>
+                <label for="end" class="input-label">LinkedIn</label>
+            </div> 
+
+        </div>
+
+
+
+        <div class="info" *ngIf='!userProfileIsEdited'>
+
+
+            <header class="subsection-title">Personal</header>
+
+            <div class="info-static">
+                <div *ngIf='userProfileInfo.name == "" || userProfileInfo.name === undefined' class='text-inactive'>Not provided</div>
+                <div name='name'>{{userProfileInfo.name}}</div>
+                <label for="name">Name</label>
+            </div>
+
+            <div class="info-static">
+                <div *ngIf='userProfileInfo.address == ""' class='text-inactive'>Not provided</div>
+                <div name='name'>{{userProfileInfo.address}}</div>
+                <label for="name">Address</label>
+            </div>
+
+
+
+            <div class="subsection-title">Contact</div>
+
+            <div class="info-static">
+                <div *ngIf='userProfileInfo.email == ""' class='text-inactive'>Not provided</div>
+                <div name='name'>{{userProfileInfo.email}}</div>
+                <label for="name">Email</label>
+            </div>
+
+            <div class="info-static">
+                <div *ngIf='userProfileInfo.phone == ""' class='text-inactive'>Not provided</div>
+                <div name='name'>{{userProfileInfo.phone}}</div>
+                <label for="name">Phone</label>
+            </div>
+
+            <div class="info-static">
+                <div *ngIf='userProfileInfo.website1 == ""' class='text-inactive'>Not provided</div>
+                <div name='name'>{{userProfileInfo.website1}}</div>
+                <label for="name">Website 1</label>
+            </div>
+
+            <div class="info-static">
+                <div *ngIf='userProfileInfo.website2 == ""' class='text-inactive'>Not provided</div>
+                <div name='name'>{{userProfileInfo.website2}}</div>
+                <label for="name">Website 2</label>
+            </div>
+
+            <div class="subsection-title">Other media</div>
+
+            <div class="info-static">
+                <div *ngIf='userProfileInfo.instagram == ""' class='text-inactive'>Not provided</div>
+                <div name='name'>{{userProfileInfo.instagram}}</div>
+                <label for="name">Instagram</label>
+            </div>
+
+            <div class="info-static">
+                <div *ngIf='userProfileInfo.facebook == ""' class='text-inactive'>Not provided</div>
+                <div name='name'>{{userProfileInfo.facebook}}</div>
+                <label for="name">Facebook</label>
+            </div>
+
+            <div class="info-static">
+                <div *ngIf='userProfileInfo.linkedin == ""' class='text-inactive'>Not provided</div>
+                <div name='name'>{{userProfileInfo.linkedin}}</div>
+                <label for="name">LinkedIn</label>
+            </div>
+        </div>
+
+
+
+
+        <div class="desc" >
+
+            <header class="subsection-title">Description</header>
+
+            <div>
+
+                <div 
+                *ngIf='!userProfileIsEdited'
+                [innerHTML]='desc.editorData'>
+                </div>
+
+
+                <ckeditor
+                *ngIf='userProfileIsEdited'
+                 type='inline' 
+                [(ngModel)]="desc.editorData" 
+                class="editor"
+                [config]="{ language: 'en', uiColor: '#FFFFFF', magicline_color: 'transparent'}">
+                </ckeditor>    
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+
+    <header class="section-title">Stats</header>
+
+    <section class='profile-stats'>
+
+        <div class="stats">
+
+            <header class="stats-title">Most frequent event types</header>
+            <div class="canvas-wrap">
+                <canvas class="stats-types"></canvas>  
+            </div>
+            
+        </div>
+
+
+        <div class="stats">
+
+            <header class="stats-title">Activity timeline</header>
+            <div class="canvas-wrap">
+                <canvas class="stats-activity"></canvas>  
+            </div>
+
+        </div>
+
+
+        <div class="stats">
+
+            <div class="subsection-title">Desc</div>
+
+        </div>
+
+
+        <div class="stats">
+
+            <div class="subsection-title">Desc</div>
+
+        </div>
+
+    </section>    
+</main>

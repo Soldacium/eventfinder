@@ -1,0 +1,26 @@
+<main >
+     <div class='map'
+          leaflet 
+          [leafletOptions]="leafletMapOptions"
+          id='map'
+          (leafletMapReady)="onMapReady($event)">
+     </div>   
+     <div class="info" [ngClass]='!currentEventInfoIsHidden?"active":"naah"'>
+          
+          <app-main-info (closeInfo)='onClose($event)' [data]='currentEventData' [saved]='userSavedEvents'>
+               
+          </app-main-info>
+     </div>  
+     <div class="options" [ngClass]='!optionsHidden?"active":"naah"'>
+          
+          <div class="options-hide" (click)='optionsHidden = !optionsHidden'>
+               <img src="assets/icons/general/arrow.svg" alt="">
+          </div>
+          <div class="options-wrap">
+               <app-main-options>
+
+               </app-main-options>               
+          </div>
+
+     </div>
+</main>

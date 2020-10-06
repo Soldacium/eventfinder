@@ -1,0 +1,40 @@
+
+<main>
+     
+    <nav [ngClass]="(router.isActive('/account',false))?'nav-dark':'nav-light'">
+        <!--
+        <div class="logo" [routerLink]='["/main"]'>
+            WWW
+        </div>            
+        -->
+
+        <ul class='links'>
+            <li><a [routerLink]='["/account"]' [ngClass]="(router.isActive('/account',false))?'active':'naah'">Account</a></li>
+            <li><a [routerLink]='["/"]' [ngClass]="(router.isActive('/',true))?'active':'naah'">Home</a></li>
+            <li *ngIf='authenticated === false'><a [routerLink]='["/login"]' [ngClass]="(router.isActive('/login',true))?'active':'naah'">Login</a></li>
+            <li *ngIf='authenticated === true'><a (click)='logout()'>Logout</a></li>
+            
+        </ul>
+        <div class="hamburger" (click)='change()'
+        [ngClass]="active ? 'active' : 'naah' ">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>    
+    </nav>
+
+    
+    
+
+</main>    
+
+
+<div class="overlay" [ngClass]="active ? 'visible' : 'naah'">
+    <div class="nav2">
+        <ul >
+            <li><a [routerLink]='["/main"]' [ngClass]="(router.isActive('/main',true))?'active':'naah'">Home</a></li>
+            <li><a [routerLink]='["/login"]' [ngClass]="(router.isActive('/login',true))?'active':'naah'">Login</a></li>
+        </ul>
+    </div>
+</div>

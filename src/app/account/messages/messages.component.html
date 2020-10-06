@@ -1,0 +1,102 @@
+<main>
+    <section class="contacts">
+
+        <div class="search">
+            <div class="input-field">
+                <input type="text" [(ngModel)]='searchQuery' (keyup)='searchConversations()'>
+                <img src="assets/icons/general/search.svg" alt="">
+            </div>
+        </div>
+
+
+        <div class="contacts-display">
+
+            <div class="contact" *ngFor='let contact of searchedConversations' (click)='openConversation(contact)'>
+
+                <span class="contact-color"></span>
+
+                <div class="contact-info">
+                    <div class="contact-img" *ngIf='contact.userID1 !== userID'>
+                        <img [src]=[contact.userImg1] alt="">
+                    </div>
+                    <div class="contact-img" *ngIf='contact.userID2 !== userID'>
+                        <img [src]=[contact.userImg2] alt="">
+                    </div>
+                    <div class="text">
+                        <div class="organisator-name" *ngIf='contact.userID1 !== userID'>{{contact.userName1}}</div>
+                        <div class="organisator-name" *ngIf='contact.userID2 !== userID'>{{contact.userName2}}</div>
+                        <div class="event-name">{{contact.eventName}}</div>                
+                    </div>                
+                </div>
+                <div class="contact-message" *ngIf='contact.messages.length >= 1'>
+                    {{contact.messages[contact.messages.length - 1].message}}
+                </div>
+                <div class="contact-message" *ngIf='contact.messages.length === 0'>
+                    
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+    <section class="conversation" *ngIf='currentConversation'>
+
+        <div class="conversation-info" >
+            <!--
+            <div class="conversation-image">
+                <img src="assets/icons/tags/fist.svg" alt="">
+            </div>            
+            -->           
+            <div class="contact-img" *ngIf='currentConversation.userID1 !== userID'>
+                <img [src]=[currentConversation.userImg1] alt="">
+            </div>
+            <div class="contact-img" *ngIf='currentConversation.userID2 !== userID'>
+                <img [src]=[currentConversation.userImg2] alt="">
+            </div>
+            <div class="conversation-name">
+                <div class="organisator-name">{{currentConversation.userName1}}</div>
+                <div class="event-name">{{currentConversation.eventName}}</div>
+            </div>
+            <div class="conversation-options">
+                
+            </div>
+        </div>
+
+
+
+        <div class="conversation-messages" #messageBox>
+            <!--
+            <div class="message-wrap">
+                
+            </div>                
+            -->
+            <div class="message"></div>
+            <div class="message"></div>
+            <div class="message" *ngFor='let message of currentConversation.messages' [ngClass]='message.senderID === userID ? "message-mine" : "message-other"'>
+                <div class="message-date">{{message.date}} </div>
+                <div class="message-text">{{message.message}} </div>
+            </div>
+            <!--
+            <div class="message" *ngFor='let message of messages' [ngClass]='message.senderID === userID ? "message-mine" : "message-other"'>
+                <div class="message-date">{{message.date}} </div>
+                <div class="message-text">{{message.message}} </div>
+            </div>                 
+            -->
+    
+            <div class="message"></div>
+            <div class="message"></div>
+            <div class="message"></div>
+            <div class="message"></div>
+        </div>
+
+
+
+        <div class="write-message">
+            <input type="text" [(ngModel)]='messageText' (keyup.enter)="sendMessage(messageText)">
+            <button class="send" (click)="sendMessage(messageText)"></button>
+        </div>
+
+
+    </section>    
+</main>

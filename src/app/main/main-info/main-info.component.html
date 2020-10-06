@@ -1,0 +1,62 @@
+
+
+<main>
+
+    <div class="info-background">
+
+    </div>
+
+    <button class="close" (click)='close()'>
+        <img src="assets/icons/account/close2.svg" alt="">
+    </button>
+
+
+    <section class="general">
+        
+        <div class='save'>
+
+            <button (click)='saveEvent()' *ngIf='!thisEventIsSaved' class='saveButton saveEvent '>
+                <img src="assets/icons/general/bookmarkBold.svg" alt="">
+            </button>
+
+            <button (click)='unsaveEvent()' *ngIf='thisEventIsSaved' class="saveButton unsaveEvent ">
+                <img src="assets/icons/general/bookmarkBold-full.svg" alt="">
+            </button>
+
+        </div>
+
+
+        <app-general [data]='section1' class='no-padding'>
+
+        </app-general>
+
+    </section>
+
+    <section class="desc">
+        <div class="section-title">
+            Description
+        </div>
+        <app-description [data]='section2' class='with-padding'>
+
+        </app-description>
+    </section> 
+
+
+    <section class='plan'>
+        <div class="section-title">
+            Plan
+        </div>
+        <app-plan [data]='section3'>
+
+        </app-plan>
+    </section>
+
+
+    <section class="more">
+        <app-interaction [data]='section4'>
+
+        </app-interaction>
+    </section>
+
+
+</main>

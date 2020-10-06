@@ -1,0 +1,114 @@
+
+
+
+<section class="going">
+    
+    <header class="section-title">Convinced?</header>
+
+    <button class="going-vote flex-center active" (click)='going()'>
+        Count me in
+    </button>
+
+</section>
+
+
+
+<section class="more-info">
+    
+    <header class="section-title">Ask us a question</header>
+
+    <div class="messages-option">
+        <button class="message" (click)='allMessages()'>
+            Go to messages
+        </button>
+        <button class="message" (click)='createNewConversation()'>
+            Join Conversation
+        </button>        
+    </div>
+
+</section>
+
+
+
+<section class="share">
+
+    <header class="section-title">Share</header>
+    <div class="share-buttons">
+        <button></button>
+        <button></button>
+        <button></button>
+        <button></button>
+    </div>
+
+</section>    
+
+
+
+<section class="comments">
+
+    <header class="section-title">Comments</header>
+
+    <div class="write-comment">
+        <textarea name="" id="" cols="30" rows="10" [(ngModel)]='commentInput' (keyup.enter)='postComment()'>
+
+        </textarea>
+        <button (click)='postComment()' >Post</button>
+    </div>
+
+    <div class="comments">
+        <div class="comment-thread" *ngFor='let comment of eventComments'>
+            <div class="comment">
+                <div class="comment-content">
+                    <img [src]=[comment.userImg] alt="" class="comment-image">
+                    <a href="" class="comment-creator">{{comment.username || comment.userID}}</a>
+                    <div class="comment-text">
+                        {{comment.comment}}
+                    </div>                    
+                </div>
+                <div class="comment-options">
+                    <button (click)='isWritingResponse = comment._id'>Reply</button>
+                    <button>Delete</button>
+                </div>
+
+                <div class="write-response" *ngIf='isWritingResponse === comment._id'>
+                    <textarea name="" id="" cols="30" rows="10" [(ngModel)]='responseInput' (keyup.enter)='postResponse(comment)'>
+
+                    </textarea>
+                    <div class="write-response-buttons">
+                        <button (click)='isWritingResponse = false' class='cancel-button'>Cancel</button>
+                        <button (click)='postResponse(comment)' class="accept-button">Post</button>
+                    </div>
+                    
+                </div>
+
+            </div>
+            <div class="comment-responses" >
+                <div class="comment" *ngFor='let response of comment.responses'>
+                    <div class="comment-content">
+                        <img [src]=[response.userImg] alt="" class="comment-image">
+                        <a href="" class="comment-creator">{{response.username || response.userID}}</a>
+                        <div class="comment-text">
+                            {{response.comment}}
+                        </div>                    
+                    </div>
+                    <!--
+                    <div class="comment-options">
+                        <button>Reply</button>
+                        <button>Delete</button>
+                    </div>                        
+                    -->
+
+    
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+
+
+<section class="report">
+
+</section>

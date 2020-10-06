@@ -1,0 +1,214 @@
+
+
+<main>
+
+    <header class="section-title">General information</header>
+
+    <section class="general-info">
+
+        <div class="info-required">
+
+            <header class="subsection-title">Name and place</header>
+            <div class="input-box field">
+                <input type="text" class="input-field" placeholder="Name" name="name" id='name' required 
+                [(ngModel)] = 'info.name'/>
+                <label for="name" class="input-label">Event name</label>
+            </div>
+            
+            
+            <header class="subsection-title"></header>        
+            <div class="input-box field">
+                <input type="text" class="input-field" placeholder="org" name="org" id='org' required 
+                [(ngModel)] = 'info.organisator'/>
+                <label for="org" class="input-label">Organisator</label>
+            </div>  
+
+
+            <div class="time-box">
+
+                <div class="input-box field">
+                    <input type="datetime-local" class="input-field" placeholder="Start" name="start" id='start' required 
+                    [(ngModel)] = 'info.start'/>
+                    <label for="start" class="input-label">Start</label>
+                </div>  
+                <div class="input-box field">
+                    <input type="datetime-local" class="input-field" placeholder="End" name="end" id='end' required 
+                    [(ngModel)] = 'info.end'/>
+                    <label for="end" class="input-label">End</label>
+                </div>  
+
+            </div>   
+            
+            
+            <div class="input-box field">
+                <input type="" class="input-field" placeholder="Name" name="name" id='name' required 
+                [(ngModel)] = 'info.address'
+                (keyup.enter)='checkMap(info.address)'/>
+                <label for="name" class="input-label">Address</label>
+                <button (click)='checkMap(info.address)'>
+                    <img src="assets/icons/general/search.svg" alt="">
+                </button>
+            </div>   
+
+            <div class="map-box">
+                <div class='map'
+                leaflet 
+                [leafletOptions]="options"
+                id='map'
+                (leafletMapReady)="onMapReady($event)">
+                </div>         
+            </div>        
+
+        </div>
+
+
+
+        <div class="info-additional">
+
+            <header class="subsection-title">Icon and type</header>
+
+            <div class="icon-wrap">
+                <input #file type="file" id="selectedFile" style="display: none;"
+                accept='image/*' 
+                (change)="preview(file.files)"/>
+                <input type="button" (click)="clickImage()" />
+                <img [src]="imgURL" *ngIf="imgURL">
+            </div>
+            <div class="event-types">
+                <button class="event-type" *ngFor='let type of eventTypes' (click)='pickType(type)' [ngClass]="(chosenType === type?'active':'naah')">
+                    <span [class]='[type]' class="img" alt=""></span>
+                    <div>{{type}}</div>
+                </button>
+
+            </div>
+
+
+            <header class="subsection-title">Tags</header>
+
+            <div class="event-tags">
+                <button class="event-tag" *ngFor='let tag of eventTags' (click)='pickTag(tag)' [ngClass]="(chosenTags.includes(tag)?'active':'naah')">
+                    <div>{{tag}}</div>
+                </button>
+            </div>
+
+
+
+
+
+            <header class="subsection-title">Requirements</header>
+
+            <div class="input-box field">
+                <input type="number" class="input-field" placeholder="Price" name="price" id='price' required 
+                [(ngModel)] = 'info.price'/>
+                <label for="price" class="input-label">Price</label>
+            </div> 
+
+            <div class="input-box field">
+                <input type="input" class="input-field" placeholder="Name" name="name" id='name' required 
+                (keyup.enter) = 'addRequirement(additionalRequirement)'
+                [(ngModel)] = 'additionalRequirement'/>
+                <label for="name" class="input-label">Additional</label>
+                <button (click)='addRequirement(additionalRequirement)'>
+                    <img src="assets/icons/account/accept2.svg" alt="">
+                </button>
+            </div> 
+            <div class="additional" *ngFor='let requirement of additionalRequirements' >
+                {{requirement}}
+                <button (click)='deleteRequirement(requirement)'>
+                    <img src="assets/icons/account/cancel.svg" alt="">
+                </button>
+            </div>
+
+
+
+
+            <header class="subsection-title">Additional info</header>       
+            <div class="input-box field">
+                <input type="input" class="input-field" placeholder="Name" name="name" id='name' required />
+                <label for="name" class="input-label">What?</label>
+            </div>      
+        </div>
+
+    </section>
+
+
+
+
+
+
+
+
+
+
+    <header class="section-title">Event description</header>
+
+    <section class="description">
+
+        <ckeditor type='classic' 
+        [(ngModel)]="desc.editorData" 
+        class="editor"
+        [config]="{ language: 'en', uiColor: '#FFFFFF', magicline_color: 'transparent'}">
+        </ckeditor>  
+
+    </section>
+
+
+
+
+
+
+
+
+
+
+    <header class="section-title">Plan</header>
+
+    <section class="plan">
+        <div class="timeline-add">
+            <div class="timeline-input-wrap">
+                <div class="timeline-add-header">
+                    <div class="input-box field">
+                        <input type="text" class="input-field" placeholder="Title" name="title" id='title' required 
+                        [(ngModel)] = 'timelineEvent.title'/>
+                        <label for="title" class="input-label">Title</label>
+                    </div> 
+                    <div class="input-box field">
+                        <input type="text" class="input-field" placeholder="time" name="time" id='time' required 
+                        [(ngModel)] = 'timelineEvent.time'/>
+                        <label for="time" class="input-label">Time (optional)</label>
+                    </div> 
+                </div>
+                <div class="timeline-add-text" name='timeline-text' (keyup.enter)='addTimeline()'>
+                    <textarea name="" id="" cols="30" rows="10"
+                    [(ngModel)] = 'timelineEvent.desc'></textarea>
+                </div>                
+            </div>
+
+            <button class="timeline-add-button" (click)='addTimeline()'>
+                
+            </button>
+
+        </div>
+        <div id="timeline-content" *ngIf='timelineEvents.length !== 0'>
+            
+            <ul class="timeline">
+                <li class='timeline-event' *ngFor='let event of timelineEvents' [attr.data-date]="event.time">
+                    <h3>{{event.title}}</h3>
+                    <p>{{event.desc}}</p>
+                    <button (click)='deleteTimeline(event)'></button>
+                </li>
+            </ul>
+
+        </div>
+    </section>  
+
+
+
+    <button class="button-submit" (click)='post()'>
+        Post event
+    </button>  
+
+    
+</main>
+
+

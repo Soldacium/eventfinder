@@ -1,0 +1,114 @@
+.calendar {
+    align-items: center;
+    align-content: center;
+    padding: 0 5%;
+    
+}
+.calendar > *{
+    margin: 2rem 0rem;
+}
+.month-year{
+    margin: auto;
+}
+
+.choose{
+    display: flex;
+}
+
+.choose > button{
+    font-size: 1rem;
+    border: none;
+    padding: 1rem 3rem;
+    transition: 0.3s;
+    margin: 0.5rem;
+}
+.choose > button:hover{
+    filter: brightness(90%);
+    cursor: pointer;
+}
+
+.calendar-wrap{
+    width: 100%;
+    height: 70vh;
+    position: relative;
+    background-color: rgba(255, 235, 205, 0);
+}
+
+.dayNames{
+    width: 100%;
+    display: flex;
+
+}
+
+.dayNames > div{
+    flex: 1 1 5rem;
+    background-color: var(--color1);
+    padding: 0.5rem;
+    display: flex;
+    justify-content: center;
+    border: 1px solid rgba(0, 0, 0, 0);
+}
+.dayNames > div:nth-of-type(1){filter: grayscale(35%);}
+.dayNames > div:nth-of-type(2){filter: grayscale(30%);}
+.dayNames > div:nth-of-type(3){filter: grayscale(25%);}
+.dayNames > div:nth-of-type(4){filter: grayscale(20%);}
+.dayNames > div:nth-of-type(5){filter: grayscale(15%);}
+.dayNames > div:nth-of-type(6){filter: grayscale(10%);}
+.dayNames > div:nth-of-type(7){filter: grayscale(5%);}
+
+.days{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: rgba(137, 43, 226, 0);
+}
+
+.day{
+    display: flex;
+    flex: 1 1 14.2%;
+    height: 20%;
+    position: relative;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgba(0, 0, 0, 0.027);
+    padding: 10px;
+    transition: 0.3s;
+    overflow: hidden;
+    flex-direction: column;
+    align-items: flex-start;
+    animation: newDay 0.8s;
+}
+
+@keyframes newDay{
+    0%{opacity: 0;}
+    100%{opacity: 1;}
+}
+
+.missing{
+    filter: brightness(85%);
+}
+
+.day:hover{
+    background-color: rgb(245, 245, 245);
+    cursor: pointer;
+}
+
+.day-event{
+    padding: 0.3rem;
+    background-color: gray;
+    color: rgb(0, 0, 0);
+    border-radius: 0.3rem;
+    font-weight: 400;
+    margin: 0.3rem 0;
+}
+.day-event:nth-of-type(1n){background-color: rgb(206, 255, 133);}
+.day-event:nth-of-type(2n){background-color: rgb(255, 198, 124);}
+.day-event:nth-of-type(4n){background-color: rgb(253, 124, 195);}
+
+
+
+@media screen and (max-width: 1000px){
+    main{
+        width: 100%;
+    }
+}

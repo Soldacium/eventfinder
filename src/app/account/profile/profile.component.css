@@ -1,0 +1,385 @@
+main{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+    padding: 0 10% 20% 10%;
+    background-color: rgb(250, 250, 250);
+}
+
+.profile-background{
+  width: 100%;
+  height: 20%;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  background-image: url('../../../assets/images/BGs/wave1.svg');
+  background-size: cover;
+
+}
+
+section{
+    width: 100%;
+    padding: 2rem;
+    margin-top: 0rem;
+    border-radius: 2rem;
+    box-shadow: 0 0 3px 2px rgba(128, 128, 128, 0.144);
+    z-index: 5;
+    position: relative;
+
+}
+
+section:first-of-type{
+  box-shadow: none;
+}
+
+.section-title{
+    width: 100%;
+    margin: 4rem 0 1rem 0;
+    font-size: 1.5rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    
+}
+
+.section-title button{
+    width: 2.4rem;
+    height: 2.4rem;
+    background-color: rgba(0, 0, 0, 0.068);
+    border-radius: 50%;
+    border: none;
+    transition: 0.3s;
+    cursor: pointer;
+    background-image: url('../../../assets/icons/account/edit.svg');
+    background-size: 1.2rem 1.2rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-left: 0.7rem;
+}
+.section-title button:hover{
+    background-color: rgba(0, 0, 0, 0.219);
+}
+
+.subsection-title{
+    width: 100%;
+    margin: 5rem 0 2rem 0;
+    font-size: 1.2rem;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(180, 179, 179, 0.308);
+    padding: 1rem 0;
+}
+
+
+
+div > .subsection-title:first-of-type{
+    margin-top: 0;
+}
+
+.profile-general{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    padding: 5% 10%;
+    
+
+}
+
+.profile-general > *{
+    width: 100%;
+}
+
+.image{
+  position: relative;
+}
+
+.image > img{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  width: 550px;
+  height: 550px;
+  
+  filter: grayscale(100%) brightness(50%);
+}
+
+.image-wrap{
+    width: 300px;
+    height: 300px;
+    
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    margin: 5rem auto;
+    
+
+}
+
+.image-wrap img{
+    position: relative;
+    height: 100%;
+}
+
+.image-wrap-buttons{
+  width: 300px;
+  height: 300px;
+  left: calc(50% - 150px);
+  top: calc(50% - 150px);
+  position: absolute;
+  transform: rotate(140deg);
+  z-index: 9;
+}
+
+.image-wrap-buttons button{
+  z-index: 20;
+  border: none;
+  border: 1px solid black;
+  border-radius: 50%;
+  width: 4rem;
+  height: 4rem;
+  position: absolute;
+  background-position: center;
+  background-size: 3rem 3rem;
+  background-repeat: no-repeat;
+  backdrop-filter: invert();
+  cursor: pointer;
+  top: -2rem;
+  transition: 0.5s;
+}
+
+
+.img-accept{
+  background-image: url('../../../assets/icons/account/accept2.svg');
+  transform: rotate(-140deg);
+  left: calc(35% - 1rem);
+  background-color: var(--color2);
+
+}
+
+.img-decline{
+  background-image: url('../../../assets/icons/account/close1.svg');
+  transform: rotate(-140deg);
+  left: calc(60% - 1rem);
+  background-color: var(--color1);
+}
+
+.img-accept:hover, .img-decline:hover{
+  opacity: 1;
+}
+
+.img-accept:hover ~ .img-decline{
+  opacity: 0.5;
+}
+.image-wrap-buttons:hover + .img-decline  .img-accept{
+  opacity: 0.5;
+}
+
+input[type='button']{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    background-color: rgba(255, 255, 255, 0.666);
+    background-size: 4rem 4rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url('../../../assets/icons/account/picture2.svg');
+    transition: 0.3s;
+    z-index: 10;
+    cursor: pointer;
+    border: none;
+    border-radius: 50%;
+}
+input[type='button']:hover{
+    opacity: 0.6;
+}
+
+.name{
+    font-size: 2rem;
+    font-weight: 600;
+    text-align: center;
+    margin: 2rem;
+}
+
+.email{
+    font-size: 1rem;
+    font-size: 400;
+    text-align: center;
+}
+
+
+.profile-info{
+    display: flex;
+    background-color: #ffffff;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cg fill='%23eeeeee' fill-opacity='0.18'%3E%3Cpolygon fill-rule='evenodd' points='8 4 12 6 8 8 6 12 4 8 0 6 4 4 6 0 8 4'/%3E%3C/g%3E%3C/svg%3E");
+
+}
+.desc{
+    flex: 1 1 15rem;
+    margin: 0 1rem;
+    animation: fadeIn 1s;
+}
+
+.desc > div{
+  animation: fadeIn 1s;
+}
+
+.info{
+    flex: 1 1 15rem;
+    margin: 0 1rem;
+    animation: fadeIn 1s;
+}
+
+/* input field + saved input field */
+.input-box {
+    position: relative;
+    padding: 1.2rem 1rem 0.5rem 1rem ;
+    margin-top: 1rem;
+    width: 100%;
+    background-color: rgb(250, 250, 250);
+    border-radius: 1rem;
+    overflow: hidden;
+    
+  }
+  
+  .input-field {
+    font-family: inherit;
+    width: 100%;
+    border: 0;
+    outline: 0;
+    font-size: 1rem;
+    color: rgb(0, 0, 0);
+    padding: 7px 0;
+    background: transparent;
+    transition: border-color 0.2s;
+  }
+  .input-field::placeholder {
+    color: transparent;
+  }
+  .input-field:placeholder-shown ~ .input-label {
+    font-size: 1rem;
+    cursor: text;
+    top: 20px;
+  }
+  
+  .input-label {
+    position: absolute;
+    top: 0.5rem;
+    display: block;
+    transition: 0.2s;
+    font-size: 0.8rem;
+    color: #9b9b9b;
+  }
+  
+  .input-field:focus {
+    padding-bottom: 6px;
+    font-weight: 500;
+    border-width: 3px;
+    border-image: linear-gradient(to right, #11998e, #38ef7d);
+    border-image-slice: 1;
+  }
+  .input-field:focus ~ .input-label {
+    position: absolute;
+    top: 0.5rem;
+    display: block;
+    transition: 0.2s;
+    font-size: 0.8rem;
+    color: #11998e;
+    font-weight: 600;
+  }
+  
+  /* reset input */
+  .input-field:required, .input-field:invalid {
+    box-shadow: none;
+  }
+
+  .input-box button{
+    position: absolute;
+    right: 0;
+    top: 0;
+    border: none;
+    width: 3rem;
+    height: 100%;
+    background-color: rgb(195, 251, 255);
+    background-image: url('../../../assets/icons/account/accept2.svg');
+    background-size: 2rem 2rem;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  /* for when not editing */
+  .info-static{
+    position: relative;
+    padding: 1.2rem 1rem 0.5rem 1rem ;
+    margin-top: 1rem;
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    overflow: hidden;
+    max-height: 66px;
+  }
+  @keyframes fadeIn{
+    0%{
+      opacity: 0;
+    }100%{
+      opacity: 1;
+    }
+  }
+
+  .info-static div{
+    font-family: inherit;
+    width: 100%;
+    border: 0;
+    outline: 0;
+    font-size: 1rem;
+    padding: 7px 0;
+    background: transparent;
+    transition: border-color 0.2s;
+  }
+
+  .text-inactive{
+    color: rgba(0, 0, 0, 0.24);
+  }
+
+  .info-static label{
+    position: absolute;
+    top: 0.5rem;
+    display: block;
+    transition: 0.2s;
+    font-size: 0.8rem;
+    color: #4b4b4b;
+    font-weight: 600;
+  }
+
+  .profile-stats{
+      display: flex;
+      flex-wrap: wrap;
+      background-color: white;
+  }
+  .stats{
+      flex: 1 1 25rem;
+      margin: 0 1rem;
+      position: relative;
+      
+  }
+  .stats-title{
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+  }
+
+  .canvas-wrap{
+      display: flex;
+      width: 100%;
+      position: relative;
+      height: 30vh;
+  }
+
+  .stats canvas{
+    max-width: 100%;
+    position: relative;
+    z-index: 10;
+  }
+
