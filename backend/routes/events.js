@@ -38,7 +38,6 @@ router.post('',multer({storage: storage}).single('image'),(req,res,next) => {
         desc: req.body.desc,
         //imagePath: url + '/images/' + req.file.filename,
 
-        title: req.body.title,
         organisator: req.body.organisator,
         time: req.body.time, //{start, end}
         address: req.body.address,
@@ -48,9 +47,17 @@ router.post('',multer({storage: storage}).single('image'),(req,res,next) => {
         tags: req.body.tags,
         price: req.body.price,
         additional: req.body.additional,
-        desc: req.body.desc,
         plan: req.body.plan,
-        votes: req.body.votes,
+
+        ticketsLink: req.body.ticketsLink || '',
+
+        website1: req.body.website1 || '',
+        website2: req.body.website2 || '',
+        phone: req.body.phone || '',
+        email: req.body.email || '',
+
+        commentsID: req.body.commentsID,
+        participantsID: req.body.participantsID,
 
         userID: req.body.userID
     });
@@ -62,9 +69,9 @@ router.post('',multer({storage: storage}).single('image'),(req,res,next) => {
             }
         })        
     })
-
 });
 
+/*
 router.post('/:id', (req, res, next) => {
     if(req.body.mode === 'comment'){
         const newComment = new Comment(req.body.newComment);  
@@ -82,8 +89,6 @@ router.post('/:id', (req, res, next) => {
         const commentID = req.body.commentID;
         const eventID = req.params.id;
         
-        console.log(req.body.mode)
-//"comments._id": commentID
         Event
         .findOneAndUpdate({_id: eventID, "comments": { "$exists": true }}, 
         {$push : {"comments.$[commentID].responses" : newResponse}},{
@@ -95,12 +100,10 @@ router.post('/:id', (req, res, next) => {
             res.status(200).json({
                 data: newResponse
             })
-        })
-        
+        })      
     }
-    
-
 })
+*/
 
 // editing 
 router.put("/:id"), (req, res, next) => {
@@ -131,15 +134,10 @@ router.put("/:id"), (req, res, next) => {
     });
       Event.updateOne({_id: req.params.id, userID: req.userData.userId }, event).then(result => {
         res.status(200).json({ message: "Update successful!" });
-      });
-    
+      }); 
 }
 
 
-//app.get, app.delete etc. 
-
-//for getting
-//path to filter, only use this shit if website is api/posts
 router.get('',(req,res,next) => {
     //get from database n shit
     Event.find().then((documents) => {
@@ -147,15 +145,13 @@ router.get('',(req,res,next) => {
             events: documents
         });
     });
-
 });
 
 //deleting, :id refers to custom id of document
-router.delete('/:id',(req,res,next) => { //refers back to service
+router.delete('/:id',(req,res,next) => { 
     Event.deleteOne({_id: req.params.id}).then(result => { //, userID: req.userData.userId 
         res.status(200).json({ message: 'post deleted'});
-    }) //refer to :id, or w/e you choose
-    
+    }) 
 })
 
 module.exports = router;

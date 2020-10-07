@@ -11,6 +11,12 @@ export class Event{
     coords: {lat: number, lon: number};
     price: number;
     additional: Array<string>;
+    website1?: string;
+    website2?: string;
+    email?: string;
+    phone?: string;
+
+    ticketsLink?: string;
 
     desc: string;
     plan: Array<{
@@ -20,29 +26,10 @@ export class Event{
     }>;
 
     iconImg: any;
-    // imageIDs: Array<string>;
-    votes: {
-        yes: number;
-        no: number;
-        maybe: number;
-    };
-    comments?: [{
-        _id?: string,
-        userID: string,
-        userImg: string,
-        comment: string,
-        username: string,
-        date: string,
-        responses: [{
-            _id?: string,
-            userID: string,
-            userImg: string,
-            comment: string,
-            username: string,
-            date: string,
-        }]
-    }]
     userID: string;
     _id?: string;
+
+    commentsID?:string;
+    participantsID?:string;
 
 }

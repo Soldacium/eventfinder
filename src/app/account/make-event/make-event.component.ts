@@ -61,6 +61,13 @@ export class MakeEventComponent implements OnInit {
     type: '',
     chosenTags: [],
     price: 0,
+    ticketsLink: '',
+
+    website1: '',
+    website2: '',
+    phone: '',
+    email: '',
+
 
   };
 
@@ -208,18 +215,26 @@ export class MakeEventComponent implements OnInit {
         lat: this.adressLatLon.lat, 
         lon:this.adressLatLon.lng
       },
+
+      website1: this.info.website1,
+      website2: this.info.website2,
+      phone: this.info.phone,
+      email: this.info.email,
+      
+      iconImg: '',
       type: this.chosenType,
       tags: this.chosenTags,
+
       price: this.info.price,
+      ticketsLink: this.info.ticketsLink,
+
       additional: this.additionalRequirements,
+
       desc: this.desc.editorData,
+
       plan: this.timelineEvents,
-      iconImg: '',
-      votes: {
-        yes: 0,
-        no: 0,
-        maybe: 0
-      },
+
+      
       userID: user._id,
     }
 

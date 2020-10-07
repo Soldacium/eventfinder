@@ -11,6 +11,7 @@
     position: absolute;
     top: 0;
     
+    
     left: calc(-200px - 45%);
     width: calc(200px + 45%);
     height: 100%;
@@ -23,6 +24,7 @@
 
 }
 
+    
 
 .info.active{
     left: 0;
@@ -31,6 +33,7 @@
 .info.naah{
     left: calc(-200px - 45%);
 }
+
 
 .info::-webkit-scrollbar-track
 {

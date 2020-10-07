@@ -11,9 +11,17 @@ const eventSchema = mongoose.Schema({
     type: {type: String, required: true},
     tags: {type: Array, required: true},
     price: {type: String, required: true},
-    additional: {type: Array, required: true},
+    additional: {type: Array, required: false},
     desc: {type: String, required: true},
     plan: {type: Array, required: true},
+
+    ticketsLink: {type: String, required: false},
+
+    website1: {type: String, required: false},
+    website2: {type: String, required: false},
+    phone: {type: String, required: false},
+    email: {type: String, required: false},
+    /*
     comments: {type: [{
         userID: String,
         userImg: String,
@@ -28,11 +36,11 @@ const eventSchema = mongoose.Schema({
             date: String,
         }]
     }], required: true},
+    */
 
-    totalSaved: {type: Number, required: true},
-    totalComments: {type: Number, required: true},
-
-    userID: {type: mongoose.Schema.Types.ObjectId,ref: 'User', required: true}
+    userID: {type: mongoose.Schema.Types.ObjectId,ref: 'User', required: true},
+    commentsID: {type: String, required: true},
+    participantsID: {type: String, required: true}
     
 
 });

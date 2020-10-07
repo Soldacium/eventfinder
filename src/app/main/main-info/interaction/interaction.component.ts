@@ -19,65 +19,53 @@ export class InteractionComponent implements OnInit, OnChanges {
   commentInput = '';
   responseInput = '';
 
-  eventComments = []
+  eventComments = [];
 
-  interactionData = {}
+  interactionData = {};
   constructor(
     private messageService: MessagesService,
     private authService: AuthService,
     private eventsService: EventsService) { }
 
   ngOnInit(): void {
-    
+    this.setupCommentsListener();
+  }
+
+  setupCommentsListener(){
+    this.eventsService.commentsUpdated.subscribe((comments: any) => {
+      this.eventComments = comments;
+    });
   }
 
   ngOnChanges(change: SimpleChanges) {
-    const newInteractionData = change['data']
+    const newInteractionData = change.data;
 
-    if(newInteractionData.currentValue){
+    if (newInteractionData.currentValue){
       this.interactionData  = newInteractionData.currentValue;
-      console.log(this.interactionData)
-
-      this.eventComments = this.eventsService.getCurrentEvent().comments;
-      console.log(this.eventComments)
+      this.eventsService.getComments();
     }
-    
-  }
-
-  going(){
-    console.log('im going')
   }
 
   createNewConversation(){
-    this.messageService.createNewConversation()
-  }
-
-  allMessages(){
-    
+    this.messageService.createNewConversation();
   }
 
   postComment(){
-    this.eventsService.postComment(this.commentInput)
-    console.log(this.commentInput)
-    this.commentInput = '';
+    if (this.commentInput !== ''){
+      this.eventsService.postComment(this.commentInput);
+      this.commentInput = '';
+    }
   }
 
   postResponse(comment: any){
-    console.log(this.responseInput,comment, comment._id);
     const message = this.responseInput;
-    if(message !== '' && comment._id){
-      
-      this.eventsService.postResponse(comment._id, message)
+    if (message !== '' && comment._id){
+      this.eventsService.postResponse(message,comment._id);
     }
     this.responseInput = '';
   }
 
-  getComments(){
 
-  }
 
-  getMoreComments(){
-
-  }
 
 }

@@ -38,6 +38,13 @@ export class ProfileComponent implements OnInit {
 
   }
 
+  options = {
+    profileVisible: false,
+    savedVisible: false,
+    emailSpecsVisible: false,
+    userHashCodeAllow: false
+  }
+
 
   public desc = {
     title: 'a post',
@@ -118,7 +125,7 @@ export class ProfileComponent implements OnInit {
       this.desc.editorData = this.user.desc;
       this.userProfileInfo  = {
         name: this.user.name,
-        phone: '',
+        phone: this.user.phone,
         address: '',
 
         website1: '',

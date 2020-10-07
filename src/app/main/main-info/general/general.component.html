@@ -65,19 +65,15 @@
 
 <section class="specs with-padding">
 
-    <header class="section-title">Specifications</header>
-    <!--
-    <div class="specs-website spec">
-        <img src="assets/icons/general/www.svg" alt="">
-        <a href=""> www.poolyGeng.com</a>
+    <div class='participants'>
+        <div class='participant' *ngFor='let participant of participants'>
+            <div class="">{{participant.username}}</div>
+            <img [src]='participant.userImg' alt="">
+            
+        </div>
     </div>
-    
-    <div class="info-static">
-        <div *ngIf='userProfileInfo.name == "" || userProfileInfo.name === undefined' class='text-inactive'>Not provided</div>
-        <div name='name'>{{userProfileInfo.name}}</div>
-        <label for="name">Name</label>
-    </div>        
-    -->
+    <header class="section-title">Specifications</header>
+
     <div class="info-static">
         <div name='name'>wojtekmein3@gmail.com</div>
         <label for="name">Email</label>
@@ -94,17 +90,7 @@
         <div name='name'><a href=""> www.poolyGeng.com</a></div>
         <label for="name">Website</label>
     </div>
-    <!--
-    <div class="spec">
-        <div>+69 703 643 643</div>
-    </div>  
-    <div class="spec">
-        <div>poolyGeng-contact@gmail.com</div>
-    </div> 
-    <div class="spec">
-        <div>poolyGeng-help@gmail.com</div>
-    </div>         
-    -->
+
 
 
 </section>      

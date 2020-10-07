@@ -7,8 +7,12 @@ const mongoose = require('mongoose')
 
 //import routes
 const eventsRoutes = require('./routes/events');
+const eventCommentsRoutes = require('./routes/event-comments');
+const eventParticipantsRoutes = require('./routes/event-participants');
 const messagesRoutes = require('./routes/messages')
 const authRoutes = require('./routes/auth')
+
+const userCompanionsRoutes= require('./routes/auth');
 
 // multer for images
 //const multer = require('multer');
@@ -51,11 +55,15 @@ app.use((req,res,next) => {
 })
 
 
-app.use("/images", express.static(path.join('backend/images')))
+app.use("/images", express.static(path.join('backend/images')));
 
-app.use('/api/events',eventsRoutes)
-app.use('/api/auth',authRoutes)
-app.use('/api/messages',messagesRoutes)
+app.use('/api/events',eventsRoutes);
+app.use('/api/event-comments',eventCommentsRoutes);
+app.use('/api/event-participants',eventParticipantsRoutes);
+
+app.use('/api/auth',authRoutes);
+app.use('/api/user-companions', userCompanionsRoutes);
+app.use('/api/messages',messagesRoutes);
 
 //export to server
 module.exports = app;

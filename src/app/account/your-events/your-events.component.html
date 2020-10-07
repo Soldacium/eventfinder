@@ -1,5 +1,5 @@
 <div class="events">
-    <div class="event" *ngFor='let event of events'>
+    <div class="event" *ngFor='let event of events; index as i'>
         <div class="visual">
             <img [src]='event.iconImg' alt="">
             <div class="visual-type">
@@ -24,15 +24,20 @@
                 <div class="requirements-price">{{event.price}}</div>
             </div>
             <div class="stats">
-                <div class="stats-going"><div>100</div></div>
-                <div class="stats-comments"><div>35</div></div>
+                <button class="stats-going stat">
+                    Participants <img src="assets/icons/general/user.svg" alt=""> {{eventsParticipantsAmounts[i]}}
+                </button>
+                <button class="stats-comments stat">
+                    
+                    Comments <img src="assets/icons/account/comment.svg" alt=""> {{eventsCommentsAmounts[i]}}
+                </button> <!--*ngFor='let comment of eventsComments[i] | async' -->
             </div>
             <div class="buttons">
                 <button (click)='edit(event)'>
                     <img src="assets/icons/account/edit.svg" alt="">
                 </button>
                 <button (click)='delete(event)'>
-                    <img src="assets/icons/account/close.svg" alt="">
+                    <img src="assets/icons/account/close1.svg" alt="">
                 </button>
                 <button (click)='navigate()'>
                     <img src="assets/icons/account/compass.svg" alt="">

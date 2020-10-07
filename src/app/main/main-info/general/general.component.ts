@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs';
+import { EventsService } from 'src/app/services/events.service';
 import { MarkerService } from 'src/app/services/marker.service';
 
 @Component({
@@ -10,23 +11,25 @@ import { MarkerService } from 'src/app/services/marker.service';
 export class GeneralComponent implements OnInit, OnChanges {
 
   @Input() data: object;
-  
+
   dataset;
   time;
   tags = [];
+  participants = [];
 
   requirements = ['Above 18 y/o', 'Your own drinks'];
-  constructor(private markerService: MarkerService) { }
+  constructor(private markerService: MarkerService, private eventsService: EventsService) { }
 
   ngOnInit(): void {
     this.setDummyData();
+    this.setupParticipantsListener();
   }
 
   setDummyData(){
     this.time = {
       start: '',
       end: ''
-    }
+    };
     this.dataset = {
       title: '',
       organisator: '',
@@ -49,8 +52,7 @@ export class GeneralComponent implements OnInit, OnChanges {
     console.log(generalInfo.currentValue);
     if (generalInfo.currentValue){
       this.dataset = generalInfo.currentValue;
-
-      this.dataset.req = JSON.parse(this.dataset.req[0]) 
+      this.dataset.req = JSON.parse(this.dataset.req[0]);
 
       // generalInfo.currentValue.tags = ["["tag1","tag2","tag3"]"]
       const tags = JSON.parse(generalInfo.currentValue.tags[0]);
@@ -58,8 +60,9 @@ export class GeneralComponent implements OnInit, OnChanges {
 
       const time = JSON.parse(generalInfo.currentValue.time);
       this.time = time;
-      console.log(this.time)
-      this.normalizeTime(this.time)
+      this.normalizeTime(this.time);
+
+      this.getParticipants()
     }
   }
 
@@ -71,26 +74,37 @@ export class GeneralComponent implements OnInit, OnChanges {
         type: tag,
         bgColor: 'hsl(170,0%,94%)',
         textColor: 'rgb(0,0,0)'
-      })
+      });
     }
   }
 
-  normalizeTime(time:any){
+  normalizeTime(time: any){
     const start = time.start.split('T');
     const end = time.end.split('T');
 
     const newTime = {
-      startDate: start[0].replaceAll('-','/'),
+      startDate: start[0].replaceAll('-', '/'),
       startTime: start[1],
-      endDate: end[0].replaceAll('-','/'),
+      endDate: end[0].replaceAll('-', '/'),
       endTime: end[1],
-    }
+    };
 
     this.time = newTime;
   }
 
   findPlace(){
-    this.markerService.focusOnCurrentEvent()
+    this.markerService.focusOnCurrentEvent();
+  }
+
+  getParticipants(){
+    this.eventsService.getParticipants();
+  }
+
+  setupParticipantsListener(){
+    this.eventsService.participantsUpdated.subscribe((participants: any) => {
+      this.participants = participants;
+      console.log(participants)
+    });
   }
 
 

@@ -101,6 +101,23 @@
     margin-right: 0.5rem;
 }
 
+.stat{
+    flex: 1 1 10rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    background-color: white;
+    border-radius: 1rem;
+    border: none;
+    box-shadow: 0 0 2px 1px rgba(128, 128, 128, 0.164);
+}
+.stat img{
+    margin-right: 0.5rem;
+    width: 1.3rem;
+    height: 1.3rem;
+}
+
 .buttons{
     display: flex;
     width: 100%;

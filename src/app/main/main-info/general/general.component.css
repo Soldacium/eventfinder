@@ -273,6 +273,22 @@ a{
     }
 }
 
+.participants{
+    width: 100%;
+    margin: 2rem 0;
+    display: flex;
+}
+
+.participant{
+    display: flex;
+    align-items: center;
+}
+.participant img{
+    width: 1.3rem;
+    height: 1.3rem;
+    border-radius: 50%;
+}
+
 .specs{
     display: flex;
     

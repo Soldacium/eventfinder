@@ -20,6 +20,8 @@ export class MainInfoComponent implements OnInit, OnChanges {
   savedEvents;
   thisEventIsSaved: boolean;
 
+  infoHidden = false;
+
   section1: object;
   section2: object;
   section3: object;
@@ -49,6 +51,7 @@ export class MainInfoComponent implements OnInit, OnChanges {
       this.updateInteraction();
 
       this.updateSaveButton();
+      this.infoHidden = false;
     }
 
     if(this.saved && userSavedEventsChange){
@@ -104,6 +107,7 @@ export class MainInfoComponent implements OnInit, OnChanges {
   }
 
   close(){
+    this.infoHidden = true;
     this.closeInfo.emit(true)
   }
 

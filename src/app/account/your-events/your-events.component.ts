@@ -11,13 +11,20 @@ import { Router } from '@angular/router';
 })
 export class YourEventsComponent implements OnInit {
 
-  events;
+  events = [];
+  eventsComments = [];
+  eventsCommentsAmounts = [];
+
+  eventsParticipants = [];
+  eventsParticipantsAmounts = [];
+
   constructor(
     private eventsService: EventsService,
     private router: Router) { }
 
   ngOnInit(): void {
     this.getEvents()
+    
 
     this.eventsService.eventsReady.subscribe(ready => {
       if(ready){
@@ -28,7 +35,7 @@ export class YourEventsComponent implements OnInit {
 
 
     
-    this.eventsService.eventsUpdated.subscribe((events) => {
+    this.eventsService.eventsUpdated.subscribe((events: any) => {
       this.events = events;
     })
     
@@ -36,6 +43,15 @@ export class YourEventsComponent implements OnInit {
 
   getEvents(){
     this.events = this.eventsService.getUserEvents();
+    this.eventsCommentsAmounts = Array(this.events.length);
+    this.events.forEach((event,i) => {
+      this.eventsComments.push(this.eventsService.getChosenEventComments(event.commentsID).subscribe(res => {
+        this.eventsCommentsAmounts[i] = res.length;
+      }));
+      this.eventsParticipants.push(this.eventsService.getChosenEventParticipants(event.participantsID).subscribe(res => {
+        this.eventsParticipantsAmounts[i] = res.length;
+      }));
+    });
   }
 
   edit(event){

@@ -64,8 +64,6 @@ router.post('/signup/:id',multer({storage: storage}).single('image'), (req,res,n
     if(req.body.mode === 'save'){
         const postID = req.body.eventID;
         //User.saved.push(postID)
-        console.log(req.body)
-        
         User.updateOne({_id: req.params.id},
             {$push: {saved: {id: postID}}}).then(save => {
                 res.status(200).json({
@@ -90,7 +88,6 @@ router.post('/signup/:id',multer({storage: storage}).single('image'), (req,res,n
 //removing saved post
 router.patch('/signup/:id', (req,res,next) => {
     const postID = req.body.eventID;
-    console.log(postID)
     User.updateOne({_id: req.params.id},
         {$pull: {saved: {id: postID}}}).then(save => {
             res.status(200).json({
@@ -110,7 +107,6 @@ router.put('/signup/:id', (req,res,next) => {
 router.get('/login/:id',(req,res,next) => {
     //get from database n shit
     User.findOne({_id: req.params.id}).then((user) => {
-        console.log(user)
         res.status(200).json({
             message: 'user gotten',
             userData: user

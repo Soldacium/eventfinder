@@ -5,9 +5,14 @@
           id='map'
           (leafletMapReady)="onMapReady($event)">
      </div>   
-     <div class="info" [ngClass]='!currentEventInfoIsHidden?"active":"naah"'>
+     <div class="info" [ngClass]='!currentEventInfoIsHidden?"active":"naah"' >
           
-          <app-main-info (closeInfo)='onClose($event)' [data]='currentEventData' [saved]='userSavedEvents'>
+          <app-main-info  [data]='currentEventData' [saved]='userSavedEvents' (closeInfo)='onClose($event)' >
+               <!--
+                  
+                  
+               -->
+               
                
           </app-main-info>
      </div>  
