@@ -3,6 +3,7 @@ import { Observable, Subject, VirtualTimeScheduler } from 'rxjs';
 import { Event } from 'src/app/models/event.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { EventsService } from 'src/app/services/events.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-main-info',
@@ -26,8 +27,8 @@ export class MainInfoComponent implements OnInit, OnChanges {
   section2: object;
   section3: object;
   section4: object;
-  constructor(private eventsService: EventsService
-    ) { }
+  constructor(private eventsService: EventsService,
+    private userService: UserService) { }
 
   sectionDatasets = {
     section1: {},
@@ -100,10 +101,22 @@ export class MainInfoComponent implements OnInit, OnChanges {
 
   saveEvent(){
     this.eventsService.saveEvent();
+    this.userService.addSavedEventRef(this.currentEvent._id).subscribe(saved => {
+      console.log(saved)
+      
+      this.savedEvents = saved;
+      this.updateSaveButton();
+    });
   }
 
   unsaveEvent(){
     this.eventsService.unsaveEvent();
+    this.userService.deleteSavedEventRef(this.currentEvent._id).subscribe(saved => {
+      console.log(saved)
+      
+      this.savedEvents = saved;
+      this.updateSaveButton();
+    });
   }
 
   close(){

@@ -1,19 +1,25 @@
+button{
+    cursor: pointer;
+}
+
+
 .events{
     display: flex;
     flex-wrap: wrap;
-    padding: 5%;
+    padding: 5% 10%;
     background-color: rgb(250, 250, 250);
 }
 
 .event{
-    flex: 1 1 30rem;
+    position: relative;
+    width: 100%;
     display: flex;
     background-color: rgb(255, 255, 255);
     min-height: 30vh;
     margin: 1rem;
     overflow: hidden;
     border-radius: 1rem;
-    box-shadow: 0 0 3px 2px rgba(128, 128, 128, 0.096);
+    box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.096);
     padding: 2rem;
     flex-wrap: wrap;
     background-color: #ffffff;
@@ -21,40 +27,107 @@
 
 }
 
-.visual{
+
+
+.event-img{
+    top: 0;
+    left: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    clip-path: polygon(0 0, 0% 100%, 100% 0);
+    justify-content: center;
+    z-index: 1;
+    filter: opacity(0.8) blur(2px);
+    
+    
+
+}
+
+.event-img img{
+    position: relative;
+    max-width: 150%;
+}
+
+.event-img-shadow{
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    
+    -webkit-filter: drop-shadow(1px 1px 1px rgba(0,0,0,.5));
+    filter: drop-shadow(1px 1px 1px rgba(0,0,0,.5));
+
+    background: linear-gradient(to top left, #007bff00 50%, rgba(0, 0, 0, 0.096) 50%, transparent 51%);
+    z-index: 2;
+}
+
+.event-content{
+    z-index: 2;
+    position: inherit;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.general{
     flex: 1 1 15rem;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
 }
 
-.visual > *{
+.general > *{
     display: flex;
     align-items: center;
     margin: 1rem auto;
     margin-bottom: 1rem ;
 }
 
-.visual > img{
-    height: 4rem;
-    width: 4rem;
+.general > img{
+    height: 7rem;
     border-radius: 0.5rem;
+    border: 0.1rem solid white;
 }
 
-.visual-type{
+.general-main{
+    background-color: white;
+    flex-direction: column;
+    padding: 1rem 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.103);
+}
+.general-main > *{
+    margin: 0.5rem 0;
+}
+.place{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+}
+.place img{
+    height: 1.3rem;
+    margin-left: 0.5rem;
+    
+}
+.type{
     padding: 0.5rem 1rem;
     border-radius: 1rem;
-    background-color: rgb(245, 245, 245);
+    background-color: rgb(255, 255, 255);
     font-size: 1rem;
     color: black;
+    color: rgb(73, 73, 73);
+    box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.103);
 }
-.visual-type img{
+.type img{
     width: 1rem;
     height: 1rem;
-    margin-right: 0.5rem;
+    margin-left: 0.5rem;
 }
 
-.visual-tags{
+.tags{
     display: flex;
     flex-wrap: wrap;
 }
@@ -62,11 +135,13 @@
 .tag{
     padding: 0.3rem 0.7rem;
     border-radius: 0.5rem;
-    margin: 0.5rem;
-    background-color: rgb(245, 245, 245);
+    margin: 0.2rem;
+    background-color: rgb(255, 255, 255);
+    
     display: flex;
     align-items: center;
-    color: black;
+    color: rgb(73, 73, 73);
+    box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.103);
 }
 
 
@@ -76,13 +151,18 @@
 }
 
 .name{
-    font-size: 1.3rem;
+    font-size: 1.6rem;
     font-weight: 600;
+}
+
+.address{
+
 }
 
 .organisator{
     font-size: 0.9rem;
-    opacity: 0.5;
+    color: var(--color1);
+    font-weight: 600;
 }
 
 .requirements{
@@ -110,7 +190,9 @@
     background-color: white;
     border-radius: 1rem;
     border: none;
-    box-shadow: 0 0 2px 1px rgba(128, 128, 128, 0.164);
+    box-shadow: 0 2px 2px 1px rgba(128, 128, 128, 0.103);
+
+    font-size: 1.3rem;
 }
 .stat img{
     margin-right: 0.5rem;
@@ -127,7 +209,6 @@
 }
 
 .buttons button{
-    
     width: 2.5rem;
     height: 2.5rem;
     background-color: transparent;
@@ -138,6 +219,7 @@
     cursor: pointer;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 .buttons button:hover{
     background-color: rgba(0, 0, 0, 0.082);
@@ -146,10 +228,9 @@
     outline: none;
     box-shadow: 0 0 3px 2px rgba(128, 128, 128, 0.13);
 }
-button img{
+.buttons button img{
     width: 1.2rem;
     height: 1.2rem;
-    margin: auto;
 }
 
 
@@ -167,4 +248,192 @@ button img{
     width: 4rem;
     height: 4rem;
     background-color: white;
+}
+
+
+
+
+
+
+
+.overlay{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    padding-left: calc(10% + 150px);
+    left: 0;
+    top: 0;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    z-index: 5;
+    background-color: rgba(0, 0, 0, 0.11);
+
+    
+}
+.overlay.active{
+    animation: appear 0.2s forwards;
+}
+
+.overlay.inactive{
+    animation: appear 0.2s backwards;
+}
+
+@keyframes appear{
+    0%{
+        display: none;
+        opacity: 0;
+    }1%{
+        display: flex;
+
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
+.cancel{
+    position: absolute;
+    width: 3rem;
+    height: 3rem;
+    background-color: black;
+    border-radius: 50%;
+    border: none;
+    top: -1.5rem;
+    right: -1.5rem;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.cancel img{
+    width: 1rem;
+    height: 1rem;
+    filter: invert();
+}
+
+.eventComments{
+    position: relative;
+    width: calc(300px + 20%);
+    height: 80%;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+
+    background-color: white;
+}
+.comments-wrap{
+    overflow-y: auto;
+}
+
+
+.comment-thread{
+    position: relative;
+    margin: 0.5rem 0;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    background-color: rgb(255, 255, 255);
+    
+    border-radius: 0.5rem;
+    box-shadow: 0px 2px 2px 1px rgb(243, 243, 243);
+}
+
+.comment{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+}
+
+.comment-content{
+    display: flex;
+}
+.comment-content > *{
+    position: relative;
+}
+
+.comment-image{
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0.2rem;
+    background-color: rgba(0, 0, 0, 0.116);
+    margin-right: 1rem;
+    border-radius: 50%;
+}
+
+
+.comment-creator{
+    word-wrap: none;
+    white-space: nowrap;
+    text-decoration: none;
+    font-weight: 500;
+    color: var(--color1);
+    margin-right: 1rem;
+    
+}
+.comment-content img,
+.comment-content a{  }
+.comment-content div{}
+
+.comment-options{
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding: 0.5rem 3.5rem;
+}
+.comment-options > button{
+    background-color: transparent;
+    border: none;
+    color: rgba(0, 0, 0, 0.295);
+    font-weight: 600;
+    padding: 0;
+    margin-right: 1.5rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.comment-options > button:hover{
+    color: rgba(0, 0, 0, 0.76);
+}
+
+.comment-responses{
+    padding-left: 4rem;
+}
+
+.eventParticipants{
+    position: relative;
+    width: calc(200px + 20%);
+    height: 80%;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    background-color: white;
+}
+
+.participants-wrap{
+    overflow-y: auto;
+}
+
+.participant{
+    display: flex;
+    padding: 1rem;
+    border-bottom: 1px solid gray;
+    background-color: white;
+    transition: 0.3s;
+    align-items: center;
+
+}
+
+.participant img{
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+}
+
+.participant:hover{
+    background-color: rgba(128, 128, 128, 0.199);
 }

@@ -38,6 +38,16 @@ export class MakeEventComponent implements OnInit {
     zoomControl: false,
   };
 
+  currentSection = 1;
+  sectionNames = [
+    'General',
+    'Specification',
+    'Description',
+    'Plan',
+    'Ready'
+  ]
+  windowWidth = 1;
+
 
 
   /* forms */
@@ -90,8 +100,25 @@ export class MakeEventComponent implements OnInit {
   constructor(private eventsService: EventsService, private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.setupWindowWidthListener()
 
   }
+
+  setupWindowWidthListener(){
+    this.windowWidth =  window.innerWidth * 0.9 - 150;
+    window.addEventListener('resize', () => {
+      this.windowWidth = window.innerWidth * 0.9 - 150;
+    })
+  }
+
+  nextSection(){
+    this.currentSection += 1;
+  }
+  prevSection(){
+    this.currentSection -= 1;
+  }
+
+
 
   /* INFO SECTION */
   /* map and place search */

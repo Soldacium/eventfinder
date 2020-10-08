@@ -1,17 +1,20 @@
 export class User{
     email: string;
     password: string;
-    name: string;
-    phone?: string;
-    address?: string;
-    website1?: string;
-    website2?: string;
-    desc?: string;
-    statsTypes?: Array<object>;
-    statsTime?: Array<object>;
-    image?: string;
-    _id?: string;
-    comments?: Array<object>;
+    username: string;
 
-    saved?: Array<{_id: string, id: string}>;
+    userCompanionsID: string;
+    userFeedID: string;
+    userDataID: string;
+
+    privacyOptions: [{        
+        profileVisible: Boolean,
+        savedEventsVisible: Boolean,
+        companionsVisible: Boolean,
+        madeEventsVisible: Boolean,
+        feedVisible: Boolean,
+        emailSpecsVisible: Boolean,
+        userHashCodeAllow: Boolean  }]
+
+    _id: string;
 }

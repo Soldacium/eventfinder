@@ -51,6 +51,23 @@ input:focus{
     right: 1rem;
 }
 
+.contact-types{
+    display: flex;
+    width: 100%;
+    padding: 0rem 1rem;
+    position: relative;
+}
+
+.contact-types button{
+    flex: 1 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background-color: white;
+    border: 1px solid gray;
+}
+
 
 
 

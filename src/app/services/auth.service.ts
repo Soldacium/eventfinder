@@ -5,6 +5,8 @@ import { Subject } from 'rxjs';
 
 import jwt_decode from 'jwt-decode';
 import { User } from '../models/user.model';
+import { map } from 'rxjs/operators';
+import { UserService } from './user.service';
 
 
 
@@ -21,7 +23,7 @@ export class AuthService {
   private userListener = new Subject<object>();
   private updatedUserImage = new Subject();
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router, private userService: UserService) { }
 
   getToken(){
     return this.token;
@@ -51,15 +53,81 @@ export class AuthService {
     return this.isAuth;
   }
 
-  createUser(email: string, password: string, name: string){
-    const authData = {email, password, name};
-    this.http
-    .post('http://localhost:3000/api/auth/signup', authData)
-    .subscribe((res: any) => {
-      if (res.message){
-        this.login(email, password);
-      }
-    });
+  createUser(email: string, password: string, username: string){
+
+
+    this.createUserDataCollection(email,username).subscribe(userDataID => {
+      this.createUserFeedCollection().subscribe(userFeedID => {
+        this.createUserCompanionsCollection().subscribe(userCompanionsID => {
+          const authData = {email, password, username, userDataID, userFeedID, userCompanionsID};
+          this.http
+          .post('http://localhost:3000/api/auth/signup', authData)
+          .subscribe((res: any) => {
+            if(res.message){
+              this.login(email,password)
+            }
+          })
+        })
+      })
+    })
+
+
+  }
+    /*
+    this.createUserConnectedCollections(email,username).subscribe(userCollectionsIDs => {
+      console.log(userCollectionsIDs)
+      const userDataID = userCollectionsIDs.userDataID;
+      const userFeedID = userCollectionsIDs.userFeedID;
+      const userCompanionsID = userCollectionsIDs.userCompanionsID;
+      const authData = {email, password, username, userDataID, userFeedID, userCompanionsID};
+      this.http
+      .post('http://localhost:3000/api/auth/signup', authData)
+      .subscribe((res: any) => {
+        if (res.message){
+          this.login(email, password);
+        }
+      });      
+    })
+    
+  private createUserConnectedCollections(email: string, username:string): any{
+
+    return this.http.post('http://localhost:3000/api/user-data/', {email: email, username: username}).pipe(map((userData:any) => {
+      console.log('c')
+      this.http.post('http://localhost:3000/api/user-feed/', '').pipe(map((userFeed: any) => {
+        console.log('b')
+        this.http.post('http://localhost:3000/api/user-companions/', '').pipe(
+          map((userCompanions:any) => { 
+            console.log(userFeed, userData, userCompanions)
+            return {
+              userDataID: userData.ID,
+              userFeedID: userFeed.ID,
+              userCompanionsID: userCompanions.ID
+            };
+          })
+        )
+      }))
+    }))
+  }
+*/
+  private createUserDataCollection(email: string, username: string){
+    return this.http.post('http://localhost:3000/api/user-data/', {email: email, username: username}).pipe(map((userData:any) => {
+        return userData.ID;
+      })
+    )
+  }
+
+  private createUserFeedCollection(){
+    return this.http.post('http://localhost:3000/api/user-feed/', {}).pipe(map((userFeed:any) => {
+        return userFeed.ID;
+      })
+    )
+  }
+
+  private createUserCompanionsCollection(){
+    return this.http.post('http://localhost:3000/api/user-companions/', {}).pipe(map((userCollection:any) => {
+        return userCollection.ID;
+      })
+    )
   }
 
   login(email: string, password: string) {
@@ -74,6 +142,11 @@ export class AuthService {
         this.authStatusListener.next(true);
         this.isAuth = true;
         this.user = res.userData;
+
+        this.userService.setUserID(this.user._id);
+        console.log(this.user._id)
+        this.userService.setCurrentUser(this.user)
+        this.userService.getUserData('', true).subscribe(data => data);;
         
 
         this.saveAuthData(token);
@@ -82,6 +155,7 @@ export class AuthService {
     });
   }
 
+  /*
   changeAccInfo(name: string, phone?: string, address?: string,website?:string, desc?: string){
 
     const userInfo = this.user;
@@ -114,6 +188,7 @@ export class AuthService {
       this.updatedUserImage.next(newImageUrl)
     })
   }
+  */
 
   autoAuthUser(){
     const token = this.getAuthData();
@@ -128,7 +203,12 @@ export class AuthService {
       this.http.get<{message: string, userData: any}>('http://localhost:3000/api/auth/login/' + this.userID)
       .subscribe(res => {
         this.user = res.userData;
+        console.log(res.message)
+        this.userService.setUserID(this.user._id);
+        this.userService.setCurrentUser(res.userData);
+        this.userService.getUserData('', true).subscribe(data => data);
         this.userListener.next(this.user);
+
       });
     }
   }

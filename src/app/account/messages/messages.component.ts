@@ -1,7 +1,8 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Conversation } from 'src/app/models/conversation.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { MessagesService } from 'src/app/services/messages.service';
+import { UserService } from 'src/app/services/user.service';
 import { Message } from '../../models/message.model'
 
 @Component({
@@ -9,7 +10,7 @@ import { Message } from '../../models/message.model'
   templateUrl: './messages.component.html',
   styleUrls: ['./messages.component.css']
 })
-export class MessagesComponent implements OnInit {
+export class MessagesComponent implements OnInit, OnDestroy {
 
   @ViewChild('messageBox') messagesDiv: ElementRef;
   messages: Array<Message> = [];
@@ -26,18 +27,39 @@ export class MessagesComponent implements OnInit {
   userID: string;
 
 
-  constructor(private messagesService: MessagesService, private authService: AuthService) { }
+  constructor(private messagesService: MessagesService, private authService: AuthService, private userService: UserService) { }
 
   ngOnInit(): void {
-    console.log(this.messagesDiv)
+    //console.log(this.messagesDiv)
     //this.messagesService.getConversations()
-    this.conversations = this.messagesService.getUserConversations();
-    this.setupConversationsUpdateListener();
+    console.log(this.messagesService.userConversations)
+    if(!this.messagesService.userConversations){
+      this.authService.getUserListener().subscribe(ready => {
+        this.userID = this.userService.getCurrentUserID();
+        console.log(this.messagesService.userConversations)
+
+        this.messagesService.getUserConversations().subscribe(conversations => {
+          console.log(conversations)
+          this.conversations = conversations;
+          this.searchConversations();
+          this.joinMessageRooms();
+          console.log(this.conversations)
+        });      
+      })
+    }else{
+          this.conversations = this.messagesService.userConversations;
+          this.searchConversations();
+          this.userID = this.userService.getCurrentUserID();
+    }
+
+    //console.log(this.conversations)
+    //this.setupConversationsUpdateListener();
     this.setupNewMessageListener()
-    this.userID = this.authService.getUserID();
 
-    
+  }
 
+  ngOnDestroy() {
+    //this.leaveMessageRooms()
   }
 
   sendMessage(message: string){
@@ -81,7 +103,7 @@ export class MessagesComponent implements OnInit {
     const searchedConversations = [];
     console.log(this.searchQuery)
     this.conversations.forEach(conversation => {
-      if(conversation.eventName.toLowerCase().includes(this.searchQuery)){
+      if(conversation.conversationName.toLowerCase().includes(this.searchQuery)){
         searchedConversations.push(conversation)
       }
     })
@@ -90,13 +112,22 @@ export class MessagesComponent implements OnInit {
   }
 
   joinMessageRooms(){
+    console.log(this.conversations)
     this.conversations.forEach(conversation => {
-      this.joinMessageRoom(conversation._id)
+      //this.joinMessageRoom(conversation._id)
+      this.messagesService.joinMessageRoom(conversation._id);
     })
   }
 
   joinMessageRoom(room){
     this.messagesService.joinMessageRoom(room);
+  }
+
+  leaveMessageRooms(){
+    this.conversations.forEach(conversation => {
+      //this.joinMessageRoom(conversation._id)
+      this.messagesService.leaveMessageRoom(conversation._id);
+    })
   }
 
 }

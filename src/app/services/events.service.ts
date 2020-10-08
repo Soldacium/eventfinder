@@ -5,10 +5,12 @@ import { map } from 'rxjs/operators';
 
 import { Event } from '../models/event.model';
 import { User } from '../models/user.model';
+import { UserData } from '../models/userData.model';
 import { EventComment } from '../models/event-comments';
 import { EventParticipant } from '../models/event-participants';
 import { AuthService } from './auth.service';
 import { MarkerService } from './marker.service';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -35,8 +37,8 @@ export class EventsService {
   searchedMapMarkersUpdated: any;
   constructor(
     private http: HttpClient,
-    private authService: AuthService,
-    private markerService: MarkerService) {
+    private markerService: MarkerService,
+    private userService: UserService) {
       markerService.open.subscribe((event) => {
         this.currentEvent = {...event};
       });
@@ -54,30 +56,33 @@ export class EventsService {
 
 
 
+
+
   saveEvent(){
     const eventID = {eventID: this.currentEvent._id, mode: 'save'};
     const participantsID = this.currentEvent.participantsID;
-    const user = this.authService.getUser();
-    const userID = this.authService.getUserID();
+    const userID = this.userService.getCurrentUserID();
+    const userData = this.userService.getCurrentUserData();
 
+    /*
     this.http
     .post('http://localhost:3000/api/auth/signup/' + userID , eventID)
     .subscribe((res: any) => {
-      const userSaved = this.authService.getUser().saved;
-      userSaved.push({
+      userData.saved.push({
         _id: '',
         id: eventID.eventID
       });
-      console.log(userSaved);
-      this.savedEventsUpdated.next(userSaved);
+      this.savedEventsUpdated.next(userData);
     });
+    */
 
     const participant = { //a.k.a PP
       userID: userID,
-      userImg: user.image || '',
-      username: user.name,
-      email: user.email,
+      userImg: userData.image || '',
+      username: userData.username,
+      email: userData.email,
     }
+
 
     this.http
     .post('http://localhost:3000/api/event-participants/' + participantsID, participant)
@@ -86,32 +91,20 @@ export class EventsService {
       this.participantsUpdated.next(this.currentParticipants);
     });
   }
+
+
   unsaveEvent(eventId?: string){
     const eventIdObj = {eventID: '', mode: 'save'};
-    const userID = this.authService.getUserID();
+    const userID = this.userService.getCurrentUserID();
     const participantsID = this.currentEvent.participantsID;
 
     eventId ? eventIdObj.eventID = eventId : eventIdObj.eventID = this.currentEvent._id;
-
-    // using patch as delete
-    
-    this.http
-    .patch('http://localhost:3000/api/auth/signup/' + userID, eventIdObj)
-    .subscribe((res: any) => {
-      let userSaved = this.authService.getUser().saved;
-      userSaved = userSaved.filter((obj: any) => {
-        console.log(obj.id === eventIdObj.eventID);
-        return obj.id !== eventIdObj.eventID;
-      });
-      console.log(userSaved);
-      this.savedEventsUpdated.next(userSaved);
-    });
 
     const userIDobj = { userID: userID }
     this.http
     .patch('http://localhost:3000/api/event-participants/' + participantsID, userIDobj)
     .subscribe(participant => {
-      console.log(participant)
+      this.currentParticipants = this.currentParticipants.filter(participant => participant.userID !== userID)
       this.participantsUpdated.next(this.currentParticipants);
     });
   }
@@ -130,7 +123,7 @@ export class EventsService {
   }
   getUserEvents(){
     const myEvents = [];
-    const userID = this.authService.getUserID();
+    const userID = this.userService.getCurrentUserID();
 
     this.events.forEach((event: Event) => {
       const eventGotten =  {...event};
@@ -145,11 +138,11 @@ export class EventsService {
     return myEvents;
   }
   getSavedEvents(){
-    const user = this.authService.getUser();
-    if (!user){
+    const userData = this.userService.getCurrentUserData();
+    if (!userData){
       return;
     }
-    const savedEventsIDs = user.saved;
+    const savedEventsIDs = userData.saved;
     const savedEvents = [];
 
     this.events.forEach((event: Event) => {
@@ -188,13 +181,9 @@ export class EventsService {
             console.log(res);
           });
         }
-
-
       });
     });
   }
-
-
   deleteEvent(eventID){
     this.http
     .delete('http://localhost:3000/api/events/' + eventID)
@@ -222,7 +211,6 @@ export class EventsService {
       this.commentsUpdated.next(this.currentComments);
     });
   }
-
   postResponse( response ,commentID: string){
     const commentsID = this.currentEvent.commentsID;
     const data = this.createCommentData(response, 'response', commentID);
@@ -239,6 +227,28 @@ export class EventsService {
       this.commentsUpdated.next(this.currentComments);
     });
   }
+
+
+
+
+
+
+  getChosenEventComments(commentsID): Observable<EventComment[]>{
+    return this.http.get('http://localhost:3000/api/event-comments/' + commentsID).pipe(
+      map((res:any) => { 
+        console.log(res.comments.comments)
+        return res.comments.comments;
+      })
+    )
+  }
+  getChosenEventParticipants(paricipantsID): Observable<EventComment[]>{
+    return this.http.get('http://localhost:3000/api/event-participants/' + paricipantsID).pipe(
+      map((res:any) => { 
+        return res.participants.participants;
+      })
+    )
+  }
+  
   getComments(){
     const commentsID = this.currentEvent.commentsID;
     this.http
@@ -249,17 +259,6 @@ export class EventsService {
       this.commentsUpdated.next(this.currentComments);
     });
   }
-
-  getChosenEventComments(commentsID): Observable<EventComment[]>{
-    return this.http.get('http://localhost:3000/api/event-comments/' + commentsID).pipe(
-      map((res:any) => { 
-        console.log(res.comments.comments)
-        return res.comments.comments;
-      })
-    )
-  }
-
-
   getParticipants(){
     const participantsID = this.currentEvent.participantsID;
     this.http
@@ -270,15 +269,7 @@ export class EventsService {
       this.participantsUpdated.next(this.currentParticipants);
     });
   }
-
-  getChosenEventParticipants(paricipantsID): Observable<EventComment[]>{
-    return this.http.get('http://localhost:3000/api/event-participants/' + paricipantsID).pipe(
-      map((res:any) => { 
-        return res.participants.participants;
-      })
-    )
-  }
-
+  
   
 
 
@@ -288,13 +279,15 @@ export class EventsService {
 
 
   private createCommentData(text: string, mode: string, commentID?:string): any{
-    const user = this.authService.getUser();
+    const userData = this.userService.getCurrentUserData();
+    
+    console.log(userData)
     const data = {
       newComment: {
-        userID: user._id,
-        userImg: user.image || 'assets/icons/general/user.svg',
+        userID: userData._id,
+        userImg: userData.image || 'assets/icons/general/user.svg',
         comment: text,
-        username: user.name || user.email,
+        username: userData.username || userData.email,
         date: new Date().toLocaleString('en-US'),
         responses: []
       },

@@ -5,23 +5,21 @@ const uniqueValidator = require('mongoose-unique-validator');
 const userSchema = mongoose.Schema({
     email: {type: String, required: true, unique:  true},
     password: {type: String, required: true},
+    username: {type: String, required: true},
 
-    name: {type: String, required: true},
-    phone: {type: String, required: false},
-    adress: {type: String, required: false},
-    website1: {type: String, required: false},
-    website2: {type: String, required: false},
-    linkedin: {type: String, required: false},
-    facebook: {type: String, required: false},
-    instagram: {type: String, required: false},
-    desc: {type: String, required: false},
+    userCompanionsID: {type: String, required: true},
+    userFeedID: {type: String, required: true},
+    userDataID: {type: String, required: true},
 
-    image: {type: String, required: false},
+    privacyOptions: {type: [{        
+        profileVisible: Boolean,
+        savedEventsVisible: Boolean,
+        companionsVisible: Boolean,
+        madeEventsVisible: Boolean,
+        feedVisible: Boolean,
+        emailSpecsVisible: Boolean,
+        userHashCodeAllow: Boolean  }], required: true}
 
-    statsTypes: {type: Array, required: false},
-    statsTime: {type: Array, required: false},    
-    saved: {type: [{id: String}], required: false}
-    
 
 
 });

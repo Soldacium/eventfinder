@@ -4,9 +4,11 @@ import * as L from 'leaflet'
 import { Subject } from 'rxjs';
 import { Event } from '../models/event.model';
 import { User } from '../models/user.model';
+import { UserData } from '../models/userData.model';
 import { AuthService } from '../services/auth.service';
 import { EventsService } from '../services/events.service';
 import { MarkerService } from '../services/marker.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-main',
@@ -36,7 +38,8 @@ export class MainComponent implements OnInit {
   constructor(
     private eventsService: EventsService,
     private markerService: MarkerService,
-    private authService: AuthService) { }
+    private authService: AuthService,
+    private userService: UserService) { }
 
   ngOnInit(): void {
     this.getSavedEvents();
@@ -70,8 +73,11 @@ export class MainComponent implements OnInit {
   }
 
   setupSavedEventsListener(){
-    this.authService.getUserListener().subscribe((userData: User) => {
-      this.userSavedEvents = [...userData.saved];
+    this.authService.getUserListener().subscribe((user: User) => {
+      this.userService.getUserData(user.userDataID).subscribe((userData: UserData) => {
+        this.userSavedEvents = [...userData.saved];
+      })
+      
     });
   }
 
@@ -97,9 +103,9 @@ export class MainComponent implements OnInit {
 
 
   getSavedEvents(){
-    const user = this.authService.getUser();
-    if(user){
-      this.userSavedEvents = [...user.saved];
+    const userData = this.userService.getCurrentUserData();
+    if(userData){
+      this.userSavedEvents = [...userData.saved];
     }
   }
 

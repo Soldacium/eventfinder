@@ -28,7 +28,7 @@
         </div>
 
 
-        <div class="name">{{userProfileInfo.name}}</div>
+        <div class="name">{{userProfileInfo.username}}</div>
         <div class="email">{{userProfileInfo.email}}</div>
     </section>
 
@@ -48,13 +48,13 @@
 
             <div class="input-box field">
                 <input type="tel" class="input-field" placeholder="End" name="end" required 
-                [(ngModel)] = 'userProfileInfo.name'/>
-                <label for="end" class="input-label">Phone</label>
+                [(ngModel)] = 'userProfileInfo.username'/>
+                <label for="end" class="input-label">Username</label>
             </div>  
 
             <div class="input-box field">
                 <input type="text" class="input-field" placeholder="End" name="end" required 
-                [(ngModel)] = 'userProfileInfo.name'/>
+                [(ngModel)] = 'userProfileInfo.username'/>
                 <label for="end" class="input-label">Adress</label>
             </div>  
 
@@ -116,8 +116,8 @@
             <header class="subsection-title">Personal</header>
 
             <div class="info-static">
-                <div *ngIf='userProfileInfo.name == "" || userProfileInfo.name === undefined' class='text-inactive'>Not provided</div>
-                <div name='name'>{{userProfileInfo.name}}</div>
+                <div *ngIf='userProfileInfo.username == "" || userProfileInfo.username === undefined' class='text-inactive'>Not provided</div>
+                <div name='name'>{{userProfileInfo.username}}</div>
                 <label for="name">Name</label>
             </div>
 

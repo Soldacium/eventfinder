@@ -10,6 +10,7 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 import { MarkerService } from './services/marker.service';
 import { AuthService } from './services/auth.service';
+import { UserService } from './services/user.service';
 import { EventsService } from './services/events.service';
 import { MessagesService } from './services/messages.service';
 import { AuthGuardGuard } from './guards/auth-guard.guard';
@@ -38,6 +39,12 @@ import { createCustomElement } from '@angular/elements';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OptionsComponent } from './account/options/options.component';
 import { PoliciesComponent } from './account/policies/policies.component';
+import { CompanionComponent } from './companion/companion.component';
+import { InfoComponent } from './companion/info/info.component';
+import { EventsGoingComponent } from './companion/events-going/events-going.component';
+import { EventsOrganisingComponent } from './companion/events-organising/events-organising.component';
+import { FeedComponent } from './companion/feed/feed.component';
+import { CompanionsListComponent } from './companion/companions-list/companions-list.component';
 
 
 
@@ -63,7 +70,13 @@ import { PoliciesComponent } from './account/policies/policies.component';
     MakeEventComponent,
     MarkerComponent,
     OptionsComponent,
-    PoliciesComponent
+    PoliciesComponent,
+    CompanionComponent,
+    InfoComponent,
+    EventsGoingComponent,
+    EventsOrganisingComponent,
+    FeedComponent,
+    CompanionsListComponent
 
   ],
   imports: [
@@ -125,13 +138,54 @@ import { PoliciesComponent } from './account/policies/policies.component';
         ]
       },
       {
+        path: 'companion/:username',
+        component: CompanionComponent,
+        children: [
+          {
+            path: '',
+            redirectTo: 'profile',
+            pathMatch: 'full'
+          },
+          {
+            path: 'profile',
+            component: InfoComponent
+          },
+          {
+            path: 'events-made',
+            component: EventsOrganisingComponent
+          },
+          {
+            path: 'events-saved',
+            component: EventsGoingComponent
+          },
+          {
+            path: 'companions',
+            component: CompanionsListComponent
+          },
+          {
+            path: 'feed',
+            component: FeedComponent
+          },
+        ]
+      },
+      {
         path: 'login',
         component: LoginComponent
       },
+      {
+        path: '**',
+        component: MainComponent
+      }
     ])
   ],
   providers: [
-    MarkerService,AuthGuardGuard, AuthService, EventsService, MessagesService, {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+    MarkerService,
+    AuthGuardGuard, 
+    AuthService, 
+    EventsService, 
+    MessagesService, 
+    UserService,
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })

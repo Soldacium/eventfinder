@@ -9,6 +9,8 @@ import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 
 import * as io from 'socket.io-client';
+import { UserService } from './user.service';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +23,8 @@ export class MessagesService {
     private http: HttpClient,
     private eventsService: EventsService, 
     private authService: AuthService,
-    private router: Router) {
+    private router: Router,
+    private userService: UserService) {
       this.socket = io('http://localhost:3000/');
       
 
@@ -49,53 +52,49 @@ export class MessagesService {
 
   getUserConversations(){
    
-    const userID = this.authService.getUserID();
+    const userID = this.userService.getCurrentUserID();
     const conversations = [] 
-    /*
-    this.allConversations.forEach((Conversation: Conversation) => {
-      if(Conversation.userID1 === userID || Conversation.userID2 === userID ){
-        conversations.push(Conversation)
-      }
-    });
 
-    this.userConversations = conversations;
-    */
     let params = new HttpParams();
     params = params.append('mode', 'user');
     params = params.append('userID', userID)
 
-    console.log(params)
-    this.http
+    console.log(userID)
+    return this.http
     .get<{userConversations: Conversation[]}>("http://localhost:3000/api/messages/", {params: params})
-    .subscribe(response => {
-      this.conversationsUpdated.next(response.userConversations)
-    })
-    return this.userConversations;
+    .pipe(map((response: any) => {
+        this.userConversations = response.userConversations
+
+        return this.userConversations;
+      })
+    )
+
+
   }
 
   createNewConversation(id1?, id2?){
     const ID1 = this.eventsService.getCurrentEventCreatorID();
     const ID2 = this.authService.getUserID();
 
-    const currentUser = this.authService.getUser();
+    const currentUserData = this.userService.getCurrentUserData();
     const currentEvent = this.eventsService.getCurrentEvent();
 
-    if(ID1 === undefined || ID2 === undefined || currentEvent === undefined || currentUser === undefined){
+    if(ID1 === undefined || ID2 === undefined || currentEvent === undefined || currentUserData === undefined){
       return 0;
     }
 
-    if(currentUser.image === undefined || currentUser.image === null){
-      currentUser.image = 'assets/icons/general/user.svg';
+    if(currentUserData.image === undefined || currentUserData.image === null){
+      currentUserData.image = 'assets/icons/general/user.svg';
     }
 
     const newConvo: Conversation = {
       userID1: ID1,
       userID2: ID2,
       userImg1: currentEvent.iconImg,
-      userImg2: currentUser.image,
+      userImg2: currentUserData.image,
       userName1: currentEvent.organisator,
-      userName2: currentUser.name,
-      eventName: currentEvent.title,
+      userName2: currentUserData.username,
+      conversationName: currentEvent.title,
       messages: [],
     }
 
@@ -113,8 +112,13 @@ export class MessagesService {
 
   joinMessageRoom(room){
     this.socket.emit('join room', room);
-    console.log('joined the room' + room)
+    console.log('joined the room' + room);
     
+  }
+
+  leaveMessageRoom(room){
+    this.socket.emit('leave room', room);
+    console.log('left the room' + room);
   }
 
   getConversation(id){

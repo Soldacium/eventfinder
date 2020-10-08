@@ -1,10 +1,8 @@
 const mongoose = require('mongoose');
 
-const Message = require('../models/message')
-
 //makin schemas with mongoose
 const conversationSchema = mongoose.Schema({
-    eventName: {type: String, required: true},
+    conversationName: {type: String, required: true},
     userID1: {type: String, required: true},
     userImg1: {type: String, required: true},
     userName1: {type: String, required: true},
@@ -17,6 +15,10 @@ const conversationSchema = mongoose.Schema({
         message: {type: String, required: true},
         date: {type: String, required: true},
     }], required: true},
+
+    color1: {type: String, required: false},
+    color2: {type: String, required: false},
+    type: {type: String, required: true}
 
 
 

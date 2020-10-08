@@ -1,49 +1,133 @@
+<div class="overlay" *ngIf='showedComments.length > 0 || showedParticipants.length > 0' [ngClass]='(showedComments.length > 0 || showedParticipants.length > 0)?"active":"inactive" '>
+    <div *ngIf='showedComments.length > 0' class="eventComments">
+        <button class="cancel" (click)='cancelOverlay()'>
+            <img src="assets/icons/account/close2.svg" alt="">
+        </button>
+        <div class="comments-wrap">
+            <div class="comment-thread" *ngFor='let comment of showedComments'>
+                <div class="comment">
+                    <div class="comment-content">
+                        <img [src]=[comment.userImg] alt="" class="comment-image">
+                        <a href="" class="comment-creator">{{comment.username || comment.userID}}</a>
+                        <div class="comment-text">
+                            {{comment.comment}}
+                        </div>                    
+                    </div>
+                    <div class="comment-options">
+                        <button>Reply</button>
+                        <button>Delete</button>
+                    </div>
+
+                </div>
+                <div class="comment-responses" >
+                    <div class="comment" *ngFor='let response of comment.responses'>
+                        <div class="comment-content">
+                            <img [src]=[response.userImg] alt="" class="comment-image">
+                            <a href="" class="comment-creator">{{response.username || response.userID}}</a>
+                            <div class="comment-text">
+                                {{response.comment}}
+                            </div>                    
+                        </div>
+                        <!--
+                        <div class="comment-options">
+                            <button>Reply</button>
+                            <button>Delete</button>
+                        </div>                        
+                        -->
+                    </div>
+                </div>
+            </div>            
+        </div>
+
+    </div>
+
+    <div *ngIf='showedParticipants.length > 0' class="eventParticipants">
+        <button class="cancel" (click)='cancelOverlay()'>
+            <img src="assets/icons/account/close2.svg" alt="">
+        </button>
+        <div class="participants-wrap">
+            <div class="participant" *ngFor='let participant of showedParticipants'>
+                <img [src]='participant.userImg' alt="">
+                <div>
+                    <div>{{participant.username}}</div>
+                    <div>{{participant.email}}</div>                
+                </div>
+
+            </div>            
+        </div>
+
+
+    </div>
+</div>
+
 <div class="events">
+    
     <div class="event" *ngFor='let event of events; index as i'>
-        <div class="visual">
+        <div class="event-img">
             <img [src]='event.iconImg' alt="">
-            <div class="visual-type">
-                <div>{{event.type}}</div>
-                <img src="assets/icons/tags/fist.svg" alt="">
-            </div>
-            <div class="visual-tags">
-                <div class="tag" *ngFor='let tag of event.tags'>
-                    {{tag}}
+        </div>
+        <div class="event-img-shadow">
+
+        </div>
+        <div class="event-content">
+            <div class="general">
+                
+                <img [src]='event.iconImg' alt=""> <!-- src="/assets/images/BGs/festival.jpg"-->
+                <div class="general-main">
+                    
+                    <div class="name">
+                        {{event.title}}
+                    </div>
+                    <div class="organisator">
+                        {{event.organisator}}
+                    </div>  
+                    <div class="place">
+                        <div>{{event.address}}</div><img src="assets/icons/general/place.svg" alt="">
+                         
+                    </div>
+                  
                 </div>
  
+                <div class="type">
+                    <div>{{event.type}}</div>
+                    <img src="assets/icons/tags/fist.svg" alt="">
+                </div>
+                <div class="tags">
+                    <div class="tag" *ngFor='let tag of event.tags'>
+                        {{tag}}
+                    </div>
+    
+                </div>
             </div>
+            <div class="info">
+
+                <div class="requirements">
+                    <div class="requirements-price" *ngIf='event.price === "0"'>FREE</div>
+                    <div class="requirements-price" *ngIf='event.price !== "0"'>{{event.price}}$</div>
+                </div>
+                <div class="stats">
+                    <button class="stats-going stat" (click)='showParticipants(i)'>
+                        <img src="assets/icons/account/user4.svg" alt=""><div>{{eventsParticipantsReady[i].length}}</div> 
+                    </button>
+                    <button class="stats-comments stat" (click)='showComments(i)'>
+                        
+                        <img src="assets/icons/account/comment2.svg" alt=""><div>{{eventsCommentsReady[i].length}}</div> 
+                    </button> <!--*ngFor='let comment of eventsComments[i] | async' -->
+                </div>
+                <div class="buttons">
+                    <button (click)='edit(event)'>
+                        <img src="assets/icons/account/edit.svg" alt="">
+                    </button>
+                    <button (click)='delete(event)'>
+                        <img src="assets/icons/account/close1.svg" alt="">
+                    </button>
+                    <button (click)='navigate()'>
+                        <img src="assets/icons/account/compass.svg" alt="">
+                    </button>
+                </div>
+            </div>            
         </div>
-        <div class="info">
-            <div class="name">
-                {{event.title}}
-            </div>
-            <div class="organisator">
-                {{event.organisator}}
-            </div>
-            <div class="requirements">
-                <div class="requirements-price">{{event.price}}</div>
-            </div>
-            <div class="stats">
-                <button class="stats-going stat">
-                    Participants <img src="assets/icons/general/user.svg" alt=""> {{eventsParticipantsAmounts[i]}}
-                </button>
-                <button class="stats-comments stat">
-                    
-                    Comments <img src="assets/icons/account/comment.svg" alt=""> {{eventsCommentsAmounts[i]}}
-                </button> <!--*ngFor='let comment of eventsComments[i] | async' -->
-            </div>
-            <div class="buttons">
-                <button (click)='edit(event)'>
-                    <img src="assets/icons/account/edit.svg" alt="">
-                </button>
-                <button (click)='delete(event)'>
-                    <img src="assets/icons/account/close1.svg" alt="">
-                </button>
-                <button (click)='navigate()'>
-                    <img src="assets/icons/account/compass.svg" alt="">
-                </button>
-            </div>
-        </div>
+
     </div>
     <div class="add-event event" (click)='navigateNewEvent()'>
         <img src="assets/icons/general/calendar.svg" alt="">

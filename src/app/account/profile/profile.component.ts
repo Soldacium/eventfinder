@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import * as C from 'chart.js'
 import { AuthService } from 'src/app/services/auth.service';
-import { User } from 'src/app/models/user.model'
+import { User } from 'src/app/models/user.model';
+import { UserData } from 'src/app/models/userData.model';
 import { Canvas } from 'leaflet';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-profile',
@@ -21,10 +23,10 @@ export class ProfileComponent implements OnInit {
   posted = false;
   auth; authSub;
 
-  user : User;
+  user : UserData;
 
   userProfileInfo = {
-    name: '',
+    username: '',
     phone: '',
     address: '',
 
@@ -34,13 +36,17 @@ export class ProfileComponent implements OnInit {
     instagram: '',
     facebook: '',
     linkedin: '',
+    twitter: '',
     email: '',
 
   }
 
   options = {
     profileVisible: false,
-    savedVisible: false,
+    savedEventsVisible: false,
+    companionsVisible: false,
+    madeEventsVisible: false,
+    feedVisible: false,
     emailSpecsVisible: false,
     userHashCodeAllow: false
   }
@@ -69,7 +75,9 @@ export class ProfileComponent implements OnInit {
   ]
 
 
-  constructor(private authService: AuthService) { }
+  constructor(
+    private authService: AuthService,
+    private userService: UserService) { }
 
   ngOnInit(): void {
     this.makeCharts();
@@ -81,38 +89,32 @@ export class ProfileComponent implements OnInit {
   getUserProfileInfo(){
 
 
-    this.getUser();
+    this.getUserData();
 
     this.setupUserImageListener();
     this.setupUserListener();
   }
 
-  getUser(){
-    this.user = this.authService.getUser();
-    if(this.user){
-      this.desc.editorData = this.user.desc;
-      this.userProfileInfo = {
-        name: this.user.name,
-        phone: '',
-        address: '',
-    
-        website1: '',
-        website2: '',
-    
-        instagram: '',
-        facebook: '',
-        linkedin: '',
-        email: this.user.email,
-      }
-      if(this.user.image){
-        this.imgURL = this.user.image;
-        this.previousImgUrl = this.imgURL;
-      }
+  getUserData(){
+
+    if(this.userService.getCurrentUserID() && !this.userService.getCurrentUserData()){
+      this.userService.getUserData('', true).subscribe(userData => {
+        this.user = userData;
+        if(this.user){
+          this.setUserData(this.user)
+        }
+      });      
+    }else if(this.userService.getCurrentUserID()){
+      this.user = this.userService.getCurrentUserData();
+      this.setUserData(this.user)
     }
+
+
 
   }
 
   setupUserImageListener(){
+    
     this.authService.getUserImageListener().subscribe(newImageUrl => {
       this.imgURL = newImageUrl;
     })
@@ -121,38 +123,44 @@ export class ProfileComponent implements OnInit {
   setupUserListener(){
     this.authService.getUserListener()
     .subscribe((user: any) => {
-      this.user = user;
-      this.desc.editorData = this.user.desc;
-      this.userProfileInfo  = {
-        name: this.user.name,
-        phone: this.user.phone,
-        address: '',
 
-        website1: '',
-        website2: '',
-
-        instagram: '',
-        facebook: '',
-        linkedin: '',
-        email: this.user.email,
-      }
-      if(this.user.image){
-        this.imgURL = this.user.image;
-        this.previousImgUrl = this.imgURL;
-      }
-      
+      this.getUserData();
 
     })
   }
 
+  setUserData(user: UserData){
+    this.user = user;
+    this.desc.editorData = this.user.desc;
+    console.log(user)
+    this.userProfileInfo  = {
+      username: this.user.username,
+      phone: this.user.phone,
+      address: this.user.address,
+
+      website1: this.user.website1,
+      website2: this.user.website2,
+
+      instagram: this.user.instagram,
+      facebook: this.user.facebook,
+      linkedin: this.user.linkedin,
+      twitter: this.user.twitter,
+      email: this.user.email,
+    }
+    if(this.user.image && this.user.image !== ''){
+      this.imgURL = this.user.image;
+      this.previousImgUrl = this.imgURL;
+    }
+  }
+
   editUserProfileInfo(){
     if(this.userProfileIsEdited){
-      this.authService.changeAccInfo(
-        this.userProfileInfo.name,
+      this.userService.updateUserData(
+        this.userProfileInfo.username,
         this.userProfileInfo.phone,
         this.userProfileInfo.address,
         this.userProfileInfo.website1,
-        this.desc.editorData)
+        this.desc.editorData).subscribe()
     }
     this.userProfileIsEdited = !this.userProfileIsEdited;
   }
@@ -182,7 +190,11 @@ export class ProfileComponent implements OnInit {
   }
 
   updateUserImage(){
-    this.authService.changeAccImage(this.file)
+    //this.authService.changeAccImage(this.file);
+    this.userService.updateUserImage(this.file).subscribe(user => {
+      this.imgURL = user.image;
+      this.imagePath = undefined;
+    })
   }
 
   cancelUpdatingUserImage(){

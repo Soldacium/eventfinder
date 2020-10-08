@@ -10,13 +10,14 @@ const checkAuth = require('../middleware/check-auth')
 router.post('', (req,res,next) => {
     console.log(req.body)
     const conversation = new Conversation({
-        eventName: req.body.eventName,
+        conversationName: req.body.conversationName,
         userID1: req.body.userID1,
         userName1: req.body.userName1,
         userImg1: req.body.userImg1,
         userID2: req.body.userID2,
         userName2: req.body.userName2,
         userImg2: req.body.userImg2,
+        type: 'event',
         messages: []
     })
 
@@ -66,6 +67,7 @@ router.get('', (req,res,next) => {
         Conversation
         .find({$or : [{userID1: userID}, {userID2: userID}]})
         .then(userConversations => {
+            console.log(userConversations)
             res.status(200).json({
                 userConversations
             });

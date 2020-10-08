@@ -12,7 +12,9 @@ const eventParticipantsRoutes = require('./routes/event-participants');
 const messagesRoutes = require('./routes/messages')
 const authRoutes = require('./routes/auth')
 
-const userCompanionsRoutes= require('./routes/auth');
+const userCompanionsRoutes= require('./routes/user-companions');
+const userDataRoutes= require('./routes/user-data');
+const userFeedRoutes= require('./routes/user-feed');
 
 // multer for images
 //const multer = require('multer');
@@ -56,12 +58,15 @@ app.use((req,res,next) => {
 
 
 app.use("/images", express.static(path.join('backend/images')));
+app.use("/images-users", express.static(path.join('backend/images-users')));
 
 app.use('/api/events',eventsRoutes);
 app.use('/api/event-comments',eventCommentsRoutes);
 app.use('/api/event-participants',eventParticipantsRoutes);
 
 app.use('/api/auth',authRoutes);
+app.use('/api/user-data', userDataRoutes);
+app.use('/api/user-feed', userFeedRoutes);
 app.use('/api/user-companions', userCompanionsRoutes);
 app.use('/api/messages',messagesRoutes);
 

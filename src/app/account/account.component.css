@@ -62,7 +62,7 @@ ul a {
     position: relative;
     display: block;
     left: 0;
-    transition: 0.2s ease-in-out;
+    
     color: rgba(255, 255, 255, 0.425);
     text-align: left;
 }

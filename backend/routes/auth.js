@@ -8,40 +8,33 @@ const User = require('../models/user');
 const checkAuth = require('../middleware/check-auth');
 const { db } = require('../models/user');
 
-const multer = require('multer');
 
-const MIME_TYPE = {
-    'image/png' : 'png',
-    'image/jpeg' : 'jpg',
-    'image/jpg' : 'jpg'
-}
-
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        const isValid = MIME_TYPE[file.mimetype]
-        let error = new Error('invalid mime type')
-        if (isValid){
-            error = null;
-        }
-        cb(error, 'backend/images');
-    },
-    filename: (req,file,cb) => {
-        const name = file.originalname.toLowerCase().split(' ').join('-');
-        const ext = MIME_TYPE[file.mimetype];
-        cb(null,name + Date.now() + '.' + ext)
-    }
-});
 
 
 
 //for users
 router.post('/signup', (req, res, next) => {
+    console.log(req.body)
     bcrypt.hash(req.body.password, 10,)
     .then(hash => {
         const user = new User({
             email: req.body.email,
             password: hash,
-            name: req.body.name
+            username: req.body.username,
+
+            userCompanionsID: req.body.userCompanionsID,
+            userFeedID: req.body.userFeedID,
+            userDataID: req.body.userDataID,
+
+            privacyOptions: {
+                profileVisible: true,
+                savedEventsVisible: true,
+                companionsVisible: true,
+                madeEventsVisible: true,
+                feedVisible: true,
+                emailSpecsVisible: true,
+                userHashCodeAllow: true
+            }
         })     
         user
         .save()
@@ -59,42 +52,6 @@ router.post('/signup', (req, res, next) => {
     })
 })
 
-//adding saved post
-router.post('/signup/:id',multer({storage: storage}).single('image'), (req,res,next) => {
-    if(req.body.mode === 'save'){
-        const postID = req.body.eventID;
-        //User.saved.push(postID)
-        User.updateOne({_id: req.params.id},
-            {$push: {saved: {id: postID}}}).then(save => {
-                res.status(200).json({
-                    data: save
-                })
-            })        
-    }
-
-    if(req.body.mode === 'image'){
-        const url = req.protocol + '://' + req.get('host');
-        const iconImg =  url + '/images/' + req.file.filename;
-        User.updateOne({_id: req.params.id},
-            {image: iconImg}).then(img => {
-                res.status(200).json({
-                    imageUrl: iconImg
-                })
-            })  
-    }
-
-})
-
-//removing saved post
-router.patch('/signup/:id', (req,res,next) => {
-    const postID = req.body.eventID;
-    User.updateOne({_id: req.params.id},
-        {$pull: {saved: {id: postID}}}).then(save => {
-            res.status(200).json({
-                data: save
-            })
-        })
-})
 
 router.put('/signup/:id', (req,res,next) => {
     const user = req.body;

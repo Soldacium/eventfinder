@@ -4,6 +4,8 @@ import { AuthService } from 'src/app/services/auth.service';
 import { EventsService } from 'src/app/services/events.service';
 import { MessagesService } from 'src/app/services/messages.service';
 
+
+
 @Component({
   selector: 'app-interaction',
   templateUrl: './interaction.component.html',

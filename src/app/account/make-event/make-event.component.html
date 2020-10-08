@@ -2,62 +2,113 @@
 
 <main>
 
-    <header class="section-title">General information</header>
+    <div class="background" [ngClass]='currentSection === 1?"active":"inactive"'>
+        <input #file type="file" id="selectedFile" style="display: none;"
+        accept='image/*' 
+        (change)="preview(file.files)"/>
+        <input type="button" (click)="clickImage()" [ngClass]='!imgURL?"untouched":"touched"'/>
+        <img [src]="imgURL" *ngIf="imgURL">
+    </div>
+    <div class="current-section-titles">
+        <div class="current-section-title" 
+        *ngFor='let name of sectionNames; index as i' 
+        [style.top]='(i - currentSection + 1) * 40 + "px"' 
+        [ngClass]='currentSection === (i+1)?"active":"inactive"'>
+            <span>
+                {{i + 1}}
+            </span>
+            <p>
+                {{sectionNames[i]}}
+            </p>            
+        </div>
 
-    <section class="general-info">
+    </div>
+    <button class="next-section section-change" (click)='nextSection()'>
+        <img src="assets/icons/account/next2.svg" alt="">
+    </button>
+    <button class="prev-section section-change" (click)='prevSection()'>
+        <img src="assets/icons/account/next2.svg" class="rotated" alt="">
+    </button>
+    <!--
+    <div class="background-progress" >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="400 50 800 190" id='bg-progress'>
+            <path fill="#0099ff" fill-opacity="1" d="M0,128L24,154.7C48,181,96,235,144,250.7C192,267,240,245,288,224C336,203,384,181,432,165.3C480,149,528,139,576,160C624,181,672,235,720,224C768,213,816,139,864,122.7C912,107,960,149,1008,154.7C1056,160,1104,128,1152,128C1200,128,1248,160,1296,192C1344,224,1392,256,1416,272L1440,288L1440,320L1416,320C1392,320,1344,320,1296,320C1248,320,1200,320,1152,320C1104,320,1056,320,1008,320C960,320,912,320,864,320C816,320,768,320,720,320C672,320,624,320,576,320C528,320,480,320,432,320C384,320,336,320,288,320C240,320,192,320,144,320C96,320,48,320,24,320L0,320Z"></path>
+        </svg>
+    </div>        
+    -->
 
-        <div class="info-required">
 
-            <header class="subsection-title">Name and place</header>
+
+
+
+    <section class="starters" [style.left]='-(currentSection - 1) * windowWidth + "px"'>
+        <!--
+        <div class="icon-wrap">
+            <input #file type="file" id="selectedFile" style="display: none;"
+            accept='image/*' 
+            (change)="preview(file.files)"/>
+            <input type="button" (click)="clickImage()" />
+            <img [src]="imgURL" *ngIf="imgURL">
+        </div>            
+        -->
+
+        <div class="input-box field">
+            <input type="text" class="input-field" placeholder="Name" name="name" id='name' required 
+            [(ngModel)] = 'info.name'/>
+            <label for="name" class="input-label">Event name</label>
+        </div>
+        <div class="input-box field">
+            <input type="text" class="input-field" placeholder="org" name="org" id='org' required 
+            [(ngModel)] = 'info.organisator'/>
+            <label for="org" class="input-label">Organisator</label>
+        </div>  
+        <div class="event-types">
+            <button class="event-type" *ngFor='let type of eventTypes' (click)='pickType(type)' [ngClass]="(chosenType === type?'active':'naah')">
+                <span [class]='[type]' class="img" alt=""></span>
+                <div>{{type}}</div>
+            </button>
+
+        </div>
+        <div class="time-box">
+
             <div class="input-box field">
-                <input type="text" class="input-field" placeholder="Name" name="name" id='name' required 
-                [(ngModel)] = 'info.name'/>
-                <label for="name" class="input-label">Event name</label>
-            </div>
-            
-            
-            <header class="subsection-title"></header>        
+                <input type="datetime-local" class="input-field" placeholder="Start" name="start" id='start' required 
+                [(ngModel)] = 'info.start'/>
+                <label for="start" class="input-label">Start</label>
+            </div>  
             <div class="input-box field">
-                <input type="text" class="input-field" placeholder="org" name="org" id='org' required 
-                [(ngModel)] = 'info.organisator'/>
-                <label for="org" class="input-label">Organisator</label>
+                <input type="datetime-local" class="input-field" placeholder="End" name="end" id='end' required 
+                [(ngModel)] = 'info.end'/>
+                <label for="end" class="input-label">End</label>
             </div>  
 
+        </div>   
 
-            <div class="time-box">
+        <div class="input-box field">
+            <input type="" class="input-field" placeholder="Name" name="name" id='name' required 
+            [(ngModel)] = 'info.address'
+            (keyup.enter)='checkMap(info.address)'/>
+            <label for="name" class="input-label">Address</label>
+            <button (click)='checkMap(info.address)'>
+                <img src="assets/icons/general/search.svg" alt="">
+            </button>
+        </div>   
 
-                <div class="input-box field">
-                    <input type="datetime-local" class="input-field" placeholder="Start" name="start" id='start' required 
-                    [(ngModel)] = 'info.start'/>
-                    <label for="start" class="input-label">Start</label>
-                </div>  
-                <div class="input-box field">
-                    <input type="datetime-local" class="input-field" placeholder="End" name="end" id='end' required 
-                    [(ngModel)] = 'info.end'/>
-                    <label for="end" class="input-label">End</label>
-                </div>  
+        <div class="map-box">
+            <div class='map'
+            leaflet 
+            [leafletOptions]="options"
+            id='map'
+            (leafletMapReady)="onMapReady($event)">
+            </div>         
+        </div>  
+    </section>
 
-            </div>   
-            
-            
-            <div class="input-box field">
-                <input type="" class="input-field" placeholder="Name" name="name" id='name' required 
-                [(ngModel)] = 'info.address'
-                (keyup.enter)='checkMap(info.address)'/>
-                <label for="name" class="input-label">Address</label>
-                <button (click)='checkMap(info.address)'>
-                    <img src="assets/icons/general/search.svg" alt="">
-                </button>
-            </div>   
 
-            <div class="map-box">
-                <div class='map'
-                leaflet 
-                [leafletOptions]="options"
-                id='map'
-                (leafletMapReady)="onMapReady($event)">
-                </div>         
-            </div>        
+    
+
+    <section class="general-info" [style.left]='-(currentSection - 2) * windowWidth + "px"'>
+        <div class="info-required">
 
             <header class="subsection-title">Links & Contact</header>
             <div class="input-box field">
@@ -88,23 +139,6 @@
 
         <div class="info-additional">
 
-            <header class="subsection-title">Icon and type</header>
-
-            <div class="icon-wrap">
-                <input #file type="file" id="selectedFile" style="display: none;"
-                accept='image/*' 
-                (change)="preview(file.files)"/>
-                <input type="button" (click)="clickImage()" />
-                <img [src]="imgURL" *ngIf="imgURL">
-            </div>
-            <div class="event-types">
-                <button class="event-type" *ngFor='let type of eventTypes' (click)='pickType(type)' [ngClass]="(chosenType === type?'active':'naah')">
-                    <span [class]='[type]' class="img" alt=""></span>
-                    <div>{{type}}</div>
-                </button>
-
-            </div>
-
 
             <header class="subsection-title">Tags</header>
 
@@ -113,11 +147,6 @@
                     <div>{{tag}}</div>
                 </button>
             </div>
-
-
-
-
-
             <header class="subsection-title">Requirements</header>
 
             <div class="input-box field">
@@ -168,11 +197,10 @@
 
 
 
-    <header class="section-title">Event description</header>
+    
 
-    <section class="description">
-
-        <ckeditor type='classic' 
+    <section class="description" [style.left]='-(currentSection - 3) * windowWidth + "px"'>
+        <ckeditor type='inline' 
         [(ngModel)]="desc.editorData" 
         class="editor"
         [config]="{ language: 'en', uiColor: '#FFFFFF', magicline_color: 'transparent'}">
@@ -189,9 +217,9 @@
 
 
 
-    <header class="section-title">Plan</header>
+    
 
-    <section class="plan">
+    <section class="plan" [style.left]='-(currentSection - 4) * windowWidth + "px"'>
         <div class="timeline-add">
             <div class="timeline-input-wrap">
                 <div class="timeline-add-header">
@@ -209,12 +237,13 @@
                 <div class="timeline-add-text" name='timeline-text' (keyup.enter)='addTimeline()'>
                     <textarea name="" id="" cols="30" rows="10"
                     [(ngModel)] = 'timelineEvent.desc'></textarea>
-                </div>                
+                </div>   
+                <button class="timeline-add-button" (click)='addTimeline()'>
+                    Append plan point
+                </button>             
             </div>
 
-            <button class="timeline-add-button" (click)='addTimeline()'>
-                
-            </button>
+
 
         </div>
         <div id="timeline-content" *ngIf='timelineEvents.length !== 0'>
@@ -232,9 +261,14 @@
 
 
 
-    <button class="button-submit" (click)='post()'>
-        Post event
-    </button>  
+    <section [style.left]='-(currentSection - 5) * windowWidth + "px"'>
+        <button class="button-submit" (click)='post()' [style.left]='-(currentSection - 5) * windowWidth + "px"'>
+            Post event
+        </button>   
+    </section>
+      
+    
+ 
 
     
 </main>

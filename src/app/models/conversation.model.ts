@@ -7,7 +7,10 @@ export class Conversation{
     userName2: string;
     userImg1: string;
     userImg2: string;
-    eventName: string;
+    conversationName: string;
     messages: Array<Message>;
     _id?: string;
+
+    color1?: string;
+    color2?: string;
 }
