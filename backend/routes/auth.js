@@ -64,10 +64,23 @@ router.put('/signup/:id', (req,res,next) => {
 router.get('/login/:id',(req,res,next) => {
     //get from database n shit
     User.findOne({_id: req.params.id}).then((user) => {
-        res.status(200).json({
-            message: 'user gotten',
-            userData: user
-        });
+
+        if(req.param('mode') !== 'onlyCollections'){
+            res.status(200).json({
+                message: 'user gotten',
+                userData: user
+            });            
+        }else{
+            res.status(200).json({
+                message: 'user gotten',
+                collectionsIDs: {
+                    userData: user.userDataID,
+                    userCompanions: user.userCompanionsID,
+                    userFeed: user.userFeedID
+                }
+            });  
+        }
+
     });
 
 });

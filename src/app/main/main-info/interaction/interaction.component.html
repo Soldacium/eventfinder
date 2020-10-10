@@ -60,7 +60,7 @@
             <div class="comment">
                 <div class="comment-content">
                     <img [src]=[comment.userImg] alt="" class="comment-image">
-                    <a href="" class="comment-creator">{{comment.username || comment.userID}}</a>
+                    <a (click)='viewCompanion(comment)' class="comment-creator">{{comment.username || comment.userID}}</a>
                     <div class="comment-text">
                         {{comment.comment}}
                     </div>                    
@@ -86,7 +86,7 @@
                 <div class="comment" *ngFor='let response of comment.responses'>
                     <div class="comment-content">
                         <img [src]=[response.userImg] alt="" class="comment-image">
-                        <a href="" class="comment-creator">{{response.username || response.userID}}</a>
+                        <a (click)='viewCompanion(response)' class="comment-creator">{{response.username || response.userID}}</a>
                         <div class="comment-text">
                             {{response.comment}}
                         </div>                    

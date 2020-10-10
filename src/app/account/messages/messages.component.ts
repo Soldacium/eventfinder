@@ -32,28 +32,19 @@ export class MessagesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     //console.log(this.messagesDiv)
     //this.messagesService.getConversations()
-    console.log(this.messagesService.userConversations)
+    
     if(!this.messagesService.userConversations){
-      this.authService.getUserListener().subscribe(ready => {
-        this.userID = this.userService.getCurrentUserID();
-        console.log(this.messagesService.userConversations)
-
-        this.messagesService.getUserConversations().subscribe(conversations => {
-          console.log(conversations)
-          this.conversations = conversations;
-          this.searchConversations();
-          this.joinMessageRooms();
-          console.log(this.conversations)
-        });      
-      })
+      if(this.userService.getCurrentUserID()){
+        this.getConversations();
+      }else{
+        this.authService.getUserListener().subscribe(ready => {
+          this.getConversations();
+        });
+      }
     }else{
-          this.conversations = this.messagesService.userConversations;
-          this.searchConversations();
-          this.userID = this.userService.getCurrentUserID();
+      this.getReadyConversations();
     }
 
-    //console.log(this.conversations)
-    //this.setupConversationsUpdateListener();
     this.setupNewMessageListener()
 
   }
@@ -62,12 +53,26 @@ export class MessagesComponent implements OnInit, OnDestroy {
     //this.leaveMessageRooms()
   }
 
+  getConversations(){
+    this.messagesService.getUserConversations().subscribe(conversations => {
+      this.userID = this.userService.getCurrentUserID();
+      this.conversations = conversations;
+      this.searchConversations();
+      this.joinMessageRooms();
+    }); 
+  }
+
+  getReadyConversations(){
+    this.conversations = this.messagesService.userConversations;
+    this.searchConversations();
+    this.userID = this.userService.getCurrentUserID();
+  }
+
   sendMessage(message: string){
     const newMessage: Message = {
       date: new Date().toLocaleDateString("en-US"),
       senderID: this.userID,
       message: message,
-      //id: ''
     }
     this.messageText = '';
     this.currentConversation.messages.push(newMessage)

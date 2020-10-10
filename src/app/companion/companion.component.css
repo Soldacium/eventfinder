@@ -2,11 +2,11 @@
 
 
 
-.section{
+section{
     width: 100%;
-    padding: 5% 10%;
-    display: flex;
-    flex-direction: column;
+    padding: 0;
+    position: relative;
+    background-color: rgb(245, 245, 245);
 }
 
 .bonus{
@@ -18,17 +18,18 @@ nav{
     top: 0;
     right: 0;
     width: 100%;
+    padding: 0.5rem 20%;
     position: relative;
     display: flex;
     align-items: flex-end;
     justify-content: center; 
-    padding: 0.5rem 1rem;
     z-index: 100000000000;
+    box-shadow: 0 -3px 3px -1px rgba(0, 0, 0, 0.096);
 }
 
 .links{
     display: flex;
-    justify-content: flex-end; 
+    justify-content: space-between; 
     flex: 1 1 20rem;
     
  }
@@ -39,30 +40,20 @@ nav a{
     font-size: calc(0.8rem + 0.4vw);
     
     position: relative;
-    padding: 0.5rem 1.5rem;
-    border-radius: 20px;
+    padding: 1rem 3rem;
+    border-radius: 1rem;
     
-    color: white;
+    color: rgb(0, 0, 0);
     transition: 0.3s;
     cursor: pointer;
     
 }
 
 nav a:hover{
-    background-color: rgb(80, 80, 80);
+    background-color: rgba(80, 80, 80, 0.39);
 }
 nav a.active{
-    background-color: rgb(80, 80, 80);;
-}
-
-nav.nav-dark a{
-    color: black;
-}
-nav.nav-dark a:hover{
-    color: white;
-}
-nav.nav-dark a.active{
-    color: white;
+    background-color: rgba(80, 80, 80, 0.438);;
 }
 
 ul{
@@ -91,6 +82,10 @@ li a{
     color: var(--primaryColor);
     cursor: pointer;
     outline: none;
+}
+
+.router{
+    padding: 0 20%;
 }
 
 

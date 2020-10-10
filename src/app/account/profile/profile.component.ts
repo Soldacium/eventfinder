@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SecurityContext, ViewEncapsulation } from '@angular/core';
 import * as C from 'chart.js'
 import { AuthService } from 'src/app/services/auth.service';
 import { User } from 'src/app/models/user.model';
 import { UserData } from 'src/app/models/userData.model';
 import { Canvas } from 'leaflet';
 import { UserService } from 'src/app/services/user.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+  styleUrls: ['./profile.component.css'],
 })
 export class ProfileComponent implements OnInit {
 
@@ -77,13 +78,12 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private userService: UserService) { }
+    private userService: UserService,
+    private sanatizer: DomSanitizer) { }
 
   ngOnInit(): void {
     this.makeCharts();
     this.getUserProfileInfo();
-
-
   }
 
   getUserProfileInfo(){
@@ -155,12 +155,10 @@ export class ProfileComponent implements OnInit {
 
   editUserProfileInfo(){
     if(this.userProfileIsEdited){
+      this.desc.editorData = this.sanatizer.sanitize(SecurityContext.HTML,this.desc.editorData)
       this.userService.updateUserData(
-        this.userProfileInfo.username,
-        this.userProfileInfo.phone,
-        this.userProfileInfo.address,
-        this.userProfileInfo.website1,
-        this.desc.editorData).subscribe()
+        
+        this.userProfileInfo,this.desc.editorData).subscribe()
     }
     this.userProfileIsEdited = !this.userProfileIsEdited;
   }

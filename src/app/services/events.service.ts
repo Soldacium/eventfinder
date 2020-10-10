@@ -201,6 +201,7 @@ export class EventsService {
   postComment(comment: string ){
     const commentsID = this.currentEvent.commentsID;
     const data = this.createCommentData(comment, 'comment');
+    console.log(comment)
 
     if (commentsID === '' || commentsID === undefined || comment === '' || data.newComment.userID === undefined){return; }
 
@@ -280,11 +281,12 @@ export class EventsService {
 
   private createCommentData(text: string, mode: string, commentID?:string): any{
     const userData = this.userService.getCurrentUserData();
+    const user = this.userService.getCurrentUser();
     
     console.log(userData)
     const data = {
       newComment: {
-        userID: userData._id,
+        userID: user._id,
         userImg: userData.image || 'assets/icons/general/user.svg',
         comment: text,
         username: userData.username || userData.email,

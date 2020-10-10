@@ -1,7 +1,11 @@
 <section class="profile-general">
-
+    <div class="image-background">
+        <img src='assets/images/BGs/mountains5.jpg'> <!--[src]="userData.image" *ngIf="userData" -->
+    </div>  
     <div class="image">
+      
         <img src="assets/icons/account/logo2.svg" alt="">
+
 
         <div class="image-wrap">
             <img [src]="userData.image" *ngIf="userData">
@@ -9,34 +13,51 @@
 
     </div>
 
+    <div class="general-info">
+        <div class='info-names'>
+            <div class="name">{{userData.username}}</div>
+            <div class="email">{{userData.email}}</div>             
+        </div>
+        <div class="buttons">
+            <button><img src="assets/icons/account/add-user.svg" alt=""> Add Companion</button>
+            <button><img src="assets/icons/account/comment2.svg" alt="">Message</button>
+        </div>
 
-    <div class="name">{{userData.username}}</div>
-    <div class="email">{{userData.email}}</div>
+        <!--
+        <div class="general-info-info">
+            <div class="info-static">
+                <div *ngIf='userData.email == ""' class='text-inactive'>Not provided</div>
+                <div name='name'>{{userData.email}}</div>
+                <label for="name">Email</label>
+            </div>
+        
+            <div class="info-static">
+                <div *ngIf='userData.phone == ""' class='text-inactive'>Not provided</div>
+                <div name='name'>{{userData.phone}}</div>
+                <label for="name">Phone</label>
+            </div>              
+        </div>            
+        -->
+
+     
+    </div>
+
 </section>
-
+<!--
 <section class='desc' [innerHTML]='userData.desc' *ngIf='userData.desc !== ""'>
 
 </section>
 
 <section class="contact">
-    <div class="info-static">
-        <div *ngIf='userData.email == ""' class='text-inactive'>Not provided</div>
-        <div name='name'>{{userData.email}}</div>
-        <label for="name">Email</label>
-    </div>
 
-    <div class="info-static">
-        <div *ngIf='userData.phone == ""' class='text-inactive'>Not provided</div>
-        <div name='name'>{{userData.phone}}</div>
-        <label for="name">Phone</label>
-    </div>
 </section>
+
 
 <section class='more'>
 
 </section>
 
-<!--
+
 
     email: string;
     username: string;

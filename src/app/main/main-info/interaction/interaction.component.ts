@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { EventsService } from 'src/app/services/events.service';
@@ -27,7 +28,8 @@ export class InteractionComponent implements OnInit, OnChanges {
   constructor(
     private messageService: MessagesService,
     private authService: AuthService,
-    private eventsService: EventsService) { }
+    private eventsService: EventsService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.setupCommentsListener();
@@ -44,6 +46,7 @@ export class InteractionComponent implements OnInit, OnChanges {
 
     if (newInteractionData.currentValue){
       this.interactionData  = newInteractionData.currentValue;
+      console.log(this.interactionData)
       this.eventsService.getComments();
     }
   }
@@ -65,6 +68,11 @@ export class InteractionComponent implements OnInit, OnChanges {
       this.eventsService.postResponse(message,comment._id);
     }
     this.responseInput = '';
+  }
+
+  viewCompanion(comment){
+    console.log(comment)
+    this.router.navigate(['/companion/', comment.userID], { queryParams: { username: comment.username}})//,username: comment.username,,  { queryParams: { userID: comment.userID }}
   }
 
 

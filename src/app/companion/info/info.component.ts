@@ -13,12 +13,24 @@ export class InfoComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
+    this.getProfileData()
+
   }
 
   getProfileData(){
-    this.userService.getUserData(this.userService.getViewedUserID()).subscribe(data => {
-      this.userData = data;
-    })
+    if(!this.userService.viewedUserData){
+      this.userService.viewedUserCollectionsIDsReady.subscribe(ready => {
+        this.userService.getUserData(this.userService.viewedUserCollectionsIDs.userData).subscribe(data => {
+          this.userData = data;
+          console.log(data)
+        })      
+      })      
+    }else{
+      this.userData = this.userService.viewedUserData;
+      console.log(this.userData)
+    }
+
+
   }
 
 }

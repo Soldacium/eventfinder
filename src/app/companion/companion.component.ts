@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UserData } from '../models/userData.model';
 import { UserService } from '../services/user.service';
 
 @Component({
@@ -8,9 +9,10 @@ import { UserService } from '../services/user.service';
   templateUrl: './companion.component.html',
   styleUrls: ['./companion.component.css']
 })
-export class CompanionComponent implements OnInit {
+export class CompanionComponent implements OnInit, OnDestroy {
 
   userID;
+  userData: UserData;
   constructor(
     private route: ActivatedRoute,
     private titleService: Title,
@@ -19,17 +21,33 @@ export class CompanionComponent implements OnInit {
 
   ngOnInit(): void {
     document.documentElement.scrollTop = 0
-    this.route.queryParams.subscribe(params => {
-      this.userID= params['userID'];
-      
 
-    });
-    console.log(this.userID)
-    this.setTitle(this.route.snapshot.paramMap.get('title'))
+    
+    this.setViewedUserID();
+    this.setTitle();
+    this.userService.getViewedUserCollectionsIDs(this.userID).subscribe(IDs => {
+      console.log(IDs)
+    })
   }
 
-  public setTitle( newTitle: string) {
-    this.titleService.setTitle( newTitle );
+  ngOnDestroy() {
+    this.userService.clearViewedUser();
+  }
+
+  setViewedUserID(){
+    this.route.params.subscribe(params => {
+      this.userID= params['userID'];
+      
+      console.log(this.userID)
+      this.userService.viewedUserID = this.userID;
+    });
+  }
+
+  public setTitle() {
+    this.route.queryParams.subscribe(qparams => {
+      this.titleService.setTitle( qparams['username']);
+    })
+    
   }
 
   setUserData(){

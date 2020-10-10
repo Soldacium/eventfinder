@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 
@@ -22,7 +22,6 @@ export class UserService {
   private userID;
   private token: string;
 
-
   private userListener = new Subject<object>();
   private updatedUserImage = new Subject();
 
@@ -30,12 +29,18 @@ export class UserService {
 
   viewedUser: User;
   viewedUserID: string;
+  viewedUserCollectionsIDs: {
+    userData: '',
+    userFeed: '',
+    userCompanions: ''
+  }
+  viewedUserCollectionsIDsReady = new Subject();
   viewedUserData: UserData;
   viewedUserFeed: UserFeed;
   vievedUserCompanions: UserCompanions;
   viewedUserEvents = [];
   viewedUserSavedEvents = [];
-  viewedUserUpdated = new Subject();
+  viewedUserDataUpdated = new Subject();
 
   constructor(
     private http: HttpClient,
@@ -57,8 +62,15 @@ export class UserService {
     this.currentUser = user;
   }
 
+  getCurrentUser(): User{
+    return this.currentUser;
+  }
+
   getCurrentUserData(): UserData{
     return this.userData;
+  }
+  getCurrentViewedUserData(): UserData{
+    return this.viewedUserData;
   }
 
   getUserImageListener() {
@@ -78,16 +90,35 @@ export class UserService {
     this.router.navigate(['/post', username],  { queryParams: { userID }});
   }
 
+  getViewedUserCollectionsIDs(userID){
+    let params = new HttpParams();
+    params = params.append('mode', 'onlyCollections');
+    console.log(params)
+    return this.http.get('http://localhost:3000/api/auth/login/' + userID,{params: params}).pipe(
+      map((res: any) => {
+        
+        this.viewedUserCollectionsIDs = res.collectionsIDs;
+        this.viewedUserCollectionsIDsReady.next(true)
+
+        return this.viewedUserCollectionsIDs;
+      })
+
+
+    )
+  }
+
 
   getUserData(ID: string, currentUser?: boolean){  
+    console.log(ID)
     const userID = (currentUser && this.currentUser) ? this.currentUser.userDataID : ID;
     if(userID === '' || !userID){return}
+    console.log(userID, ID)
 
     return this.http.get('http://localhost:3000/api/user-data/' + userID).pipe(
       map((res: any) => {
         this.viewedUserData = res.userData;
+        this.viewedUserDataUpdated.next(this.viewedUserData)
         if (currentUser){
-          console.log(res.userData)
           this.userData = res.userData;
         }
         
@@ -133,13 +164,18 @@ export class UserService {
 
 
 
-  updateUserData(name: string, phone?: string, address?: string, website?: string, desc?: string){
-    const userInfo = this.userData;
+  updateUserData(userProfileData, desc: string){ //name: string, phone?: string, address?: string, website?: string, desc?: string
+    
 
+    /*
     phone ? userInfo.phone = phone : '';
     address ? userInfo.address = address : '';
     desc ? userInfo.desc = desc : '';
     website ? userInfo.website1 = website : '';
+    */
+
+    const userInfo = this.setUserProfileData(userProfileData);
+    userInfo.desc = desc;
 
     const userDataID = this.currentUser.userDataID;
 
@@ -149,6 +185,21 @@ export class UserService {
         return res.user;
       })
     );
+  }
+
+  private setUserProfileData(userProfileData){
+    const userInfo = this.userData;
+    userInfo.address = userProfileData.address;
+    userInfo.website1 = userProfileData.website1;
+    userInfo.website2 = userProfileData.website2;
+    userInfo.linkedin = userProfileData.linkedin;
+    userInfo.facebook = userProfileData.facebook;
+    userInfo.twitter = userProfileData.twitter;
+    userInfo.instagram = userProfileData.instagram;
+    userInfo.email = userProfileData.email;
+
+    return userInfo;
+
   }
 
   updateUserImage(img: File){
@@ -166,6 +217,14 @@ export class UserService {
         return this.userData;
       })
     );
+  }
+
+  clearViewedUser(){
+    this.viewedUser = undefined;
+    this.viewedUserData = undefined;
+    this.viewedUserEvents = undefined;
+    this.viewedUserID = undefined;
+    this.viewedUserSavedEvents = undefined;
   }
 
 

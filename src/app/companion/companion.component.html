@@ -5,26 +5,27 @@
 
         </app-info>
     </section>
+    <nav >
+        <!--
+        [ngClass]="(router.isActive('/account',false))?'nav-dark':'nav-light'"
+        <div class="logo" [routerLink]='["/main"]'>
+            WWW
+        </div>            
+        -->  
 
-    <section>
+        <ul class='links'>
+            <li><a [routerLink]='["profile", {}]' [ngClass]="(router.isActive('/account',false))?'active':'naah'" skip>Profile</a></li>
+            <li><a [routerLink]='["feed"]' [ngClass]="(router.isActive('/account',false))?'active':'naah'">Feed</a></li>
+            <li><a [routerLink]='["events-saved"]' [ngClass]="(router.isActive('/',true))?'active':'naah'">Saved</a></li>
+            <li><a [routerLink]='["events-made"]' [ngClass]="(router.isActive('/login',true))?'active':'naah'">Made</a></li>
+            <li><a [routerLink]='["companions"]' [ngClass]="(router.isActive('/login',true))?'active':'naah'">Companions</a></li>
+            
+        </ul>  
+    </nav>  
+    <section class="router">
 
      
-            <nav [ngClass]="(router.isActive('/account',false))?'nav-dark':'nav-light'">
-                <!--
-                <div class="logo" [routerLink]='["/main"]'>
-                    WWW
-                </div>            
-                -->  
-        
-                <ul class='links'>
-                    <li><a [routerLink]='["../profile", {}]' [ngClass]="(router.isActive('/account',false))?'active':'naah'" skip>Profile</a></li>
-                    <li><a [routerLink]='["../feed"]' [ngClass]="(router.isActive('/account',false))?'active':'naah'">Feed</a></li>
-                    <li><a [routerLink]='["../events-saved"]' [ngClass]="(router.isActive('/',true))?'active':'naah'">Saved</a></li>
-                    <li><a [routerLink]='["../events-made"]' [ngClass]="(router.isActive('/login',true))?'active':'naah'">Made</a></li>
-                    <li><a [routerLink]='["../companions"]' [ngClass]="(router.isActive('/login',true))?'active':'naah'">Companions</a></li>
-                    
-                </ul>  
-            </nav>  
+
         
         <router-outlet>
 

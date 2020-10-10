@@ -1,3 +1,61 @@
 main{
     display: flex;
+    position: relative;
+    width: 100%;
 }
+
+.posts{
+    width: 100%;
+    min-height: 100%;
+    padding: 2rem 0;
+}
+
+.post{
+    background-color: rgb(255, 255, 255);
+    padding: 2rem;
+    padding-top: 3rem;
+    border-radius: 1rem;
+
+}
+.post > *{
+    margin-bottom: 1rem;
+}
+.type{
+    position: absolute;
+    left: -2rem;
+    top: 0rem;
+    display: flex;
+}
+
+.activity{
+    height: 3.5rem;
+    width: 3.5rem;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0.5rem 0;
+    margin-left: 1rem;
+    padding: 0 1rem;
+    box-shadow: 0 0px 2px 1px rgba(128, 128, 128, 0.336);
+}
+.activity p{
+    font-weight: 600;
+    color: white;
+}
+.activity img{
+    width: 2rem;
+    height: 2rem;
+    filter: invert();
+}
+.Canoe{background-color: rgb(0, 174, 255);}
+.Cycling {background-color: rgb(171, 245, 0);}
+.Tinkering{background-color: rgb(71, 71, 71);}
+.Horseriding{background-color: rgb(119, 43, 43);}
+.Fishing{background-color: rgb(0, 247, 255);}
+
+.title{
+    font-weight: 600;
+    font-size: 1.6rem;
+}
+

@@ -9,6 +9,7 @@ import { UserService } from 'src/app/services/user.service';
 export class FeedComponent implements OnInit {
 
   feed = []
+  activities = ['Canoe', 'Cycling', 'Tinkering', 'Horseriding', 'Fishing'];
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
@@ -19,5 +20,7 @@ export class FeedComponent implements OnInit {
       
     })
   }
+
+  
 
 }

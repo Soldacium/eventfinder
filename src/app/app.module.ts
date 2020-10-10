@@ -45,6 +45,7 @@ import { EventsGoingComponent } from './companion/events-going/events-going.comp
 import { EventsOrganisingComponent } from './companion/events-organising/events-organising.component';
 import { FeedComponent } from './companion/feed/feed.component';
 import { CompanionsListComponent } from './companion/companions-list/companions-list.component';
+import { ProfileCompanionComponent } from './companion/profile-companion/profile-companion.component';
 
 
 
@@ -76,7 +77,8 @@ import { CompanionsListComponent } from './companion/companions-list/companions-
     EventsGoingComponent,
     EventsOrganisingComponent,
     FeedComponent,
-    CompanionsListComponent
+    CompanionsListComponent,
+    ProfileCompanionComponent
 
   ],
   imports: [
@@ -138,7 +140,7 @@ import { CompanionsListComponent } from './companion/companions-list/companions-
         ]
       },
       {
-        path: 'companion/:username',
+        path: 'companion/:userID',
         component: CompanionComponent,
         children: [
           {
@@ -148,7 +150,7 @@ import { CompanionsListComponent } from './companion/companions-list/companions-
           },
           {
             path: 'profile',
-            component: InfoComponent
+            component: ProfileCompanionComponent
           },
           {
             path: 'events-made',

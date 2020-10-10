@@ -6,6 +6,24 @@
 
     </section>
     <section class="posts">
+        <div class='post'>
+            <div class="type">
+                <span class="activity" *ngFor='let activity of activities' [ngClass]='activity'>
+                    <img [src]='"assets/icons/activities/" + activity + ".svg"' alt="">
+                </span>  
+            </div>
+            <div class="title">
+                Feed post
+            </div>
+            <div class="content">
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eius tenetur quis asperiores vitae! Facilis totam dolore esse doloribus incidunt impedit eum tempora ad adipisci consequatur ratione quos assumenda corrupti, vero natus nostrum quae repellendus. Repudiandae eius explicabo optio officiis. Dolor nemo earum neque ea sapiente ex molestiae ipsum, optio, delectus suscipit soluta voluptas dolores accusantium quas aperiam illum numquam veritatis.
+            </div>
+            <div class='companions'>
+                companion 1, companion 2
+            </div>
+            <div class="images">
 
+            </div>
+        </div>
     </section>
 </main>

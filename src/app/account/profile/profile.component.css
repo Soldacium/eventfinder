@@ -1,12 +1,16 @@
  /* GENERAL STUFF */
 
 main{
+
     display: flex;
     flex-direction: column;
     width: 100%;
     position: relative;
     padding: 0 10% 20% 10%;
     background-color: rgb(250, 250, 250);
+    position: absolute;
+    left: 0;
+    top: 0;
 }
 
 .profile-background{
@@ -243,13 +247,23 @@ input[type='button']:hover{
 
 }
 .desc{
-    flex: 1 1 15rem;
+    width: 50%;
     margin: 0 1rem;
     animation: fadeIn 1s;
+    position: relative;
 }
 
 .desc > div{
   animation: fadeIn 1s;
+}
+
+.desc div{
+  position: relative;
+  overflow: hidden;
+  max-width: 100%;
+}
+::slotted(*){
+  max-width: 100%;
 }
 
 .info{
