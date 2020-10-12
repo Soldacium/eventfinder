@@ -53,10 +53,13 @@ router.post('', (req, res, next) => {
         desc: '',
     
         image: '',
+        backgroundImage: '',
     
         statsTypes: '',
         statsTime: '',    
-        saved: []
+        saved: [],
+
+        activities: [],
     })
 
     userData.save().then(data => {
@@ -87,6 +90,18 @@ router.post('/:id',multer({storage: storage}).single('image'), (req,res,next) =>
             {image: iconImg}).then(img => {
                 res.status(200).json({
                     imageUrl: iconImg
+                })
+            })  
+    }
+
+    if(req.body.mode === 'background-image'){
+        const url = req.protocol + '://' + req.get('host');
+        console.log(req.params.id)
+        const bgImg =  url + '/images-users/' +req.file.filename;
+        UserData.updateOne({_id: req.params.id},
+            {backgroundImage: bgImg}).then(img => {
+                res.status(200).json({
+                    imageUrl: bgImg
                 })
             })  
     }

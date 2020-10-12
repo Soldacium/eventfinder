@@ -10,13 +10,15 @@
             <li><a [routerLink]='["/account/planner"]' [ngClass]="(router.isActive('/account/planner',true))?'active':'naah'"><img src="assets/icons/account/calendar.svg" alt=""> Planner</a></li>
         </ul>   
         <ul>
+            <li><a [routerLink]='["/account/feed"]' [ngClass]="(router.isActive('/account/feed',true))?'active':'naah'"><img src="assets/icons/account/board.svg" alt=""> Feed</a></li>
+        </ul>
+        <ul>
             <li><a [routerLink]='["/account/my-events"]' [ngClass]="(router.isActive('/account/my-events',true))?'active':'naah'"><img src="assets/icons/account/event-star.svg" alt="">Your events</a></li>
             <li><a [routerLink]='["/account/new-event"]' [ngClass]="(router.isActive('/account/new-event',true))?'active':'naah'"><img src="assets/icons/account/event-ok.svg" alt="">New event</a></li>
         </ul>
         <ul>
             <li><a [routerLink]='["/account/options"]' [ngClass]="(router.isActive('/account/options',true))?'active':'naah'"><img src="assets/icons/account/settings.svg" alt=""> User options</a></li>
             <li><a href=""><img src="assets/icons/account/information.svg" alt=""> About</a></li>
-            <li><a [routerLink]='["/account/policies"]' [ngClass]="(router.isActive('/account/policies',true))?'active':'naah'"><img src="assets/icons/account/user.svg" alt=""> Policies</a></li>
    
         </ul>
     </div>

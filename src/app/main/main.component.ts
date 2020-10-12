@@ -74,7 +74,7 @@ export class MainComponent implements OnInit {
 
   setupSavedEventsListener(){
     this.authService.getUserListener().subscribe((user: User) => {
-      this.userService.getUserData(user.userDataID).subscribe((userData: UserData) => {
+      this.userService.getUserData(user.userDataID, true).subscribe((userData: UserData) => {
         this.userSavedEvents = [...userData.saved];
       })
       

@@ -38,7 +38,6 @@ import { MarkerComponent } from './services/marker/marker.component';
 import { createCustomElement } from '@angular/elements';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OptionsComponent } from './account/options/options.component';
-import { PoliciesComponent } from './account/policies/policies.component';
 import { CompanionComponent } from './companion/companion.component';
 import { InfoComponent } from './companion/info/info.component';
 import { EventsGoingComponent } from './companion/events-going/events-going.component';
@@ -46,6 +45,7 @@ import { EventsOrganisingComponent } from './companion/events-organising/events-
 import { FeedComponent } from './companion/feed/feed.component';
 import { CompanionsListComponent } from './companion/companions-list/companions-list.component';
 import { ProfileCompanionComponent } from './companion/profile-companion/profile-companion.component';
+import { YourFeedComponent } from './account/your-feed/your-feed.component';
 
 
 
@@ -71,14 +71,14 @@ import { ProfileCompanionComponent } from './companion/profile-companion/profile
     MakeEventComponent,
     MarkerComponent,
     OptionsComponent,
-    PoliciesComponent,
     CompanionComponent,
     InfoComponent,
     EventsGoingComponent,
     EventsOrganisingComponent,
     FeedComponent,
     CompanionsListComponent,
-    ProfileCompanionComponent
+    ProfileCompanionComponent,
+    YourFeedComponent
 
   ],
   imports: [
@@ -130,12 +130,12 @@ import { ProfileCompanionComponent } from './companion/profile-companion/profile
             component: MakeEventComponent
           },
           {
-            path: 'options',
-            component: OptionsComponent
+            path: 'feed',
+            component: YourFeedComponent
           },
           {
-            path: 'policies',
-            component: PoliciesComponent
+            path: 'options',
+            component: OptionsComponent
           }
         ]
       },

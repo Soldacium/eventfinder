@@ -100,4 +100,5 @@ ul a.active{
     width: calc(90% - 150px);
     height: 100%;
     overflow: auto;
+    background-color: rgb(245, 245, 245);
 }

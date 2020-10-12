@@ -19,21 +19,6 @@ export class MessagesService {
 
   socket;
 
-  constructor(
-    private http: HttpClient,
-    private eventsService: EventsService, 
-    private authService: AuthService,
-    private router: Router,
-    private userService: UserService) {
-      this.socket = io('http://localhost:3000/');
-      
-
-      this.socket.on('new message',(messageData) => {
-        console.log('new message recived')
-        this.newMessage.next(messageData)
-      })
-     }
-
   allConversations: Array<Conversation>;
   userConversations: Array<Conversation>;
   currentConversation: Conversation;
@@ -41,33 +26,64 @@ export class MessagesService {
   conversationsUpdated = new Subject<Conversation[]>();
   newMessage = new Subject();
 
+  constructor(
+    private http: HttpClient,
+    private eventsService: EventsService,
+    private authService: AuthService,
+    private router: Router,
+    private userService: UserService) {
+      this.setSocket()
+     }
 
+
+
+
+  /* SOCKET */
   setSocket(){
+    this.socket = io('http://localhost:3000/');
+
+
+    this.socket.on('new message', (messageData) => {
+      console.log('new message recived');
+      this.newMessage.next(messageData);
+    });
+  }
+
+  joinMessageRoom(room){
+    this.socket.emit('join room', room);
+    console.log('joined the room' + room);
 
   }
+
+  leaveMessageRoom(room){
+    this.socket.emit('leave room', room);
+    console.log('left the room' + room);
+  }
+
+
+
+
 
   getAllConversations(){
     return this.allConversations;
   }
 
   getUserConversations(){
-   
     const userID = this.userService.getCurrentUserID();
-    const conversations = [] 
+    const conversations = []
 
     let params = new HttpParams();
     params = params.append('mode', 'user');
-    params = params.append('userID', userID)
+    params = params.append('userID', userID);
 
-    console.log(userID)
     return this.http
-    .get<{userConversations: Conversation[]}>("http://localhost:3000/api/messages/", {params: params})
+    .get<{userConversations: Conversation[]}>('http://localhost:3000/api/messages/', {params})
     .pipe(map((response: any) => {
-        this.userConversations = response.userConversations
+        this.userConversations = response.userConversations;
 
         return this.userConversations;
       })
-    )
+    );
 
 
   }
@@ -79,11 +95,11 @@ export class MessagesService {
     const currentUserData = this.userService.getCurrentUserData();
     const currentEvent = this.eventsService.getCurrentEvent();
 
-    if(ID1 === undefined || ID2 === undefined || currentEvent === undefined || currentUserData === undefined){
+    if (ID1 === undefined || ID2 === undefined || currentEvent === undefined || currentUserData === undefined){
       return 0;
     }
 
-    if(currentUserData.image === undefined || currentUserData.image === null){
+    if (currentUserData.image === undefined || currentUserData.image === null){
       currentUserData.image = 'assets/icons/general/user.svg';
     }
 
@@ -96,55 +112,31 @@ export class MessagesService {
       userName2: currentUserData.username,
       conversationName: currentEvent.title,
       messages: [],
-    }
+    };
 
-    console.log(newConvo)
-
-    
     this.http
-    .post("http://localhost:3000/api/messages/", newConvo)
+    .post('http://localhost:3000/api/messages/', newConvo)
     .subscribe(newConversation => {
-      console.log(newConversation);
-      this.router.navigate(['/account/messages'])
-    })
-    
-  }
-
-  joinMessageRoom(room){
-    this.socket.emit('join room', room);
-    console.log('joined the room' + room);
-    
-  }
-
-  leaveMessageRoom(room){
-    this.socket.emit('leave room', room);
-    console.log('left the room' + room);
+      this.router.navigate(['/account/messages']);
+    });
   }
 
   getConversation(id){
     this.http
-    .get("http://localhost:3000/api/messages/" + id)
+    .get('http://localhost:3000/api/messages/' + id)
     .subscribe((res: Conversation) => {
       this.currentConversation = res;
       return res;
-    })
-  }
-
-  getConversations(){
-    this.http
-    .get("http://localhost:3000/api/messages/")
-    .subscribe(res => {
-      console.log(res)
-    })
+    });
   }
 
   postMessage(conversationId: string, message: Message){
     const newMessage = message;
     this.http
-    .post("http://localhost:3000/api/messages/" + conversationId, newMessage)
+    .post('http://localhost:3000/api/messages/' + conversationId, newMessage)
     .subscribe((message) => {
-      this.socket.emit('new message', newMessage, conversationId)
-      console.log(message)
-    })
+      this.socket.emit('new message', newMessage, conversationId);
+      console.log(message);
+    });
   }
 }

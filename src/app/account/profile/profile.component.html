@@ -4,6 +4,18 @@
         
     </div>
 
+    <div class="image-background">
+        <input #backgroundfile type="file" id="selectedBackgroundFile" style="display: none;"
+        accept='image/*' 
+        (change)="previewBackgroundImage(backgroundfile.files)"/>
+        <img [src]="backgroundImageURL" *ngIf="backgroundImageURL">
+        <div class="image-background-buttons" *ngIf='backgroundImagePath !== undefined'>
+            <button class="image-background-accept" (click)='updateUserBackgroundImage()'></button>
+            <button class="image-background-decline" (click)='cancelUpdatingUserBackgroundImage()'></button>
+        </div>
+        <button class='image-background-choose' (click)="clickBackgroundImage()"></button>
+    </div>  
+
 
     <section class="profile-general">
 
@@ -19,7 +31,7 @@
                 accept='image/*' 
                 (change)="previewImage(file.files)"/>
                 <input type="button" (click)="clickImage()" />
-                <img [src]="imgURL" *ngIf="imgURL">
+                <img [src]="imageURL" *ngIf="imageURL">
 
 
 
@@ -27,9 +39,11 @@
 
         </div>
 
+        <div class='names'>
+            <div class="name">{{userProfileInfo.username}}</div>
+            <div class="email">{{userProfileInfo.email}}</div>            
+        </div>
 
-        <div class="name">{{userProfileInfo.username}}</div>
-        <div class="email">{{userProfileInfo.email}}</div>
     </section>
 
 

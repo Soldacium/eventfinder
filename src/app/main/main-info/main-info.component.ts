@@ -27,23 +27,33 @@ export class MainInfoComponent implements OnInit, OnChanges {
   section2: object;
   section3: object;
   section4: object;
-  constructor(private eventsService: EventsService,
-    private userService: UserService) { }
+
 
   sectionDatasets = {
     section1: {},
     section2: {},
     section3: {},
     section4: {}
-  }
+  };
+
+
+
+
+  constructor(private eventsService: EventsService,
+              private userService: UserService) { }
 
   ngOnInit(): void { }
 
-  ngOnChanges(changes: SimpleChanges) {
-    const eventDataChange = changes['data'];
-    const userSavedEventsChange = changes['saved'];
 
-    if(this.data && eventDataChange){
+
+
+
+
+  ngOnChanges(changes: SimpleChanges) {
+    const eventDataChange = changes.data;
+    const userSavedEventsChange = changes.saved;
+
+    if (this.data && eventDataChange){
 
       this.currentEvent = eventDataChange.currentValue;
       this.updateGeneral();
@@ -55,7 +65,7 @@ export class MainInfoComponent implements OnInit, OnChanges {
       this.infoHidden = false;
     }
 
-    if(this.saved && userSavedEventsChange){
+    if (this.saved && userSavedEventsChange){
       this.savedEvents = userSavedEventsChange.currentValue;
       this.updateSaveButton();
     }
@@ -84,26 +94,26 @@ export class MainInfoComponent implements OnInit, OnChanges {
     this.section4 = {
       orgID: this.currentEvent.userID,
       votes: this.currentEvent.votes
-    }
+    };
   }
+
+
+
 
   updateSaveButton(){
     this.thisEventIsSaved = false;
-    if(this.currentEvent && this.savedEvents){
-      this.savedEvents.forEach((save : any) => {
-        if(save.id === this.currentEvent._id){
+    if (this.currentEvent && this.savedEvents){
+      this.savedEvents.forEach((save: any) => {
+        if (save.id === this.currentEvent._id){
           this.thisEventIsSaved = true;
         }
-      })
+      });
     }
-
   }
 
   saveEvent(){
     this.eventsService.saveEvent();
     this.userService.addSavedEventRef(this.currentEvent._id).subscribe(saved => {
-      console.log(saved)
-      
       this.savedEvents = saved;
       this.updateSaveButton();
     });
@@ -112,16 +122,17 @@ export class MainInfoComponent implements OnInit, OnChanges {
   unsaveEvent(){
     this.eventsService.unsaveEvent();
     this.userService.deleteSavedEventRef(this.currentEvent._id).subscribe(saved => {
-      console.log(saved)
-      
       this.savedEvents = saved;
       this.updateSaveButton();
     });
   }
 
+
+
+
   close(){
     this.infoHidden = true;
-    this.closeInfo.emit(true)
+    this.closeInfo.emit(true);
   }
 
 

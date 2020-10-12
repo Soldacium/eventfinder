@@ -33,7 +33,7 @@ export class UserService {
     userData: '',
     userFeed: '',
     userCompanions: ''
-  }
+  };
   viewedUserCollectionsIDsReady = new Subject();
   viewedUserData: UserData;
   viewedUserFeed: UserFeed;
@@ -90,38 +90,43 @@ export class UserService {
     this.router.navigate(['/post', username],  { queryParams: { userID }});
   }
 
+  clearViewedUser(){
+    this.viewedUser = undefined;
+    this.viewedUserData = undefined;
+    this.viewedUserEvents = undefined;
+    this.viewedUserID = undefined;
+    this.viewedUserSavedEvents = undefined;
+  }
+
   getViewedUserCollectionsIDs(userID){
     let params = new HttpParams();
     params = params.append('mode', 'onlyCollections');
-    console.log(params)
-    return this.http.get('http://localhost:3000/api/auth/login/' + userID,{params: params}).pipe(
+    return this.http.get('http://localhost:3000/api/auth/login/' + userID, {params}).pipe(
       map((res: any) => {
-        
+
         this.viewedUserCollectionsIDs = res.collectionsIDs;
-        this.viewedUserCollectionsIDsReady.next(true)
+        this.viewedUserCollectionsIDsReady.next(true);
 
         return this.viewedUserCollectionsIDs;
       })
-
-
-    )
+    );
   }
 
 
-  getUserData(ID: string, currentUser?: boolean){  
-    console.log(ID)
-    const userID = (currentUser && this.currentUser) ? this.currentUser.userDataID : ID;
-    if(userID === '' || !userID){return}
-    console.log(userID, ID)
+  getUserData(ID: string, currentUser?: boolean){
+    const userID = (currentUser && this.currentUser) ? this.currentUser.userDataID : ID; //
+    if (userID === '' || !userID){return;}
 
     return this.http.get('http://localhost:3000/api/user-data/' + userID).pipe(
       map((res: any) => {
-        this.viewedUserData = res.userData;
-        this.viewedUserDataUpdated.next(this.viewedUserData)
+
         if (currentUser){
           this.userData = res.userData;
+        }else{
+          this.viewedUserData = res.userData;
+          this.viewedUserDataUpdated.next(this.viewedUserData);
         }
-        
+        // console.log(this.viewedUserData, this.userData, currentUser)
         return res.userData;
       })
     );
@@ -130,21 +135,21 @@ export class UserService {
 
 
 
-  getUserFeed(userID: string, yourFeed?:boolean){
+  getUserFeed(userID: string, yourFeed?: boolean){
     const feedID = yourFeed ? this.currentUser.userFeedID : this.viewedUser.userFeedID;
     return this.http.get('http://localhost:3000/api/user-feed/' + userID).pipe(
       map((res: any) => {
-        //this.userData.image = res.imageUrl;
+        // this.userData.image = res.imageUrl;
         return res.feed;
       })
     );
   }
-  postToUserFeed(userID: string, yourFeed?:boolean){
+  postToUserFeed(userID: string, yourFeed?: boolean){
     const post = this.makePost();
     const feedID = yourFeed ? this.currentUser.userFeedID : this.viewedUser.userFeedID;
     return this.http.post('http://localhost:3000/api/user-feed/' + feedID, post).pipe(
       map((res: any) => {
-        //this.userData.image = res.imageUrl;
+        // this.userData.image = res.imageUrl;
         return res.post;
       })
     );
@@ -159,21 +164,12 @@ export class UserService {
   private makePost(){
     return {
 
-    }
+    };
   }
 
 
 
-  updateUserData(userProfileData, desc: string){ //name: string, phone?: string, address?: string, website?: string, desc?: string
-    
-
-    /*
-    phone ? userInfo.phone = phone : '';
-    address ? userInfo.address = address : '';
-    desc ? userInfo.desc = desc : '';
-    website ? userInfo.website1 = website : '';
-    */
-
+  updateUserData(userProfileData, desc: string){
     const userInfo = this.setUserProfileData(userProfileData);
     userInfo.desc = desc;
 
@@ -199,12 +195,10 @@ export class UserService {
     userInfo.email = userProfileData.email;
 
     return userInfo;
-
   }
 
   updateUserImage(img: File){
     const newImage = new FormData();
-
     newImage.append('image', img, this.userID);
     newImage.append('mode', 'image');
 
@@ -212,25 +206,32 @@ export class UserService {
 
     return this.http.post('http://localhost:3000/api/user-data/' + userDataID , newImage).pipe(
       map((res: any) => {
-        console.log(res)
         this.userData.image = res.imageUrl;
         return this.userData;
       })
     );
   }
+  updateUserBackgroundImage(img: File){
+    const newImage = new FormData();
+    newImage.append('image', img, this.userID);
+    newImage.append('mode', 'background-image');
 
-  clearViewedUser(){
-    this.viewedUser = undefined;
-    this.viewedUserData = undefined;
-    this.viewedUserEvents = undefined;
-    this.viewedUserID = undefined;
-    this.viewedUserSavedEvents = undefined;
+    const userDataID = this.currentUser.userDataID;
+
+    return this.http.post('http://localhost:3000/api/user-data/' + userDataID , newImage).pipe(
+      map((res: any) => {
+        this.userData.backgroundImage = res.imageUrl;
+        return this.userData;
+      })
+    );
   }
 
 
 
+
+
   addSavedEventRef(EventID: string){
-    
+
     const eventID = {eventID: EventID, mode: 'save'};
 
     const userData = this.userData;
@@ -243,7 +244,7 @@ export class UserService {
           _id: '',
           id: eventID.eventID
         });
-        console.log(userSaved, res)
+        console.log(userSaved, res);
         return userSaved;
       })
     );
@@ -252,16 +253,16 @@ export class UserService {
     const eventIdObj = {eventID: EventID, mode: 'save'};
 
     const userDataID = this.currentUser.userDataID;
-    // using patch as delete
     return this.http.patch('http://localhost:3000/api/user-data/' + userDataID, eventIdObj).pipe(
       map((res: any) => {
-
-        this.userData.saved = this.userData.saved.filter(savedEvent => savedEvent.id !== EventID)
+        this.userData.saved = this.userData.saved.filter(savedEvent => savedEvent.id !== EventID);
 
         return this.userData.saved;
       })
     );
   }
+
+
 
 
 

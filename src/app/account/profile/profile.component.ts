@@ -1,5 +1,5 @@
 import { Component, OnInit, SecurityContext, ViewEncapsulation } from '@angular/core';
-import * as C from 'chart.js'
+import * as C from 'chart.js';
 import { AuthService } from 'src/app/services/auth.service';
 import { User } from 'src/app/models/user.model';
 import { UserData } from 'src/app/models/userData.model';
@@ -17,14 +17,22 @@ export class ProfileComponent implements OnInit {
   userProfileIsEdited = true;
   /* image + async check if posted */
   public imagePath;
-  previousImgUrl = 'assets/images/BGs/festival.jpg';
-  imgURL: any = 'assets/images/BGs/festival.jpg';
+  previousImageUrl = 'assets/images/BGs/festival.jpg';
+  imageURL: any = 'assets/images/BGs/festival.jpg';
 
-  file;
+  imageFile;
+
+  public backgroundImagePath;
+  previousBackgroundImageUrl = 'assets/images/BGs/festival.jpg';
+  backgroundImageURL: any = 'assets/images/BGs/festival.jpg';
+
+  backgroundImageFile;
+
+
   posted = false;
   auth; authSub;
 
-  user : UserData;
+  user: UserData;
 
   userProfileInfo = {
     username: '',
@@ -40,7 +48,7 @@ export class ProfileComponent implements OnInit {
     twitter: '',
     email: '',
 
-  }
+  };
 
   options = {
     profileVisible: false,
@@ -50,7 +58,7 @@ export class ProfileComponent implements OnInit {
     feedVisible: false,
     emailSpecsVisible: false,
     userHashCodeAllow: false
-  }
+  };
 
 
   public desc = {
@@ -73,7 +81,11 @@ export class ProfileComponent implements OnInit {
       type: 'Concert',
       value: 7
     },
-  ]
+  ];
+
+
+
+
 
 
   constructor(
@@ -86,9 +98,11 @@ export class ProfileComponent implements OnInit {
     this.getUserProfileInfo();
   }
 
+
+
+
+
   getUserProfileInfo(){
-
-
     this.getUserData();
 
     this.setupUserImageListener();
@@ -96,28 +110,23 @@ export class ProfileComponent implements OnInit {
   }
 
   getUserData(){
-
-    if(this.userService.getCurrentUserID() && !this.userService.getCurrentUserData()){
-      this.userService.getUserData('', true).subscribe(userData => {
+    if (this.userService.getCurrentUserID() && !this.userService.getCurrentUserData()){
+      this.userService.getUserData(this.userService.getCurrentUserID(), true).subscribe(userData => {
         this.user = userData;
-        if(this.user){
-          this.setUserData(this.user)
+        if (this.user){
+          this.setUserData(this.user);
         }
-      });      
-    }else if(this.userService.getCurrentUserID()){
+      });
+    }else if (this.userService.getCurrentUserID()){
       this.user = this.userService.getCurrentUserData();
-      this.setUserData(this.user)
+      this.setUserData(this.user);
     }
-
-
-
   }
 
   setupUserImageListener(){
-    
     this.authService.getUserImageListener().subscribe(newImageUrl => {
-      this.imgURL = newImageUrl;
-    })
+      this.imageURL = newImageUrl;
+    });
   }
 
   setupUserListener(){
@@ -126,13 +135,13 @@ export class ProfileComponent implements OnInit {
 
       this.getUserData();
 
-    })
+    });
   }
 
   setUserData(user: UserData){
     this.user = user;
     this.desc.editorData = this.user.desc;
-    console.log(user)
+    console.log(user);
     this.userProfileInfo  = {
       username: this.user.username,
       phone: this.user.phone,
@@ -146,19 +155,22 @@ export class ProfileComponent implements OnInit {
       linkedin: this.user.linkedin,
       twitter: this.user.twitter,
       email: this.user.email,
-    }
-    if(this.user.image && this.user.image !== ''){
-      this.imgURL = this.user.image;
-      this.previousImgUrl = this.imgURL;
+    };
+    if (this.user.image && this.user.image !== ''){
+      this.imageURL = this.user.image;
+      this.previousImageUrl = this.imageURL;
+
+      this.backgroundImageURL = this.user.backgroundImage;
+      this.previousBackgroundImageUrl = this.backgroundImageURL;
     }
   }
 
   editUserProfileInfo(){
-    if(this.userProfileIsEdited){
-      this.desc.editorData = this.sanatizer.sanitize(SecurityContext.HTML,this.desc.editorData)
+    if (this.userProfileIsEdited){
+      this.desc.editorData = this.sanatizer.sanitize(SecurityContext.HTML, this.desc.editorData);
       this.userService.updateUserData(
-        
-        this.userProfileInfo,this.desc.editorData).subscribe()
+
+        this.userProfileInfo, this.desc.editorData).subscribe();
     }
     this.userProfileIsEdited = !this.userProfileIsEdited;
   }
@@ -166,19 +178,31 @@ export class ProfileComponent implements OnInit {
 
   previewImage(files) {
 
-    if (files.length === 0) {
-      return;
-    }
+    if (files.length === 0) { return; }
+
     const mimeType = files[0].type;
-    if (mimeType.match(/image\/*/) == null) {
-      return;
-    }
+    if (mimeType.match(/image\/*/) == null) { return; }
+
     const reader = new FileReader();
+    this.imageFile = files[0];
     this.imagePath = files;
-    this.file = files[0];
     reader.readAsDataURL(files[0]);
     reader.onload = (_event) => {
-      this.imgURL = reader.result;
+      this.imageURL = reader.result;
+    };
+  }
+  previewBackgroundImage(files){
+    if (files.length === 0) { return; }
+
+    const mimeType = files[0].type;
+    if (mimeType.match(/image\/*/) == null) { return; }
+
+    const reader = new FileReader();
+    this.backgroundImageFile = files[0];
+    this.backgroundImagePath = files;
+    reader.readAsDataURL(files[0]);
+    reader.onload = (_event) => {
+      this.backgroundImageURL = reader.result;
     };
   }
 
@@ -186,35 +210,54 @@ export class ProfileComponent implements OnInit {
   clickImage(){
     document.getElementById('selectedFile').click();
   }
+  clickBackgroundImage(){
+    document.getElementById('selectedBackgroundFile').click();
+  }
 
   updateUserImage(){
-    //this.authService.changeAccImage(this.file);
-    this.userService.updateUserImage(this.file).subscribe(user => {
-      this.imgURL = user.image;
+    this.userService.updateUserImage(this.imageFile).subscribe(user => {
+      this.imageURL = user.image;
       this.imagePath = undefined;
-    })
+    });
   }
 
   cancelUpdatingUserImage(){
-    this.imgURL = this.previousImgUrl;
+    this.imageURL = this.previousImageUrl;
     this.imagePath = undefined;
   }
 
+  updateUserBackgroundImage(){
+    this.userService.updateUserBackgroundImage(this.backgroundImageFile).subscribe(user => {
+      this.backgroundImageURL = user.backgroundImage;
+      this.backgroundImagePath = undefined;
+    });
+  }
+  cancelUpdatingUserBackgroundImage(){
+    this.backgroundImageURL = this.previousBackgroundImageUrl;
+    this.backgroundImagePath = undefined;
+  }
 
+
+
+
+  /**
+   * STATS CHARTS
+   *
+   */
   makeCharts(){
-    let ctx: any = document.querySelector('.stats-types');
+    const ctx: any = document.querySelector('.stats-types');
     ctx.getContext('2d');
 
-    let ctx2: any = document.querySelector('.stats-activity');
+    const ctx2: any = document.querySelector('.stats-activity');
     ctx2.getContext('2d');
 
-    const labels= [];
-    const data = []
-    const labelBGs = []
+    const labels = [];
+    const data = [];
+    const labelBGs = [];
     this.typeStats.forEach(stat => {
-      labels.push(stat.type)
-      data.push(stat.value)
-      labelBGs.push(`hsl(${230 + stat.value *3},100%,50%)`)
+      labels.push(stat.type);
+      data.push(stat.value);
+      labelBGs.push(`hsl(${230 + stat.value * 3},100%,50%)`);
     });
 
     this.makeEventTypesChart(ctx, labels, labelBGs, data);
@@ -225,10 +268,10 @@ export class ProfileComponent implements OnInit {
     const chart = new C.Chart(ctx, {
       type: 'pie',
       data: {
-          labels: labels,
+          labels,
           datasets: [{
             backgroundColor: labelBGs,
-            data: data
+            data
           }]
       },
       options: {}
@@ -239,10 +282,10 @@ export class ProfileComponent implements OnInit {
     const chart2 = new C.Chart(ctx, {
       type: 'line',
       data: {
-          labels: labels,
+          labels,
           datasets: [{
               label: 'Activity', // Name the series
-              data: data, // Specify the data values array
+              data, // Specify the data values array
               fill: false,
               borderColor: '#2196f3', // Add custom color border (Line)
               backgroundColor: '#2196f3', // Add custom color background (Points and Fill)
@@ -250,7 +293,7 @@ export class ProfileComponent implements OnInit {
           }]},
       options: {
         responsive: true, // Instruct chart js to respond nicely.
-        maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height 
+        maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height
       }
     });
   }

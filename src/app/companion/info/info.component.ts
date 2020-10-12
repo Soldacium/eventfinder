@@ -27,7 +27,7 @@ export class InfoComponent implements OnInit {
       })      
     }else{
       this.userData = this.userService.viewedUserData;
-      console.log(this.userData)
+      console.log(this.userService.viewedUserData)
     }
 
 

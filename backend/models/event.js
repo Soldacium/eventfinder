@@ -21,22 +21,6 @@ const eventSchema = mongoose.Schema({
     website2: {type: String, required: false},
     phone: {type: String, required: false},
     email: {type: String, required: false},
-    /*
-    comments: {type: [{
-        userID: String,
-        userImg: String,
-        comment: String,
-        username: String,
-        date: String,
-        responses: [{
-            userID: String,
-            userImg: String,
-            comment: String,
-            username: String,
-            date: String,
-        }]
-    }], required: true},
-    */
 
     userID: {type: mongoose.Schema.Types.ObjectId,ref: 'User', required: true},
     commentsID: {type: String, required: true},

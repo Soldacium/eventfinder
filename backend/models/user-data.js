@@ -17,10 +17,13 @@ const userSchema = mongoose.Schema({
     desc: {type: String, required: false},
 
     image: {type: String, required: false},
+    backgroundImage: {type: String, required: false},
 
     statsTypes: {type: Array, required: false},
     statsTime: {type: Array, required: false},    
-    saved: {type: [{id: String}], required: false}
+    saved: {type: [{id: String}], required: false},
+
+    activities: {type: Array, required: false}
     
 
 

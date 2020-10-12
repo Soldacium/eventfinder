@@ -1,0 +1,148 @@
+
+<main>
+
+
+    <button class="switch-posts" (click)='viewFeed = true'>
+
+    </button>
+    <button class="switch-make-posts" (click)='viewFeed = false'>
+
+    </button>
+
+
+    <section class="posts" [ngClass]='viewFeed?"active":"inactive"'>
+        <div class='post'>
+            <div class="type">
+                <span class="activity" *ngFor='let activity of activities' [ngClass]='activity'>
+                    <img [src]='"assets/icons/activities/" + activity + ".svg"' alt="">
+                </span>  
+            </div>
+            <div class="title">
+                Feed post
+            </div>
+            <div class="content">
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eius tenetur quis asperiores vitae! Facilis totam dolore esse doloribus incidunt impedit eum tempora ad adipisci consequatur ratione quos assumenda corrupti, vero natus nostrum quae repellendus. Repudiandae eius explicabo optio officiis. Dolor nemo earum neque ea sapiente ex molestiae ipsum, optio, delectus suscipit soluta voluptas dolores accusantium quas aperiam illum numquam veritatis.
+            </div>
+            <div class='companions'>
+                companion 1, companion 2
+            </div>
+            <div class="images">
+
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <section class="make-post" [ngClass]='!viewFeed?"active":"inactive"'>
+        <div class="make-post-content">
+
+
+            <div class="post-image">
+                <input #file type="file" id="selectedFile" style="display: none;"
+                accept='image/*' 
+                (change)="preview(file.files)"/>
+                <input type="button" (click)="clickImage()" [ngClass]='!imgURL?"untouched":"touched"'/>
+                <img [src]="imgURL" *ngIf="imgURL">
+            </div>
+            <div class="input-box field">
+                <input type="text" class="input-field" placeholder="org" name="org" id='org' required 
+                [(ngModel)] = 'postData.title'/>
+                <label for="org" class="input-label">Title</label>
+            </div>  
+            <div class="desc">
+                <ckeditor type='inline' 
+                [(ngModel)]="desc.editorData" 
+                class="editor"
+                [config]="{ language: 'en', uiColor: '#FFFFFF', magicline_color: 'transparent'}">
+                </ckeditor>                  
+            </div>
+
+
+
+            <div class="related-activities">
+                <div class="activity-filter-wrap" *ngFor='let activity of possibleActivities' [ngClass]="(chosenActivities.includes(activity)?'active':'inactive')">
+                    <button class="activity"  [ngClass]='activity' (click)='pickActivity(activity)'>
+                        <img [src]='"assets/icons/activities/" + activity + ".svg"' alt="">
+                    </button>                 
+                </div>
+            </div>
+
+
+
+
+            <button (click)='moreVisible = !moreVisible'>More specifications</button>
+
+            <div class="more" [ngClass]='moreVisible?"active":"inactive"'>
+
+                <div class="map-box">
+                    <div class="input-box field">
+                        <input type="" class="input-field" placeholder="Name" name="name" id='name' required 
+                            [(ngModel)] = 'postData.relatedPlace'
+                            (keyup.enter)='checkMap(postData.relatedPlace)'/>     
+                        <label for="org" class="input-label">Related place</label> 
+                        <button>
+                            <img src="assets/icons/account/user.svg" alt="">
+                        </button>              
+                    </div>
+  
+                    <div class='map'
+                        leaflet 
+                        [leafletOptions]="options"
+                        id='map'
+                        (leafletMapReady)="onMapReady($event)">
+                    </div>         
+                </div>                      
+                
+                
+                <div class="add-companions">
+                    <div class="input-box field">
+                        <input type="text" class="input-field" placeholder="org" name="org" id='org' required 
+                            [(ngModel)] = 'postData.title'/>
+                        <label for="org" class="input-label">Related people</label>
+                        <button>
+                            <img src="assets/icons/account/user.svg" alt="">
+                        </button>
+                    </div>                         
+                </div>
+
+
+                <div class="related-event">
+                    <div class="input-box field"> <!-- same search engine as in main -->
+                        <input type="text" class="input-field" placeholder="org" name="org" id='org' required 
+                            [(ngModel)] = 'postData.title'
+                            (click) = 'searchYourEvents()'
+                            (keyup) = 'searchYourEvents()'/>
+                        <label for="org" class="input-label">Related event</label>
+                        <div class="event-list">
+                            <div class="event" *ngFor='let event of searchedEvents' (click)='chooseRelatedEvent(event)'>{{event}}</div>
+                        </div>
+
+                    </div>                         
+                </div>
+
+                <div class="other">
+                    <div class="input-box field">
+                        <input type="text" class="input-field" placeholder="org" name="org" id='org' required 
+                            [(ngModel)] = 'postData.title'/>
+                        <label for="org" class="input-label">Add to timelien</label>
+                    </div> 
+                    <div class="input-box field">
+                        <input type="text" class="input-field" placeholder="org" name="org" id='org' required 
+                            [(ngModel)] = 'postData.title'/>
+                        <label for="org" class="input-label">Title</label>
+                    </div>                
+                </div>                    
+                  
+            </div>
+
+            <button>Save post</button>
+
+
+           
+        </div>
+ 
+    </section>
+</main>
+

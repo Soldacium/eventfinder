@@ -1,0 +1,391 @@
+main{
+    display: flex;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+main > button{
+    position: absolute;
+    width: 2rem;
+    height: 2rem;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+}
+button:focus{
+    outline: none;
+}
+.switch-posts{
+    left: 2rem;
+    background-color: greenyellow;
+}
+
+.switch-make-posts{
+    right: 2rem;
+    background-color: hotpink;
+}
+
+.posts{
+    width: 65%;
+    
+    margin: 0 20%;
+    height: 100%;
+    padding: 3rem 2rem;
+    position: absolute;
+    top: 0;
+    overflow-y: auto;
+    transition: 0.3s;
+}
+.posts.active{
+    right: 0;
+}
+.posts.inactive{
+    right: 100%;
+}
+
+.post{
+    background-color: rgb(255, 255, 255);
+    padding: 2rem;
+    padding-top: 2rem;
+    position: relative;
+    border-radius: 1rem;
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.075);
+
+}
+.post > *{
+    margin-bottom: 1rem;
+}
+.type{
+    position: absolute;
+    left: -2rem;
+    top: -2rem;
+    display: flex;
+}
+
+.activity{
+    height: 2.5rem;
+    width: 2.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0.3rem 0;
+    margin-left: 0.5rem;
+    padding: 0 1rem;
+    box-shadow: 0 0px 2px 1px rgba(128, 128, 128, 0.336);
+    border: none;
+    transition: 0.3s;
+}
+.activity p{
+    font-weight: 600;
+    color: white;
+}
+.activity img{
+    width: 1.5rem;
+    height: 1.5rem;
+    filter: invert();
+}
+
+.Horseriding{background-color: rgb(119, 43, 43);}
+.Connection{background-color: rgb(226, 118, 17);}
+.Travel{background-color: rgb(255, 145, 0);}
+.Meeting{background-color: rgb(218, 80, 0);}
+.Cycling {background-color: rgb(171, 245, 0);}
+.Walking {background-color: rgb(49, 245, 0);}
+.Hiking {background-color: rgb(118, 139, 25);}
+.Camping{background-color: rgb(251, 255, 0);}
+.Nature{background-color: rgb(38, 139, 25);}
+.Winning {background-color: rgb(255, 217, 0);}
+.Canoe{background-color: rgb(0, 174, 255);}
+.Swimming{background-color: rgb(0, 102, 255);}
+.Fishing{background-color: rgb(0, 255, 221);}
+.Reading{background-color: rgb(147, 0, 245);}
+.Knowledge{background-color: rgb(84, 25, 139);}
+.Meditation{background-color: rgb(212, 0, 106);}
+.Peace{background-color: rgb(243, 0, 150);}
+.Gaming{background-color: rgb(209, 0, 35);}
+.Tinkering{background-color: rgb(71, 71, 71);}
+
+.title{
+    font-weight: 600;
+    font-size: 1.6rem;
+}
+
+
+
+
+
+
+
+
+
+
+/* make post */
+.make-post{
+    position: absolute;
+    left: 100%;
+    top: 0;
+    width: 70%;
+    height: 100vh;
+    padding: 10% 2rem;
+    padding-bottom: 30%;
+    margin: 0 15%;
+    overflow-y: auto;
+    background-color: white;
+    transition: 0.3s;
+}
+.make-post.active{
+    left: 0;
+}
+.make-post.inactive{
+    left: 100%;
+}
+
+.make-post-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+/* picture */
+.post-image{
+    height: 16rem;
+    min-width: 16rem;
+    border-radius: 5px;
+    position: relative;
+    margin: auto;
+    border: 1px solid rgba(0, 0, 0, 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    background-color: rgb(223, 223, 223);
+}
+  
+.post-image img{
+    height: 100%;
+}
+  
+input[type='button']{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    background-color: rgba(255, 255, 255, 0.666);
+    background-size: 4rem 4rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url('../../../assets/icons/account/picture.svg');
+    transition: 0.3s;
+    z-index: 10;
+    cursor: pointer;
+    border: none;
+}
+input[type='button'].untouched{
+    opacity: 1;
+}
+input[type='button']:hover{
+    opacity: 0.6;
+}
+
+/* GENERAL INPUTS */
+
+.title{
+
+}
+
+.desc{
+    margin-top: 1rem;
+    min-height: 30vh;
+    width: 100%;
+    background-color: rgb(245, 245, 245);
+    padding: 1rem;
+    border-radius: 1rem;
+}
+
+
+
+
+.input-box {
+    position: relative;
+    padding: 1.2rem 1rem 0.5rem 1rem ;
+    min-width: 50%;
+    margin-top: 1rem;
+    background-color: rgb(250, 250, 250);
+    border-radius: 1rem;
+    box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.048);
+}
+
+
+.input-field {
+    font-family: inherit;
+    width: 100%;
+    border: 0;
+    outline: 0;
+    font-size: 1rem;
+    color: rgb(0, 0, 0);
+    padding: 7px 0;
+    background: transparent;
+    transition: border-color 0.2s;
+}
+.input-field::placeholder {
+    color: transparent;
+}
+.input-field:placeholder-shown ~ .input-label {
+    font-size: 1rem;
+    cursor: text;
+    top: 20px;
+}
+
+.input-label {
+    position: absolute;
+    top: 0.5rem;
+    display: block;
+    transition: 0.2s;
+    font-size: 0.8rem;
+    color: #9b9b9b;
+}
+
+.input-field:focus {
+    padding-bottom: 6px;
+    font-weight: 500;
+    border-width: 3px;
+    border-image: linear-gradient(to right, var(--color1), var(--color2));
+    border-image-slice: 1;
+}
+.input-field:focus ~ .input-label {
+    position: absolute;
+    top: 0.5rem;
+    display: block;
+    transition: 0.2s;
+    font-size: 0.8rem;
+    color: var(--color2);
+    font-weight: 600;
+}
+
+/* reset input */
+.input-field:required, .input-field:invalid {
+    box-shadow: none;
+}
+
+.input-box button{
+    position: absolute;
+    right: 0;
+    top: 0;
+    border: none;
+    width: 3rem;
+    height: 100%;
+    background-color: rgb(68, 68, 68);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+}
+
+.input-box button:disabled{
+    opacity: 0.5;
+    cursor: default;
+}
+
+.input-box button img{
+    filter: invert();
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+/* activities and icons */
+
+.related-activities{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 2rem 20%;
+    
+}
+.activity-filter-wrap > button{
+    transform: scale(1.4);
+}
+
+.activity-filter-wrap.active{
+    filter: brightness(100%) grayscale(0%);
+}
+
+.activity-filter-wrap.inactive{
+    filter: grayscale(100%) brightness(70%);
+}
+
+.more{
+    
+    width: 100%;
+    position: relative;
+    transition: 0.5s;
+    display: flex;
+    flex-wrap: wrap;
+    overflow: hidden;
+    transition: 0.3s;
+}
+.more.inactive{
+    height: 0vh;
+    
+
+}
+.more.active{
+    
+    
+}
+
+.map-box{
+    width: 100%;
+    height: 30vh;
+    display: flex;
+    flex-direction: column;
+}
+.map{
+    margin-top: 1rem;
+    position: relative;
+    height: 100%;
+}
+
+.other{
+    width: 100%;
+    flex-wrap: wrap;
+    display: flex;
+}
+
+.more > div{
+    max-width: 50%;
+}
+
+.input-field:focus ~ .event-list{
+    display: flex;
+}
+
+.event-list:hover{
+    display: flex;
+}
+.event-list{
+    position: absolute;
+    left: 0;
+    bottom: 100%;
+    background-color: white;
+    border-radius: 1rem 1rem 0 0;
+    width: 100%;
+    height: 20vh;
+    overflow: auto;
+    display: none;
+    flex-direction: column;
+    z-index: 999;
+    transition-delay: 0.2s;
+}
+.event-list > .event{
+    width: 100%;
+    padding: 0.5rem;
+    border-bottom: 1px solid gray;
+    cursor: pointer;
+}
+
+
+

@@ -45,6 +45,8 @@ export class EventsService {
      }
 
 
+
+
   getCurrentEvent(): Event{
     return this.currentEvent;
   }
@@ -64,34 +66,21 @@ export class EventsService {
     const userID = this.userService.getCurrentUserID();
     const userData = this.userService.getCurrentUserData();
 
-    /*
-    this.http
-    .post('http://localhost:3000/api/auth/signup/' + userID , eventID)
-    .subscribe((res: any) => {
-      userData.saved.push({
-        _id: '',
-        id: eventID.eventID
-      });
-      this.savedEventsUpdated.next(userData);
-    });
-    */
-
-    const participant = { //a.k.a PP
-      userID: userID,
+    const participant = { // a.k.a PP
+      userID,
       userImg: userData.image || '',
       username: userData.username,
       email: userData.email,
-    }
+    };
 
 
     this.http
     .post('http://localhost:3000/api/event-participants/' + participantsID, participant)
     .subscribe(PP => {
-      this.currentParticipants.push(participant)
+      this.currentParticipants.push(participant);
       this.participantsUpdated.next(this.currentParticipants);
     });
   }
-
 
   unsaveEvent(eventId?: string){
     const eventIdObj = {eventID: '', mode: 'save'};
@@ -100,11 +89,11 @@ export class EventsService {
 
     eventId ? eventIdObj.eventID = eventId : eventIdObj.eventID = this.currentEvent._id;
 
-    const userIDobj = { userID: userID }
+    const userIDobj = { userID };
     this.http
     .patch('http://localhost:3000/api/event-participants/' + participantsID, userIDobj)
     .subscribe(participant => {
-      this.currentParticipants = this.currentParticipants.filter(participant => participant.userID !== userID)
+      this.currentParticipants = this.currentParticipants.filter(participant => participant.userID !== userID);
       this.participantsUpdated.next(this.currentParticipants);
     });
   }
@@ -116,18 +105,18 @@ export class EventsService {
   getEvents(){
     return this.http.get('http://localhost:3000/api/events/')
     .subscribe((res: any) => {
-      console.log(res);
       this.events = res.events;
       this.eventsReady.next(true);
     });
   }
-  getUserEvents(){
+
+  getUserEvents(ID?: string){
     const myEvents = [];
-    const userID = this.userService.getCurrentUserID();
+    const userID = ID ? ID : this.userService.getCurrentUserID();
 
     this.events.forEach((event: Event) => {
       const eventGotten =  {...event};
-      if (event.userID == userID){
+      if (event.userID === userID){
         const tags = eventGotten.tags.toString();
         eventGotten.tags = JSON.parse(tags);
         myEvents.push(eventGotten);
@@ -137,25 +126,49 @@ export class EventsService {
 
     return myEvents;
   }
-  getSavedEvents(){
-    const userData = this.userService.getCurrentUserData();
+
+  getSavedEvents(viewedUser?: boolean){
+    const userData = viewedUser ? this.userService.getCurrentViewedUserData() : this.userService.getCurrentUserData();
     if (!userData){
-      return;
+      return [];
     }
     const savedEventsIDs = userData.saved;
     const savedEvents = [];
 
     this.events.forEach((event: Event) => {
       savedEventsIDs.forEach((ID: any) => {
-        if (event._id == ID.id){
+        if (event._id === ID.id){
           savedEvents.push({...event});
         }
       });
     });
 
     this.savedEvents = savedEvents;
+    //console.log(userData, this.savedEvents)
     return savedEvents;
   }
+  getSearchedSavedEvents(query: string, viewedUser?: boolean){
+    const userData = viewedUser ? this.userService.getCurrentViewedUserData() : this.userService.getCurrentUserData();
+    if (!userData){
+      return [];
+    }
+    const savedEventsIDs = userData.saved;
+    const savedEvents = [];
+
+    this.events.forEach((event: Event) => {
+      savedEventsIDs.forEach((ID: any) => {
+        if (event._id === ID.id && event.title.toLowerCase().includes(query.toLowerCase())){
+          savedEvents.push({...event});
+        }
+      });
+    });
+
+    this.savedEvents = savedEvents;
+    //console.log(userData, this.savedEvents)
+    return savedEvents;
+  }
+
+
 
 
 
@@ -178,7 +191,7 @@ export class EventsService {
           this.http
           .post<{message: string, data: Event}>('http://localhost:3000/api/events/', eventData)
           .subscribe(res => {
-            console.log(res);
+
           });
         }
       });
@@ -198,12 +211,14 @@ export class EventsService {
 
 
 
+
+
   postComment(comment: string ){
+
     const commentsID = this.currentEvent.commentsID;
     const data = this.createCommentData(comment, 'comment');
-    console.log(comment)
 
-    if (commentsID === '' || commentsID === undefined || comment === '' || data.newComment.userID === undefined){return; }
+    if (commentsID === '' || commentsID === undefined || comment === '' || data.newComment.userID === undefined){ return; }
 
     this.http
     .post<any>('http://localhost:3000/api/event-comments/' + commentsID, data)
@@ -212,18 +227,17 @@ export class EventsService {
       this.commentsUpdated.next(this.currentComments);
     });
   }
-  postResponse( response ,commentID: string){
+  postResponse( response , commentID: string){
+
     const commentsID = this.currentEvent.commentsID;
     const data = this.createCommentData(response, 'response', commentID);
 
     if (commentsID === '' || commentsID === undefined || response === '' || data.newComment.userID === undefined){ return; }
 
-    console.log(commentID)
-    
     this.http
     .post<any>('http://localhost:3000/api/event-comments/' + commentsID, data)
     .subscribe(res => {
-      console.log(this.currentComments)
+
       this.currentComments.find(comment => comment._id === commentID).responses.push(res.data);
       this.commentsUpdated.next(this.currentComments);
     });
@@ -236,26 +250,24 @@ export class EventsService {
 
   getChosenEventComments(commentsID): Observable<EventComment[]>{
     return this.http.get('http://localhost:3000/api/event-comments/' + commentsID).pipe(
-      map((res:any) => { 
-        console.log(res.comments.comments)
+      map((res: any) => {
         return res.comments.comments;
       })
-    )
+    );
   }
   getChosenEventParticipants(paricipantsID): Observable<EventComment[]>{
     return this.http.get('http://localhost:3000/api/event-participants/' + paricipantsID).pipe(
-      map((res:any) => { 
+      map((res: any) => {
         return res.participants.participants;
       })
-    )
+    );
   }
-  
+
   getComments(){
     const commentsID = this.currentEvent.commentsID;
     this.http
     .get<{comments: any}>('http://localhost:3000/api/event-comments/' + commentsID)
     .subscribe(res => {
-      console.log(res)
       this.currentComments = res.comments.comments;
       this.commentsUpdated.next(this.currentComments);
     });
@@ -265,13 +277,10 @@ export class EventsService {
     this.http
     .get<{participants: any}>('http://localhost:3000/api/event-participants/' + participantsID)
     .subscribe(res => {
-      console.log(res)
       this.currentParticipants = res.participants.participants;
       this.participantsUpdated.next(this.currentParticipants);
     });
   }
-  
-  
 
 
 
@@ -279,11 +288,12 @@ export class EventsService {
 
 
 
-  private createCommentData(text: string, mode: string, commentID?:string): any{
+
+
+  private createCommentData(text: string, mode: string, commentID?: string): any{
     const userData = this.userService.getCurrentUserData();
     const user = this.userService.getCurrentUser();
-    
-    console.log(userData)
+
     const data = {
       newComment: {
         userID: user._id,
@@ -296,8 +306,6 @@ export class EventsService {
       mode,
       commentID: commentID || ''
     };
-
-
     return data;
   }
 

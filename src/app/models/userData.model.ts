@@ -9,6 +9,7 @@ export class UserData{
     statsTypes?: Array<object>;
     statsTime?: Array<object>;
     image?: string;
+    backgroundImage?: string;
     
     comments?: Array<object>;
 

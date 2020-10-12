@@ -46,7 +46,7 @@ export class InteractionComponent implements OnInit, OnChanges {
 
     if (newInteractionData.currentValue){
       this.interactionData  = newInteractionData.currentValue;
-      console.log(this.interactionData)
+      console.log(this.interactionData);
       this.eventsService.getComments();
     }
   }
@@ -65,14 +65,14 @@ export class InteractionComponent implements OnInit, OnChanges {
   postResponse(comment: any){
     const message = this.responseInput;
     if (message !== '' && comment._id){
-      this.eventsService.postResponse(message,comment._id);
+      this.eventsService.postResponse(message, comment._id);
     }
     this.responseInput = '';
   }
 
   viewCompanion(comment){
-    console.log(comment)
-    this.router.navigate(['/companion/', comment.userID], { queryParams: { username: comment.username}})//,username: comment.username,,  { queryParams: { userID: comment.userID }}
+    console.log(comment);
+    this.router.navigate(['/companion/', comment.userID], { queryParams: { username: comment.username}});
   }
 
 
