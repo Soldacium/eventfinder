@@ -10,7 +10,11 @@ import { UserService } from 'src/app/services/user.service';
 export class ProfileCompanionComponent implements OnInit {
 
   userData: UserData;
-  activities = ['Canoe','Cycling', 'Tinkering','Horseriding', 'Fishing']
+  possibleActivities = [
+    'Canoe' , 'Swimming', 'Fishing', 'Cycling', 'Walking', 'Hiking', 'Camping', 'Nature',
+  'Winning', 'Reading', 'Knowledge', 'Meditation', 'Peace', 'Connection', 'Travel',
+  'Meeting', 'Horseriding', 'Tinkering', 'Gaming'];
+  activities = ['Canoe' , 'Swimming','Fishing','Cycling', 'Tinkering','Horseriding']
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {

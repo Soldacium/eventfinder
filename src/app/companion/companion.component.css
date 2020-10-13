@@ -18,10 +18,10 @@ nav{
     top: 0;
     right: 0;
     width: 100%;
-    padding: 0.5rem 20%;
+    padding: 0.5rem 0%;
     position: relative;
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content: center; 
     z-index: 100000000000;
     box-shadow: 0 -3px 3px -1px rgba(0, 0, 0, 0.096);
@@ -29,7 +29,7 @@ nav{
 
 .links{
     display: flex;
-    justify-content: space-between; 
+    justify-content: center; 
     flex: 1 1 20rem;
     
  }
@@ -40,8 +40,9 @@ nav a{
     font-size: calc(0.8rem + 0.4vw);
     
     position: relative;
-    padding: 1rem 3rem;
+    padding: 0.5rem 2rem;
     border-radius: 1rem;
+    margin: 0 1rem;
     
     color: rgb(0, 0, 0);
     transition: 0.3s;
@@ -61,7 +62,7 @@ ul{
 }
 
 nav li{
-    margin: 0rem 0.5rem;
+   
 }
 
 li a{
@@ -86,6 +87,7 @@ li a{
 
 .router{
     padding: 0 20%;
+    background-color: rgb(240, 240, 240);
 }
 
 

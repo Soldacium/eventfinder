@@ -1,7 +1,11 @@
 <div class="account-wrap">
     <div class="account-nav">
         <div class="logo" [routerLink]='["/"]'>
-            <img src="assets/icons/account/logo2.svg" alt="">
+            <span class="logo-text">Voyda</span>
+            <!--
+               <img src="assets/icons/general/logo.svg" alt=""> 
+            -->
+            
         </div>
         <ul>
             <li><a [routerLink]='["/account/profile"]' [ngClass]="(router.isActive('/account/profile',true))?'active':'naah'"><img src="assets/icons/account/user.svg" alt=""> Profile</a></li>

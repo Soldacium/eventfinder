@@ -15,15 +15,16 @@
 
     <div class="general-info">
         <div class='info-names'>
-            <div class="name">{{userData.username}}</div>
-            <div class="email">{{userData.email}}</div>             
-        </div>
-        <div class="buttons">
-            <button><img src="assets/icons/account/add-user.svg" alt=""> Add Companion</button>
-            <button><img src="assets/icons/account/comment2.svg" alt="">Message</button>
+            <div class="name">{{userData.username}}</div>   
+            <div class="buttons">
+                <button class='button-companion'><img src="assets/icons/account/add-user.svg" alt=""></button>
+                <button class="button-message"><img src="assets/icons/account/comment2.svg" alt=""></button>
+            </div>       
         </div>
 
+
         <!--
+            
         <div class="general-info-info">
             <div class="info-static">
                 <div *ngIf='userData.email == ""' class='text-inactive'>Not provided</div>

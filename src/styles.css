@@ -32,8 +32,8 @@ html{
     --gray-text: rgb(80,80,80);
     */
 
-    --color1: rgb(255, 27, 103);
-    --color2: #00e0f0;
+    --color2: orange;
+    --color1: #ff9100;
     
     
     scroll-behavior: smooth;

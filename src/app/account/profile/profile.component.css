@@ -12,6 +12,10 @@ main{
     top: 0;
 }
 
+button:focus{
+  outline: none;
+}
+
 .profile-background{
   width: 100%;
   height: 20%;
@@ -28,12 +32,10 @@ section{
     padding: 2rem;
     margin-bottom: 3rem;
     border-radius: 2rem;
-    box-shadow: 0 0 3px 2px rgba(128, 128, 128, 0.144);
+    box-shadow: 0 2px 3px 1px rgba(128, 128, 128, 0.11);
     z-index: 5;
     position: relative;
     background-color: #ffffff;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cg fill='%23eeeeee' fill-opacity='0.18'%3E%3Cpolygon fill-rule='evenodd' points='8 4 12 6 8 8 6 12 4 8 0 6 4 4 6 0 8 4'/%3E%3C/g%3E%3C/svg%3E");
-
 
 }
 
@@ -99,6 +101,17 @@ div > .subsection-title:first-of-type{
   justify-content: center;
   align-items: center;
   z-index: 0;
+
+  
+}
+.image-background:after{
+  position: absolute;
+  left: 0;
+  top: 0;
+  content: '';
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 -2px 20px -10px rgb(0, 0, 0) inset;
 }
 .image-background img{
   min-width: 100%;
@@ -109,26 +122,47 @@ div > .subsection-title:first-of-type{
   right: 2rem;
   bottom: 2rem;
 
-  width: 3rem;
-  height: 3rem;
-  background-color: tomato;
+  width: 4rem;
+  height: 4rem;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0 0 2px 1px rgba(27, 27, 27, 0.096);
   border-radius: 50%;
   border: none;
+  background-image: url('../../../assets/icons/account/picture.svg');
+  background-position: center;
+  background-size: 2rem 2rem;
+  background-repeat: no-repeat;
+  z-index: 9999;
 }
 
 .image-background-buttons{
   position: absolute;
-  right: 2rem;
-  bottom: 0rem;
-  transform: translate(50%, 0);
+  left: -1rem;
+  top: 2.5rem;
+  transform: translate(0%, 0);
+  display: flex;
 
 
 }
 .image-background-buttons > button{
   width: 2rem;
   height: 2rem;
-  background-color: violet;
   margin: 0.5rem;
+  border-radius: 50%;
+  border: none;
+}
+.image-background-accept{
+  background-image: url('../../../assets/icons/account/accept2.svg');
+  background-position: center;
+  background-size: 2rem 2rem;
+  background-repeat: no-repeat;
+}
+
+.image-background-decline{
+  background-image: url('../../../assets/icons/account/close1.svg');
+  background-position: center;
+  background-size: 2rem 2rem;
+  background-repeat: no-repeat;
 }
 
 
@@ -203,15 +237,15 @@ div > .subsection-title:first-of-type{
   border: none;
   border: 1px solid black;
   border-radius: 50%;
-  width: 4rem;
-  height: 4rem;
+  width: 3rem;
+  height: 3rem;
   position: absolute;
   background-position: center;
   background-size: 3rem 3rem;
   background-repeat: no-repeat;
   backdrop-filter: invert();
   cursor: pointer;
-  top: -2rem;
+  top: -1rem;
   transition: 0.5s;
 }
 
@@ -220,7 +254,7 @@ div > .subsection-title:first-of-type{
   background-image: url('../../../assets/icons/account/accept2.svg');
   transform: rotate(-140deg);
   left: calc(35% - 1rem);
-  background-color: var(--color2);
+  
 
 }
 
@@ -228,7 +262,7 @@ div > .subsection-title:first-of-type{
   background-image: url('../../../assets/icons/account/close1.svg');
   transform: rotate(-140deg);
   left: calc(60% - 1rem);
-  background-color: var(--color1);
+ 
 }
 
 .img-accept:hover, .img-decline:hover{
@@ -264,9 +298,10 @@ input[type='button']:hover{
 
 .names{
   margin-top: 4rem;
-  padding: 1rem 2rem;
-  background-color: rgb(41, 41, 41);
-  color: white;
+  padding: 1rem 3rem;
+  color: rgb(41, 41, 41);
+  background-color: white;
+  box-shadow: 0 2px 3px 1px rgba(128, 128, 128, 0.11);
   border-radius: 1rem;
 }
 
@@ -295,10 +330,11 @@ input[type='button']:hover{
 
 .profile-info{
     display: flex;
+    flex-wrap: wrap;
 
 }
 .desc{
-    width: 50%;
+    flex: 1 1 15rem;
     margin: 0 1rem;
     animation: fadeIn 1s;
     position: relative;
@@ -323,6 +359,71 @@ input[type='button']:hover{
     animation: fadeIn 1s;
 }
 
+.activity{
+  height: 2.5rem;
+  width: 2.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.3rem 0;
+  margin-left: 0.5rem;
+  padding: 0 1rem;
+  box-shadow: 0 0px 2px 1px rgba(128, 128, 128, 0.336);
+  border: none;
+  transition: 0.3s;
+}
+.activity p{
+  font-weight: 600;
+  color: white;
+}
+.activity img{
+  width: 1.5rem;
+  height: 1.5rem;
+  filter: invert();
+}
+
+.Horseriding{background-color: rgb(119, 43, 43);}
+.Connection{background-color: rgb(226, 118, 17);}
+.Travel{background-color: rgb(255, 145, 0);}
+.Meeting{background-color: rgb(218, 80, 0);}
+.Cycling {background-color: rgb(171, 245, 0);}
+.Walking {background-color: rgb(49, 245, 0);}
+.Hiking {background-color: rgb(118, 139, 25);}
+.Camping{background-color: rgb(251, 255, 0);}
+.Nature{background-color: rgb(38, 139, 25);}
+.Winning {background-color: rgb(255, 217, 0);}
+.Canoe{background-color: rgb(0, 174, 255);}
+.Swimming{background-color: rgb(0, 102, 255);}
+.Fishing{background-color: rgb(0, 255, 221);}
+.Reading{background-color: rgb(147, 0, 245);}
+.Knowledge{background-color: rgb(84, 25, 139);}
+.Meditation{background-color: rgb(212, 0, 106);}
+.Peace{background-color: rgb(243, 0, 150);}
+.Gaming{background-color: rgb(209, 0, 35);}
+.Tinkering{background-color: rgb(71, 71, 71);}
+
+.user-activities{
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 1rem;
+  padding: 2rem 0;
+  width: 100%;
+  
+}
+.activity-filter-wrap > button{
+  transform: scale(1.4);
+}
+
+.activity-filter-wrap.active{
+  filter: brightness(100%) grayscale(0%);
+}
+
+.activity-filter-wrap.inactive{
+  filter: grayscale(100%) brightness(70%);
+}
+
+
 
 
 
@@ -334,7 +435,7 @@ input[type='button']:hover{
     padding: 1.2rem 1rem 0.5rem 1rem ;
     margin-top: 1rem;
     width: 100%;
-    background-color: rgb(250, 250, 250);
+    background-color: rgb(245, 245, 245);
     border-radius: 1rem;
     overflow: hidden;
     

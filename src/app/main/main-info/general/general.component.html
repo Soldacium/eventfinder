@@ -1,6 +1,11 @@
 
 
 <section class="wrap">
+    
+    <div class="wrap-background">
+        <img [src]='dataset.image' alt="">
+    </div>        
+    
 
 
     <div class="intro">
@@ -64,10 +69,9 @@
 
 
 <section class="specs with-padding">
-
+    <header class="section-title">Participants</header>
     <div class='participants'>
-        <div class='participant' *ngFor='let participant of participants'>
-            <div class="">{{participant.username}}</div>
+        <div class='participant' *ngFor='let participant of participants' (click)='viewCompanion(participant)'>
             <img [src]='participant.userImg' alt="">
             
         </div>

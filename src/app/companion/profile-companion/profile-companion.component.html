@@ -1,3 +1,9 @@
+
+<section *ngIf='userData.desc !== ""'>
+    <div class="desc flex-column background" [innerHTML]='userData.desc'>
+
+    </div>
+</section>
 <section>
     <div class="flex-column background">
         <div class="subsection-title">Preffered Activities</div> 
@@ -7,11 +13,6 @@
                     <p>{{activity}}</p>
             </span>            
         </div>
-    </div>
-</section>
-<section *ngIf='userData.desc !== ""'>
-    <div class="desc flex-column background" [innerHTML]='userData.desc'>
-
     </div>
 </section>
 <section>

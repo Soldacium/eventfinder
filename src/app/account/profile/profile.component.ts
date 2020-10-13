@@ -66,6 +66,12 @@ export class ProfileComponent implements OnInit {
     editorData: '<p>Your own description, click to change!</p>'
   };
 
+  possibleActivities = [
+    'Canoe' , 'Swimming', 'Fishing', 'Cycling', 'Walking', 'Hiking', 'Camping', 'Nature',
+  'Winning', 'Reading', 'Knowledge', 'Meditation', 'Peace', 'Connection', 'Travel',
+  'Meeting', 'Horseriding', 'Tinkering', 'Gaming'];
+  chosenActivities = []
+
 
   /* dummy data to be changed */
   typeStats = [
@@ -109,6 +115,100 @@ export class ProfileComponent implements OnInit {
     this.setupUserListener();
   }
 
+
+
+  /* IMAGES */
+
+
+  setupUserImageListener(){
+    this.authService.getUserImageListener().subscribe(newImageUrl => {
+      this.imageURL = newImageUrl;
+    });
+  }
+  previewImage(files) {
+
+    if (files.length === 0) { return; }
+
+    const mimeType = files[0].type;
+    if (mimeType.match(/image\/*/) == null) { return; }
+
+    const reader = new FileReader();
+    this.imageFile = files[0];
+    this.imagePath = files;
+    reader.readAsDataURL(files[0]);
+    reader.onload = (_event) => {
+      this.imageURL = reader.result;
+    };
+  }
+  previewBackgroundImage(files){
+    if (files.length === 0) { return; }
+
+    const mimeType = files[0].type;
+    if (mimeType.match(/image\/*/) == null) { return; }
+
+    const reader = new FileReader();
+    this.backgroundImageFile = files[0];
+    this.backgroundImagePath = files;
+    reader.readAsDataURL(files[0]);
+    reader.onload = (_event) => {
+      this.backgroundImageURL = reader.result;
+    };
+  }
+  clickImage(){
+    document.getElementById('selectedFile').click();
+  }
+  clickBackgroundImage(){
+    document.getElementById('selectedBackgroundFile').click();
+  }
+
+  updateUserImage(){
+    this.userService.updateUserImage(this.imageFile).subscribe(user => {
+      this.imageURL = user.image;
+      this.imagePath = undefined;
+    });
+  }
+
+  cancelUpdatingUserImage(){
+    this.imageURL = this.previousImageUrl;
+    this.imagePath = undefined;
+  }
+
+  updateUserBackgroundImage(){
+    this.userService.updateUserBackgroundImage(this.backgroundImageFile).subscribe(user => {
+      this.backgroundImageURL = user.backgroundImage;
+      this.backgroundImagePath = undefined;
+    });
+  }
+  cancelUpdatingUserBackgroundImage(){
+    this.backgroundImageURL = this.previousBackgroundImageUrl;
+    this.backgroundImagePath = undefined;
+  }
+
+
+
+
+
+
+  /* USER INFO */
+  /* Activities */
+  pickActivity(activity) {
+    const isTag = this.chosenActivities.includes(activity);
+    if (isTag == false) {
+      this.chosenActivities.push(activity);
+    } else {
+      this.chosenActivities.splice(this.chosenActivities.indexOf(activity), 1);
+    }
+  }
+
+  setupUserListener(){
+    this.authService.getUserListener()
+    .subscribe((user: any) => {
+
+      this.getUserData();
+
+    });
+  }
+
   getUserData(){
     if (this.userService.getCurrentUserID() && !this.userService.getCurrentUserData()){
       this.userService.getUserData(this.userService.getCurrentUserID(), true).subscribe(userData => {
@@ -121,21 +221,6 @@ export class ProfileComponent implements OnInit {
       this.user = this.userService.getCurrentUserData();
       this.setUserData(this.user);
     }
-  }
-
-  setupUserImageListener(){
-    this.authService.getUserImageListener().subscribe(newImageUrl => {
-      this.imageURL = newImageUrl;
-    });
-  }
-
-  setupUserListener(){
-    this.authService.getUserListener()
-    .subscribe((user: any) => {
-
-      this.getUserData();
-
-    });
   }
 
   setUserData(user: UserData){
@@ -176,66 +261,6 @@ export class ProfileComponent implements OnInit {
   }
 
 
-  previewImage(files) {
-
-    if (files.length === 0) { return; }
-
-    const mimeType = files[0].type;
-    if (mimeType.match(/image\/*/) == null) { return; }
-
-    const reader = new FileReader();
-    this.imageFile = files[0];
-    this.imagePath = files;
-    reader.readAsDataURL(files[0]);
-    reader.onload = (_event) => {
-      this.imageURL = reader.result;
-    };
-  }
-  previewBackgroundImage(files){
-    if (files.length === 0) { return; }
-
-    const mimeType = files[0].type;
-    if (mimeType.match(/image\/*/) == null) { return; }
-
-    const reader = new FileReader();
-    this.backgroundImageFile = files[0];
-    this.backgroundImagePath = files;
-    reader.readAsDataURL(files[0]);
-    reader.onload = (_event) => {
-      this.backgroundImageURL = reader.result;
-    };
-  }
-
-
-  clickImage(){
-    document.getElementById('selectedFile').click();
-  }
-  clickBackgroundImage(){
-    document.getElementById('selectedBackgroundFile').click();
-  }
-
-  updateUserImage(){
-    this.userService.updateUserImage(this.imageFile).subscribe(user => {
-      this.imageURL = user.image;
-      this.imagePath = undefined;
-    });
-  }
-
-  cancelUpdatingUserImage(){
-    this.imageURL = this.previousImageUrl;
-    this.imagePath = undefined;
-  }
-
-  updateUserBackgroundImage(){
-    this.userService.updateUserBackgroundImage(this.backgroundImageFile).subscribe(user => {
-      this.backgroundImageURL = user.backgroundImage;
-      this.backgroundImagePath = undefined;
-    });
-  }
-  cancelUpdatingUserBackgroundImage(){
-    this.backgroundImageURL = this.previousBackgroundImageUrl;
-    this.backgroundImagePath = undefined;
-  }
 
 
 

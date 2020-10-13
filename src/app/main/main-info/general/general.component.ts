@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { EventsService } from 'src/app/services/events.service';
 import { MarkerService } from 'src/app/services/marker.service';
@@ -18,7 +19,10 @@ export class GeneralComponent implements OnInit, OnChanges {
   participants = [];
 
   requirements = ['Above 18 y/o', 'Your own drinks'];
-  constructor(private markerService: MarkerService, private eventsService: EventsService) { }
+  constructor(
+    private markerService: MarkerService,
+    private eventsService: EventsService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.setDummyData();
@@ -105,6 +109,11 @@ export class GeneralComponent implements OnInit, OnChanges {
       this.participants = participants;
       console.log(participants)
     });
+  }
+
+  viewCompanion(participant){
+    console.log(participant);
+    this.router.navigate(['/companion/', participant.userID], { queryParams: { username: participant.username}});
   }
 
 

@@ -32,8 +32,8 @@ export class YourFeedComponent implements OnInit {
 
   /** post data */
   postData: Post;
-  viewFeed = false;
-  moreVisible = true;
+  viewFeed = true;
+  moreVisible = false;
   feed = [];
   activities = ['Canoe', 'Swimming'];
   possibleActivities = [
@@ -95,6 +95,8 @@ export class YourFeedComponent implements OnInit {
 
       this.postData.relatedPlace = this.adressInfo.formatted_address;
 
+      console.log(data)
+
 
 
 
@@ -131,12 +133,17 @@ export class YourFeedComponent implements OnInit {
   /* bonus content */
 
   searchYourEvents(){
+    console.log(this.searchedEvents)
     this.searchedEvents = this.eventsService.getSearchedSavedEvents(this.searchQuery)
   }
 
   chooseRelatedEvent(event){
     this.relatedEvent = event;
-    console.log(this.relatedEvent)
+    this.searchQuery = '';
+    this.searchedEvents = []
+  }
+  unchooseEvent(){
+    this.relatedEvent = undefined;
   }
 
 

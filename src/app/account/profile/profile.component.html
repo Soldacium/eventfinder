@@ -1,19 +1,24 @@
 
 <main>
+    <!--
     <div class="profile-background">
         
-    </div>
+    </div>        
+    -->
+
 
     <div class="image-background">
         <input #backgroundfile type="file" id="selectedBackgroundFile" style="display: none;"
         accept='image/*' 
         (change)="previewBackgroundImage(backgroundfile.files)"/>
         <img [src]="backgroundImageURL" *ngIf="backgroundImageURL">
-        <div class="image-background-buttons" *ngIf='backgroundImagePath !== undefined'>
-            <button class="image-background-accept" (click)='updateUserBackgroundImage()'></button>
-            <button class="image-background-decline" (click)='cancelUpdatingUserBackgroundImage()'></button>
-        </div>
-        <button class='image-background-choose' (click)="clickBackgroundImage()"></button>
+
+        <button class='image-background-choose' (click)="clickBackgroundImage()">
+            <div class="image-background-buttons" *ngIf='backgroundImagePath !== undefined'>
+                <button class="image-background-accept" (click)='updateUserBackgroundImage()'></button>
+                <button class="image-background-decline" (click)='cancelUpdatingUserBackgroundImage()'></button>
+            </div>
+        </button>
     </div>  
 
 
@@ -221,6 +226,15 @@
 
             </div>
 
+        </div>
+
+        <div class="user-activities">
+            <header class="subsection-title">Favoured activities</header>
+            <div class="activity-filter-wrap" *ngFor='let activity of possibleActivities' [ngClass]="(chosenActivities.includes(activity)?'active':'inactive')">
+                <button class="activity"  [ngClass]='activity' (click)='pickActivity(activity)'>
+                    <img [src]='"assets/icons/activities/" + activity + ".svg"' alt="">
+                </button>                 
+            </div>
         </div>
 
     </section>
