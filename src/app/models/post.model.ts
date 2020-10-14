@@ -1,12 +1,14 @@
 export class Post{
     title: string;
-    desc: string;
-    relatedCompanions: [string];
+    content: string;
+    relatedCompanions: string[];
+    relatedActivities: string[];
     relatedPlace: string;
-    relatedPlaceCoords: string;
-    relatedEvent: string;
+    relatedPlaceCoords: object;
+    relatedEventID: string;
+    relatedTags: string[];
     image: string;
-    images: [string];
+    images: string[];
     date: string;
     comments: [];
 

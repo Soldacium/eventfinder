@@ -7,7 +7,7 @@ const userSchema = mongoose.Schema({
 
     username: {type: String, required: true},
     phone: {type: String, required: false},
-    adress: {type: String, required: false},
+    address: {type: String, required: false},
     website1: {type: String, required: false},
     website2: {type: String, required: false},
     linkedin: {type: String, required: false},

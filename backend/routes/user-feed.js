@@ -25,7 +25,7 @@ const storage = multer.diskStorage({
         if (isValid){
             error = null;
         }
-        cb(error, 'backend/images-users');
+        cb(error, 'backend/images-users-feed');
     },
     filename: (req,file,cb) => {
         const name = file.originalname.toLowerCase().split(' ').join('-');
@@ -51,27 +51,25 @@ router.post('', (req, res, next) => {
 
 //adding saved post
 router.post('/:id',multer({storage: storage}).single('image'), (req,res,next) => {
-    if(req.body.mode === 'save'){
-        const postID = req.body.eventID;
-        //User.saved.push(postID)
-        UserData.updateOne({_id: req.params.id},
-            {$push: {saved: {id: postID}}}).then(save => {
-                res.status(200).json({
-                    data: save
-                })
-            })        
-    }
 
-    if(req.body.mode === 'image'){
-        const url = req.protocol + '://' + req.get('host');
-        const iconImg =  url + '/images/' + req.file.filename;
-        UserData.updateOne({_id: req.params.id},
-            {image: iconImg}).then(img => {
-                res.status(200).json({
-                    imageUrl: iconImg
-                })
-            })  
-    }
+    console.log(req.body)
+
+    const url = req.protocol + '://' + req.get('host');
+    const image =  url + '/images-users-feed/' + req.file.filename;
+    
+    const post = req.body;
+    post.image = image;
+
+    console.log(post)
+    
+    UserFeed.findOneAndUpdate({_id: req.params.id},
+        {$push: {posts: post}}).then(post => {
+            res.status(200).json({
+                addedPost: post
+            })
+        })  
+    
+    
 
 })
 
@@ -96,10 +94,9 @@ router.put('/:id', (req,res,next) => {
 
 router.get('/:id',(req,res,next) => {
     //get from database n shit
-    UserData.findOne({_id: req.params.id}).then((userData) => {
+    UserFeed.findOne({_id: req.params.id}).then((userFeed) => {
         res.status(200).json({
-            message: 'user gotten',
-            userData: userData
+            userFeed: userFeed
         });
     });
 

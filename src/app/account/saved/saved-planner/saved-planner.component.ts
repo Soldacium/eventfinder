@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Event } from 'src/app/models/event.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { EventsService } from 'src/app/services/events.service';
 
 @Component({
-  selector: 'app-planner',
-  templateUrl: './planner.component.html',
-  styleUrls: ['./planner.component.css']
+  selector: 'app-saved-planner',
+  templateUrl: './saved-planner.component.html',
+  styleUrls: ['./saved-planner.component.css']
 })
-export class PlannerComponent implements OnInit {
+export class SavedPlannerComponent implements OnInit {
 
+
+  
   thisMonthDays = [];
   today;
   thisYear;

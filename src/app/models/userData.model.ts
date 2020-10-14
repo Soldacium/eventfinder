@@ -20,5 +20,7 @@ export class UserData{
 
     saved?: Array<{_id: string, id: string}>;
 
+    activities?: Array<string>;
+
     _id?: string;
 }

@@ -98,8 +98,9 @@ export class UserService {
     this.viewedUserSavedEvents = undefined;
   }
 
-  getViewedUserCollectionsIDs(userID){
+  getViewedUserCollectionsIDs(userID?: string){
     let params = new HttpParams();
+    const viewedUserID = userID ? userID : this.viewedUserID;
     params = params.append('mode', 'onlyCollections');
     return this.http.get('http://localhost:3000/api/auth/login/' + userID, {params}).pipe(
       map((res: any) => {
@@ -194,6 +195,8 @@ export class UserService {
     userInfo.instagram = userProfileData.instagram;
     userInfo.email = userProfileData.email;
 
+    userInfo.activities = userProfileData.activities;
+
     return userInfo;
   }
 
@@ -274,8 +277,13 @@ export class UserService {
       })
     );
   }
-  addUserCompanion(){
-
+  addUserCompanion(user){
+    const companionsID = this.currentUser.userCompanionsID;
+    return this.http.post('http://localhost:3000/api/user-companions/' + companionsID, user).pipe(
+      map((res: any) => {
+        return res.companions;
+      })
+    );
   }
   deleteUserCompanion(){
 

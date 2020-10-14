@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 })
 export class AccountComponent implements OnInit {
 
+  mobileNavOpen = false;
   constructor(public router: Router) { }
 
   ngOnInit(): void {}

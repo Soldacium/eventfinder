@@ -11,6 +11,7 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { MarkerService } from './services/marker.service';
 import { AuthService } from './services/auth.service';
 import { UserService } from './services/user.service';
+import { UserFeedService } from './services/user-feed.service';
 import { EventsService } from './services/events.service';
 import { MessagesService } from './services/messages.service';
 import { AuthGuardGuard } from './guards/auth-guard.guard';
@@ -29,7 +30,7 @@ import { InteractionComponent } from './main/main-info/interaction/interaction.c
 import { ProfileComponent } from './account/profile/profile.component';
 import { SavedComponent } from './account/saved/saved.component';
 import { MessagesComponent } from './account/messages/messages.component';
-import { PlannerComponent } from './account/planner/planner.component';
+
 import { YourEventsComponent } from './account/your-events/your-events.component';
 import { MakeEventComponent } from './account/make-event/make-event.component';
 
@@ -46,6 +47,9 @@ import { FeedComponent } from './companion/feed/feed.component';
 import { CompanionsListComponent } from './companion/companions-list/companions-list.component';
 import { ProfileCompanionComponent } from './companion/profile-companion/profile-companion.component';
 import { YourFeedComponent } from './account/your-feed/your-feed.component';
+import { YourCompanionsComponent } from './account/your-companions/your-companions.component';
+import { SavedListComponent } from './account/saved/saved-list/saved-list.component';
+import { SavedPlannerComponent } from './account/saved/saved-planner/saved-planner.component';
 
 
 
@@ -66,7 +70,6 @@ import { YourFeedComponent } from './account/your-feed/your-feed.component';
     ProfileComponent,
     SavedComponent,
     MessagesComponent,
-    PlannerComponent,
     YourEventsComponent,
     MakeEventComponent,
     MarkerComponent,
@@ -78,7 +81,10 @@ import { YourFeedComponent } from './account/your-feed/your-feed.component';
     FeedComponent,
     CompanionsListComponent,
     ProfileCompanionComponent,
-    YourFeedComponent
+    YourFeedComponent,
+    YourCompanionsComponent,
+    SavedListComponent,
+    SavedPlannerComponent
 
   ],
   imports: [
@@ -118,8 +124,8 @@ import { YourFeedComponent } from './account/your-feed/your-feed.component';
             component: SavedComponent
           },
           {
-            path: 'planner',
-            component: PlannerComponent
+            path: 'your-companions',
+            component: YourCompanionsComponent
           },
           {
             path: 'my-events',
@@ -187,6 +193,7 @@ import { YourFeedComponent } from './account/your-feed/your-feed.component';
     EventsService, 
     MessagesService, 
     UserService,
+    UserFeedService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]

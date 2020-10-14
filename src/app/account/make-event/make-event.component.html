@@ -54,14 +54,24 @@
 
         <div class="input-box field">
             <input type="text" class="input-field" placeholder="Name" name="name" id='name' required 
-            [(ngModel)] = 'info.name'/>
+            [(ngModel)] = 'info.name' #name='ngModel' minlength="1" maxlength="30" />
             <label for="name" class="input-label">Event name</label>
         </div>
+        <div *ngIf='name.errors'>
+            {{name.errors.minlength}}
+            <div *ngIf='name.touched && name.errors.minlength' class="error">Can't be empty</div>
+            <div *ngIf='name.touched && name.errors.maxlength' class="error">Can't be be longer than 30 characters</div>            
+        </div>
+
+
         <div class="input-box field">
             <input type="text" class="input-field" placeholder="org" name="org" id='org' required 
-            [(ngModel)] = 'info.organisator'/>
+            [(ngModel)] = 'info.organisator' #organisator='ngModel' maxlength="20" minlength="1"/>
             <label for="org" class="input-label">Organisator</label>
         </div>  
+        <div *ngIf='organisator.touched && organisator.errors.minlength' class="error">Can't be empty</div>
+        <div *ngIf='organisator.touched && organisator.errors.maxlength' class="error">Can't be be longer than 30 characters</div>
+
         <div class="event-types">
             <button class="event-type" *ngFor='let type of eventTypes' (click)='pickType(type)' [ngClass]="(chosenType === type?'active':'naah')">
                 <span [class]='[type]' class="img" alt=""></span>

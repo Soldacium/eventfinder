@@ -3,18 +3,58 @@
 
 
     <button class="switch switch-posts" (click)='viewFeed = true' *ngIf='!viewFeed'>
-        <img src="assets/icons/account/next2.svg" class="rotated" alt="">
+        <img src="assets/icons/account/arrow-left.svg" alt="">
     </button>
     <button class="switch switch-make-posts" (click)='viewFeed = false' *ngIf='viewFeed'>
-        <img src="assets/icons/account/next2.svg" alt="">
+        <img src="assets/icons/account/add-post.svg" alt="">
     </button>
 
 
     <section class="posts" [ngClass]='viewFeed?"active":"inactive"'>
+
+        <div class='post' *ngFor='let post of feed; index as i' >
+            <button class="post-options">
+                <img src="assets/icons/account/more.svg" alt="">
+            </button>
+            <div class="post-intro-wrap">
+                <div class="image-wrap">
+                    <img [src]='post.image' alt="">
+                </div>
+                <div class="post-intro-text">
+                    <div class="title">
+                        {{post.title}}
+                    </div>  
+   
+                    <div class="post-tags">
+                        <div class="tag" *ngFor='let tag of post.relatedTags[0].split(",")'>
+                            {{tag}}
+                        </div>
+                    </div>   
+                    <div class="type">
+                        <span class="activity" *ngFor='let activity of post.relatedActivities[0].split(",")' [ngClass]='activity'>
+                            <img [src]='"assets/icons/activities/" + activity + ".svg"' alt="">
+                        </span>  
+                    </div>  
+                </div>
+            </div>
+            <div class="post-content-wrap">
+                <button class="more-content" (click)='expandPost(i)'>
+                    
+                </button>
+                <div class="content" [innerHTML]='post.content' [ngClass]='expandedPosts.includes(i)?"full":"hidden"'>
+                    
+                </div>
+                <div class='companions'>
+                    <div class="companion" *ngFor='let companion of post.relatedCompanions'>
+                        {{companion}}
+                    </div>
+                </div>
+                <div class="images">
+
+                </div>
+            </div>
+        </div>
         <div class='post' *ngFor='let i of [1,2,3]'>
-            <!--
-             
-            -->
             <div class="post-intro-wrap">
                 <div class="image-wrap">
                     <img src="assets/images/BGs/mountains5.jpg" alt="">
@@ -29,15 +69,12 @@
                             Tag{{tag}}
                         </div>
                     </div>   
-                    
                     <div class="type">
                         <span class="activity" *ngFor='let activity of activities' [ngClass]='activity'>
                             <img [src]='"assets/icons/activities/" + activity + ".svg"' alt="">
                         </span>  
                     </div>  
                 </div>
-
-         
             </div>
             <div class="post-content-wrap">
                 <button class="more-content">
@@ -53,9 +90,6 @@
 
                 </div>
             </div>
-
-
-
         </div>
     </section>
 
@@ -63,6 +97,20 @@
 
 
     <section class="make-post" [ngClass]='!viewFeed?"active":"inactive"'>
+
+        <div class="make-post-title-wrap">
+            <p class="make-post-title">
+                
+                <span>
+                    Make new post 
+                </span>
+                <!--
+                    <img src="assets/icons/account/add-post.svg" alt="">
+                -->
+                
+            </p>            
+        </div>
+
         <div class="make-post-content">
 
 
@@ -74,17 +122,21 @@
                 <img [src]="imgURL" *ngIf="imgURL">
             </div>
             <div class="input-box field">
-                <input type="text" class="input-field" placeholder="org" name="org" id='org' required 
-                [(ngModel)] = 'postData.title'/>
-                <label for="org" class="input-label">Title</label>
+                <input type="text" class="input-field" placeholder="title" name="title" required minlength="1"
+                [(ngModel)] = 'postData.title' #title='ngModel'/>
+                <label for="title" class="input-label">Title</label>
+                
             </div>  
+            <div *ngIf='title.touched && title.invalid' class="error">Can't be empty</div>
             <div class="desc">
                 <ckeditor type='inline' 
                 [(ngModel)]="desc.editorData" 
+                #content='ngModel'
                 class="editor"
                 [config]="{ language: 'en', uiColor: '#FFFFFF', magicline_color: 'transparent'}">
                 </ckeditor>                  
             </div>
+            <div *ngIf='content.touched && content.invalid' class="error">Can't be empty</div>
 
 
 
@@ -110,7 +162,7 @@
                                 [(ngModel)] = 'postData.relatedPlace'
                                 (keyup.enter)='checkMap(postData.relatedPlace)'/>     
                             <label for="org" class="input-label">Related place</label> 
-                            <button>
+                            <button (click)='checkMap(postData.relatedPlace)'>
                                 <img src="assets/icons/general/search.svg" alt="">
                             </button>              
                         </div>
@@ -150,7 +202,7 @@
                         <div class="input-box field">
                             <input type="text" class="input-field" placeholder="org" name="org" id='org' required 
                                 [(ngModel)] = 'postData.title'/>
-                            <label for="org" class="input-label">Related people</label>
+                            <label for="org" class="input-label">Related companions</label>
                             <!--
                             <button>
                                 <img src="assets/icons/account/user.svg" alt="">
@@ -166,7 +218,7 @@
                                 [(ngModel)] = 'searchQuery'
                                 (click) = 'searchYourEvents()'
                                 (keyup) = 'searchYourEvents()'/>
-                            <label for="org" class="input-label">Related event</label>
+                            <label for="org" class="input-label">Connect to event</label>
 
                             
                             <div class="event-list">
@@ -185,13 +237,26 @@
                         </div>                        
                     </div>
 
+                    <div class="add-tags">
+                        <div class="input-box field"> 
+                            <input type="text" class="input-field" placeholder="org" name="org" id='org' required
+                                [(ngModel)] = 'currentTagText'
+                                (keyup.enter) = 'addTag()'/>
+                            <label for="org" class="input-label">Add tags</label>
+                        </div>
+                        <div class="chosenTags" >
+                            <div class="tag" *ngFor='let tag of chosenTags'>{{tag}}</div>
+                        </div>
+                    
+                    </div>
+
                 </div>
 
             </div>
             <button class="show-more" (click)='moreVisible = !moreVisible' [ngClass]='moreVisible?"active":"inactive"'>
                 <img src="assets/icons/general/arrow.svg" alt=""></button>
 
-            <button class='save-post'>
+            <button class='save-post' (click)='addPost()'>
                 Save post</button>
 
 

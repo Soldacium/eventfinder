@@ -21,6 +21,7 @@ export class ProfileCompanionComponent implements OnInit {
     if(!this.userService.viewedUserData){
       this.userService.viewedUserDataUpdated.subscribe((userData: any) => {
         this.userData = userData;
+        this.activities = userData.activities || []
         console.log(userData)
       })      
     }else{

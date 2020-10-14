@@ -1,76 +1,15 @@
-<div class="search">
-    <div class="input-field">
-        <input type="text" [(ngModel)]='searchQuery' (keyup)='searchSavedEvents()'>
-        <img src="assets/icons/general/search.svg" alt="">
+<main>
+    <div class="bg-choose">
+        <div class="chosen" [ngClass]="showList?'left':'right'"></div>
+        <button class="choice" (click)='showList = true'></button>
+        <button class="choice" (click)='showList = false'></button>
+        
     </div>
-</div>
 
-<div class="overlay">
-    <div>
-        <div></div>
-        <div>
-            <button>Cancel</button>
-            <button>Unsave</button>
-        </div>
-    </div>
-</div>
-
-<div class="all-saved">
-    <div class="saved" *ngFor='let save of searchedSavedEvents'>
-        <div class="background" [style.background]='"url(" + save.iconImg+ ")"'></div>
-        <div class="main-info">
-            
-            <div class="img-wrap">
-                <img [src]="save.iconImg" alt="">
-            </div>
-            <div class="title">{{save.title}}</div>
-            <div class="organisator">{{save.organisator}}</div>    
-            <div class="address">
-                <img src="assets/icons/general/place.svg" alt=""><div>{{save.address}}</div>
-            </div>        
-        </div>
-
-        <div class="info" >
-            <div class="info-types">
-                <div class="info-type">
-                    <span [class]='save.type' class="img" alt="">
-
-                    </span>
-                    <div>{{save.type}}</div>
-                </div>
-            </div>
-            <div class="info-tags">
-                <span class="info-tag" *ngFor='let tag of save.tags'>
-                    <div>{{tag}}</div>
-                </span>
-            </div>
-            <div class="info-date">
-                <div class="date-start"> 
-                    <div class='date-text-bigger'>{{save.time.startDate}}</div>
-                    <div>{{save.time.startTime}}</div>
-                </div>
-                
-                <img class='date-img' src="assets/icons/general/time-left.svg" alt="">
-                
-                <div class="date-end"> 
-                    <div class='date-text-bigger'>{{save.time.endDate}}</div>
-                    <div>{{save.time.endTime}}</div>
-                </div>
-            </div>
-
-
-
-        </div>
-        <div class="buttons">
-            <button class='btn-comment' (click)='comments(save)'>
-                <img src="assets/icons/account/comment.svg" alt="">
-            </button>
-            <button class='btn-info' (click)='info(save)'>
-                <img src="assets/icons/account/information.svg" alt="">
-            </button>
-            <button class='btn-close' (click)='delete(save)'>
-                <img src="assets/icons/account/close1.svg" alt="">
-            </button>
-        </div> 
-    </div>
-</div>
+    <section class='saved-list' [ngClass]='showList?"active":"inactive"'>
+        <app-saved-list></app-saved-list>
+    </section>
+    <section class='saved-planner' [ngClass]='!showList?"active":"inactive"'>
+        <app-saved-planner></app-saved-planner>
+    </section>
+</main>

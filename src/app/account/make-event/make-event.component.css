@@ -470,6 +470,10 @@ span.Opening{background-image: url('../../../assets/icons/types/open.svg');}
     height: 1.5rem;
   }
 
+  .error{
+    color: var(--color1);
+  }
+
   /* aditinal boxes looking like inputs, which can be deleted */
   .additional{
     position: relative;

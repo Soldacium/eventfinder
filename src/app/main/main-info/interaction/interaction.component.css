@@ -80,24 +80,28 @@ a{
 .messages-option{
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 .message{
     display: flex;
-    margin: 1rem auto;
-    padding: 1rem 1.5rem;
+    margin: 1rem;
+    padding: 2rem 3rem;
     font-size: 1.3rem;
     font-weight: 1.5rem;
     background-color: transparent;
     border: 1px dashed rgba(128, 128, 128, 0);
-    border-radius: 15px;
     cursor: pointer;
     transition: 0.3s ease;
     background-color: var(--color1);
     filter: brightness(94%);
     color: white;
+    clip-path: polygon(4% 0, 48% 0, 96% 0, 100% 50%, 96% 100%, 50% 100%, 4% 100%, 0 50%);
+    
 }
 .message:hover{
     filter: brightness(100%);
+    
+    z-index: 700;
 }
 .message:nth-of-type(2){
     background-color: var(--color2);
@@ -111,6 +115,27 @@ a{
     filter: brightness(100%);
     box-shadow: 0 0 3px 2px var(--color2);
     
+}
+
+
+.share-buttons{
+    display: flex;
+}
+.share-button{
+    width: 4rem;
+    height: 4rem;
+    border: none;
+    border-radius: 0.5rem;
+    margin-right: 1rem;
+    background-color: white;
+    box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.116);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.share-button img{
+    height: 2rem;
+    width: 2rem;
 }
 
 textarea:focus, button:focus{

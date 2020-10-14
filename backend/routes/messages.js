@@ -8,7 +8,6 @@ const checkAuth = require('../middleware/check-auth')
 
 
 router.post('', (req,res,next) => {
-    console.log(req.body)
     const conversation = new Conversation({
         conversationName: req.body.conversationName,
         userID1: req.body.userID1,
@@ -63,11 +62,9 @@ router.get('', (req,res,next) => {
     });
     */
     if(req.param('mode') === 'user'){
-        console.log(userID)
         Conversation
         .find({$or : [{userID1: userID}, {userID2: userID}]})
         .then(userConversations => {
-            console.log(userConversations)
             res.status(200).json({
                 userConversations
             });

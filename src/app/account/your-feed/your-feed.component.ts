@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Post } from 'src/app/models/post.model';
 import * as L from 'leaflet';
 import { EventsService } from 'src/app/services/events.service';
+import { UserFeedService } from 'src/app/services/user-feed.service';
+import { UserService } from 'src/app/services/user.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 
 @Component({
@@ -30,17 +33,33 @@ export class YourFeedComponent implements OnInit {
     editorData: '<p>Click on <b>this text</b> to edit your post description!</p>'
   };
 
+
+
   /** post data */
   postData: Post;
   viewFeed = true;
   moreVisible = false;
   feed = [];
+
+
+
   activities = ['Canoe', 'Swimming'];
   possibleActivities = [
     'Canoe' , 'Swimming', 'Fishing', 'Cycling', 'Walking', 'Hiking', 'Camping', 'Nature',
   'Winning', 'Reading', 'Knowledge', 'Meditation', 'Peace', 'Connection', 'Travel',
   'Meeting', 'Horseriding', 'Tinkering', 'Gaming'];
-  chosenActivities = []
+  chosenActivities = [];
+
+
+  currentTagText = '';
+  allTags = [];
+  chosenTags = [];
+
+  chosenCompanions = [];
+
+  expandedPosts = []
+
+
 
   /* files */
   public imagePath;
@@ -59,10 +78,15 @@ export class YourFeedComponent implements OnInit {
 
 
 
-  constructor(private eventsService: EventsService) { }
+  constructor(
+    private eventsService: EventsService,
+    private userFeedService: UserFeedService,
+    private userService: UserService,
+    private authService: AuthService) { }
 
   ngOnInit(): void {
     this.setEmptyPost();
+    this.getFeedPosts();
     
   }
 
@@ -112,12 +136,14 @@ export class YourFeedComponent implements OnInit {
   setEmptyPost(){
     this.postData = {
       title: '',
-      desc: '',
+      content: '',
       relatedCompanions: [''],
       relatedPlace: '',
-      relatedPlaceCoords: '',
+      relatedPlaceCoords: {},
+      relatedActivities: [],
       image: '',
-      relatedEvent: '',
+      relatedEventID: '',
+      relatedTags: [''],
       images: [''],
       date: '',
       comments: [],
@@ -126,8 +152,8 @@ export class YourFeedComponent implements OnInit {
       isEvent: false,
     };
   }
-  savePost(){
-
+  expandPost(i){
+    this.expandedPosts.push(i)
   }
 
   /* bonus content */
@@ -144,6 +170,14 @@ export class YourFeedComponent implements OnInit {
   }
   unchooseEvent(){
     this.relatedEvent = undefined;
+  }
+
+  addTag(){
+    this.chosenTags.push(this.currentTagText);
+    this.currentTagText = '';
+  }
+  deleteTag(clickedTag){
+    this.chosenTags = this.chosenTags.filter(tag => tag !== clickedTag)
   }
 
 
@@ -185,6 +219,53 @@ export class YourFeedComponent implements OnInit {
   }
   clickImage(){
     document.getElementById('selectedFile').click();
+  }
+
+
+  addPost(){
+    const post: Post = this.postData;
+    post.content = this.desc.editorData;
+    post.relatedTags = this.chosenTags;
+    post.relatedPlaceCoords = this.adressLatLon || {};
+    post.relatedPlace = this.adressInfo ? this.adressInfo.formatted_address : '';
+    post.date = new Date().toLocaleString()
+    post.relatedCompanions = this.chosenCompanions;
+    post.relatedActivities = this.chosenActivities;
+    post.relatedEventID = this.relatedEvent ? this.relatedEvent._id : '';
+
+    console.log(this.file)
+    this.userFeedService.postToUserFeed(post,this.file)
+    .subscribe(addedPost => {
+      
+      this.feed.push(post)
+      this.userFeedService.updateSavedFeed(post)
+    })
+    
+    //console.log(post)
+    
+  }
+
+  getFeedPosts(){
+    if(!this.authService.getUser() && this.userFeedService.getSavedFeed().length === 0){
+      this.authService.getUserListener()
+      .subscribe((user: any) => {
+        this.userFeedService.getUserFeed(this.userService.getCurrentUser().userFeedID, true).subscribe(feed => {
+          this.feed = feed;
+          console.log('done1', this.feed)
+        })
+        
+
+      });      
+    }else if(this.userFeedService.getSavedFeed().length > 0){
+      this.feed = this.userFeedService.getSavedFeed()
+    }else{
+      this.userFeedService.getUserFeed(this.userService.getCurrentUser().userFeedID,true).subscribe(feed => {
+        this.feed = feed;
+        console.log('done2',this.feed)
+      })
+    }
+
+
   }
 
 }

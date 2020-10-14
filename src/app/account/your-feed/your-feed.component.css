@@ -6,6 +6,29 @@ main{
     overflow: hidden;
 }
 
+section::-webkit-scrollbar-track
+{
+
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0);
+    background-color: transparent;
+    
+}
+
+section::-webkit-scrollbar
+{
+
+    width: 10px;
+}
+
+section::-webkit-scrollbar-thumb
+{
+
+	border-radius: 2px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.158);
+    background-color: var(--color1);
+    max-height: 30vh;
+}
+
 button{
     cursor: pointer;
 }
@@ -14,22 +37,22 @@ button:focus{
 }
 .switch{
     position: absolute;
-    width: 3rem;
-    height: 6rem;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    width: 4rem;
+    height: 4rem;
+    bottom: 3rem;
     z-index: 999;
     border: none;
-    border-radius: 5px;
+    border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.11);
+    background-color: var(--color1);
+    box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.089);
 
 }
 
 .switch-posts{
-    left: 3rem;
+    right: 3rem;
     
 }
 
@@ -80,8 +103,27 @@ button:focus{
     margin: 1.5rem 0;
 
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.075);
-    
-
+}
+.post-options{
+    position: absolute;
+    width: 2.5rem;
+    height: 2.5rem;
+    right: -1.25rem;
+    bottom: -1.25rem;
+    border-radius: 50%;
+    background-color: rgb(255, 255, 255);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.123);
+}
+.post-options img{
+    width: 1.5rem;
+    height: 1.5rem;
+}
+.post:hover .post-options{
+    display: flex;
 }
 .post > *{
     margin-bottom: 1rem;
@@ -142,13 +184,13 @@ button:focus{
     position: relative;
 }
 .image-wrap{
-    flex: 1 1 15rem;
+    flex: 3 1 15rem;
     overflow: hidden;
     height: 25vh;
     display: flex;
     justify-content: center;
     position: relative;
-    top: -2rem;
+    top: -3rem;
     left: -2rem;
     border-radius: 1rem;
 }
@@ -158,14 +200,14 @@ button:focus{
 
 }
 .post-intro-text{
-    flex: 1 1 15rem;
+    flex: 2 1 15rem;
     display: flex;
     flex-direction: column;
 }
 .title{
     font-weight: 600;
     margin: 1rem 0;
-    font-size: 2rem;
+    font-size: 1.4rem;
 }
 
 .post-tags{
@@ -220,9 +262,17 @@ button:focus{
     width: 100%;
     position: relative;
     padding: 0 1rem;
+
+    transition: 0.5s;
+}
+
+.content.hidden{
     max-height: 7vh;
     overflow: hidden;
-    transition: 0.5s;
+}
+.content.full{
+    max-height: 200vh;
+    overflow: hidden;
 }
 
 .post-content-wrap{
@@ -264,6 +314,46 @@ button:focus{
 }
 .make-post.inactive{
     left: 100%;
+}
+.make-post-title-wrap{
+    position: relative;
+    top: -3rem;
+}
+.make-post-title-wrap::before{
+    position: absolute;
+    content: '';
+    left: 0;
+    top: 0;
+    height: 150%;
+    width: 80px;
+    background-color: var(--color1);
+    clip-path: polygon(0 0, 0% 100%, 100% 50%);
+
+}
+.make-post-title{
+    padding: 1rem 3rem;
+    margin-bottom: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color2);
+    clip-path: polygon(0 0, 94% 0, 100% 100%, 6% 100%);
+    max-width: 300px;
+    position: relative;
+    
+}
+.make-post-title span{
+    font-weight: 600;
+    font-size: 1.3rem;
+}
+.make-post-title img{
+    width: 2rem;
+    height: 2rem;
+    margin-left: 0.5rem;
+}
+
+.error{
+    color: var(--color1);
 }
 
 .make-post-content{
@@ -496,18 +586,23 @@ input[type='button']:hover{
 .more-two{
     flex: 1 1 15rem;
 }
+.more-two > div{
+    margin-bottom: 2rem;
+}
 
 .more .input-box{
     width: 100%;
 }
+
+
 .more.inactive{
     max-height: 0vh;
-    
-
 }
 .more.active{
     max-height: 100vh;
 }
+
+
 
 .map-box{
     width: 100%;
@@ -590,6 +685,13 @@ input[type='button']:hover{
     background-color: rgb(255, 0, 85);
 }
 
+.chosenTags{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    padding: 1rem 0;
+}
+
 .save-post{
     background-color: var(--color1);
     color: white;
@@ -601,5 +703,21 @@ input[type='button']:hover{
     margin-top: 2rem;
 }
 
+
+@media screen and (max-width: 800px){
+    .posts{
+        width: 100%;
+        
+        margin: 0%;
+    }
+    .make-post{
+        width: 100%;
+        
+        margin: 0%;
+    }
+    .related-activities{
+        margin: 2rem 10%;
+    }
+}
 
 

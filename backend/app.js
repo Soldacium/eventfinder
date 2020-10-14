@@ -59,6 +59,7 @@ app.use((req,res,next) => {
 
 app.use("/images", express.static(path.join('backend/images')));
 app.use("/images-users", express.static(path.join('backend/images-users')));
+app.use("/images-users-feed", express.static(path.join('backend/images-users-feed')));
 
 app.use('/api/events',eventsRoutes);
 app.use('/api/event-comments',eventCommentsRoutes);

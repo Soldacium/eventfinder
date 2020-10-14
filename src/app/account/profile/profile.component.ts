@@ -48,6 +48,8 @@ export class ProfileComponent implements OnInit {
     twitter: '',
     email: '',
 
+    activities: []
+
   };
 
   options = {
@@ -227,6 +229,7 @@ export class ProfileComponent implements OnInit {
     this.user = user;
     this.desc.editorData = this.user.desc;
     console.log(user);
+    this.chosenActivities = user.activities || [];
     this.userProfileInfo  = {
       username: this.user.username,
       phone: this.user.phone,
@@ -240,6 +243,7 @@ export class ProfileComponent implements OnInit {
       linkedin: this.user.linkedin,
       twitter: this.user.twitter,
       email: this.user.email,
+      activities: this.user.activities || []
     };
     if (this.user.image && this.user.image !== ''){
       this.imageURL = this.user.image;
@@ -253,6 +257,7 @@ export class ProfileComponent implements OnInit {
   editUserProfileInfo(){
     if (this.userProfileIsEdited){
       this.desc.editorData = this.sanatizer.sanitize(SecurityContext.HTML, this.desc.editorData);
+      this.userProfileInfo.activities = this.chosenActivities;
       this.userService.updateUserData(
 
         this.userProfileInfo, this.desc.editorData).subscribe();
