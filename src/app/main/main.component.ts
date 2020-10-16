@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 import * as L from 'leaflet'
 import { Subject } from 'rxjs';
@@ -39,11 +40,29 @@ export class MainComponent implements OnInit {
     private eventsService: EventsService,
     private markerService: MarkerService,
     private authService: AuthService,
-    private userService: UserService) { }
+    private userService: UserService,
+    private titleService: Title) { }
 
   ngOnInit(): void {
     this.getSavedEvents();
     this.setupListeners();
+    this.setTitle('Voyda - Event map');
+
+    this.test1()
+
+  }
+
+  test1(){
+    let a: number;
+    console.log(a);
+
+    let b = Array(6);
+    console.log(b[0], b)
+
+  }
+
+  public setTitle(title) {
+    this.titleService.setTitle( title);
   }
 
   setupListeners(){
@@ -58,6 +77,7 @@ export class MainComponent implements OnInit {
     this.markerService.open.subscribe(e => {
       this.currentEventData = {...e};
       this.currentEventInfoIsHidden = false;
+      this.setTitle(`Voyda - ${e.title}`)
     })
   }
 

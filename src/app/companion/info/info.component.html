@@ -1,6 +1,6 @@
 <section class="profile-general">
     <div class="image-background">
-        <img [src]="userData.backgroundImage" *ngIf="userData.backgroundImage"> <!--[src]="userData.image" *ngIf="userData" -->
+        <img [src]="userData.backgroundImage" *ngIf="userData"> <!--[src]="userData.image" *ngIf="userData" -->
     </div>  
     <div class="image">
       
@@ -15,7 +15,7 @@
 
     <div class="general-info">
         <div class='info-names'>
-            <div class="name">{{userData.username}}</div>   
+            <div class="name" *ngIf='userData'>{{userData.username}}</div>   
             <div class="buttons">
                 <button class='button-companion'><img src="assets/icons/account/add-user.svg" alt=""></button>
                 <button class="button-message"><img src="assets/icons/account/comment2.svg" alt=""></button>

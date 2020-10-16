@@ -1,3 +1,57 @@
 <main>
-    {{userSaved}}
+    <div class="search">
+        <div class="input-field">
+            <input type="text" [(ngModel)]='searchQuery' (keyup)='searchSavedEvents()'>
+            <img src="assets/icons/general/search.svg" alt="">
+        </div>
+    </div>
+    <div class="saved-wrap">
+        <div class="saved" *ngFor='let saved of userSaved'>
+            <div class="saved-general">
+                <div class="saved-general-background">
+                    <img [src]='saved.iconImg' alt="">
+ 
+                </div>
+                <div class="general-content">
+                    <div class="title">
+                        {{saved.title}}
+                    </div>
+                    <div class="type">
+                        {{saved.type}} <img src="assets/icons/tags/party.svg" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="saved-specific">
+                <div class="saved-specific-background">
+                    <img [src]='saved.iconImg' alt="">
+                </div>
+                <div class="specific-content">
+                    <div class="tags">
+                        <div class="tag" *ngFor='let tag of saved.tags'>
+                            {{tag}}
+                        </div>
+                    </div>
+
+                    <div class="info-date">
+                        <div class="date-start"> 
+                            <div class='date-text-bigger'>{{saved.time.startDate}}</div>
+                            <div>{{saved.time.startTime}}</div>
+                        </div>
+                        
+                        <img class='date-img' src="assets/icons/general/time-left.svg" alt="">
+                        
+                        <div class="date-end"> 
+                            <div class='date-text-bigger'>{{saved.time.endDate}}</div>
+                            <div>{{saved.time.endTime}}</div>
+                        </div>
+
+                    </div>
+
+                    <div class="place" (click)='findPlace()'> 
+                        <div>{{saved.address}}</div><img src="assets/icons/general/place.svg" alt=""> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </main>

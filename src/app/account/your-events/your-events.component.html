@@ -92,15 +92,16 @@
                     <div>{{event.type}}</div>
                     <img src="assets/icons/tags/fist.svg" alt="">
                 </div>
+
+            </div>
+            <div class="info">
+
                 <div class="tags">
                     <div class="tag" *ngFor='let tag of event.tags'>
                         {{tag}}
                     </div>
     
                 </div>
-            </div>
-            <div class="info">
-
                 <div class="requirements">
                     <div class="requirements-price" *ngIf='event.price === "0"'>FREE</div>
                     <div class="requirements-price" *ngIf='event.price !== "0"'>{{event.price}}$</div>

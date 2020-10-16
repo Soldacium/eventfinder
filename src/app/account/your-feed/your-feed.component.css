@@ -79,7 +79,7 @@ button:focus{
     overflow-y: auto;
     transition: 0.3s;
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
 }
 .posts.active{
     right: 0;
@@ -264,6 +264,10 @@ button:focus{
     padding: 0 1rem;
 
     transition: 0.5s;
+}
+
+.content{
+    padding-bottom: 10vh;
 }
 
 .content.hidden{

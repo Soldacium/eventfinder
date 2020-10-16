@@ -29,8 +29,11 @@ export class UserFeedService {
       map((res: any) => {
         // this.userData.image = res.imageUrl;
         console.log(res)
-        if(save){
+        if(save === true){
           this.userFeed = res.userFeed.posts;
+        }
+        if(save === false){
+          this.viewedUserFeed = res.userFeed.posts;
         }
         return res.userFeed.posts;
       })

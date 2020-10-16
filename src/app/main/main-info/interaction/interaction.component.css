@@ -231,6 +231,11 @@ textarea:focus, button:focus{
     position: relative;
 }
 
+.all-comments{
+    display: flex;
+    flex-direction: column-reverse;
+}
+
 .comment-thread{
     position: relative;
     margin: 0.5rem 0;

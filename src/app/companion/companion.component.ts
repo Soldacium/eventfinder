@@ -45,7 +45,7 @@ export class CompanionComponent implements OnInit, OnDestroy {
 
   public setTitle() {
     this.route.queryParams.subscribe(qparams => {
-      this.titleService.setTitle( qparams['username']);
+      this.titleService.setTitle( 'User Profile');
     })
     
   }
