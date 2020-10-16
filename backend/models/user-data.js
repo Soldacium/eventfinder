@@ -23,7 +23,10 @@ const userSchema = mongoose.Schema({
     statsTime: {type: Array, required: false},    
     saved: {type: [{id: String}], required: false},
 
-    activities: {type: Array, required: false}
+    activities: {type: Array, required: false},
+
+
+
     
 
 

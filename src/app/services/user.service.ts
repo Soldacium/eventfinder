@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 
@@ -19,6 +19,8 @@ export class UserService {
   private currentUser: User;
   private userData: UserData;
   private currentUserData: UserData;
+  currentUserInvites;
+  currentUserCompanions: UserCompanions;
   private userID;
   private token: string;
 
@@ -41,6 +43,7 @@ export class UserService {
   viewedUserEvents = [];
   viewedUserSavedEvents = [];
   viewedUserDataUpdated = new Subject();
+  viewedUserCompanions = [];
 
   constructor(
     private http: HttpClient,
@@ -118,7 +121,9 @@ export class UserService {
     const userID = (currentUser && this.currentUser) ? this.currentUser.userDataID : ID; //
     if (userID === '' || !userID){return;}
 
-    return this.http.get('http://localhost:3000/api/user-data/' + userID).pipe(
+    let params = new HttpParams();
+    params = params.append('mode', 'full');
+    return this.http.get('http://localhost:3000/api/user-data/' + userID, {params: params}).pipe(
       map((res: any) => {
 
         if (currentUser){
@@ -129,6 +134,19 @@ export class UserService {
         }
         // console.log(this.viewedUserData, this.userData, currentUser)
         return res.userData;
+      })
+    );
+  }
+
+  // so you dont store static images and names, but can change whenever user wishes on every post he's been on
+  getBasicUserInfo(userDataID){
+
+    let params = new HttpParams();
+    params = params.append('mode', 'basic');
+    return this.http.get('http://localhost:3000/api/user-data/' + userDataID, {params: params}).pipe(
+      map((res: any) => {
+        // this.userData.image = res.imageUrl;
+        return res.feed;
       })
     );
   }
@@ -269,14 +287,18 @@ export class UserService {
 
 
 
-  getUserCompanions(userID: string){
-    const companionsID = this.viewedUser.userCompanionsID;
-    return this.http.get('http://localhost:3000/api/user-companions/' + companionsID).pipe(
-      map((res: any) => {
-        return res.companions;
-      })
-    );
+  getUserInvites(){
+    let params = new HttpParams();
+    params = params.append('mode', 'invites');
+
+    const companionsID = this.currentUser.userCompanionsID;
+    return this.http.get('http://localhost:3000/api/user-companions/' + companionsID, {params: params})
+    .pipe(map((res: any) => {
+      this.currentUserInvites = res.data;
+      return res.data;
+    }))
   }
+
   addUserCompanion(user){
     const companionsID = this.currentUser.userCompanionsID;
     return this.http.post('http://localhost:3000/api/user-companions/' + companionsID, user).pipe(
@@ -285,6 +307,85 @@ export class UserService {
       })
     );
   }
+
+  sendUserCompanionInvite(){
+    const viewedUserCompanionsID = this.viewedUserCollectionsIDs.userCompanions;
+    const currentUserCompanionsID = this.currentUser.userCompanionsID;
+
+    const toInvitedUser = {ID: this.currentUser._id, dataID: this.currentUser.userDataID, companionsID: this.currentUser.userCompanionsID};
+    const toInviterUser = {ID: this.viewedUser._id, dataID: this.viewedUser.userDataID, companionsID: this.viewedUser.userCompanionsID};
+
+
+    this.http.post('http://localhost:3000/api/user-companions/' + viewedUserCompanionsID,{mode: 'add-fromInvite', data: toInvitedUser})
+
+    //return OK status and add to "invited users" array
+    return this.http.post('http://localhost:3000/api/user-companions/' + currentUserCompanionsID, {mode: 'add-toInvite', data: toInviterUser })
+    .pipe(map((res:any) => {
+        return res;
+      })
+    )
+  
+  }
+
+  acceptUserCompanionInvite(invateID){
+    const viewedUserCompanionsID = this.viewedUserCollectionsIDs.userCompanions;
+    const currentUserCompanionsID = this.currentUser.userCompanionsID;
+
+    this.http.patch('http://localhost:3000/api/user-companions/' + viewedUserCompanionsID, {ID: this.currentUser._id, mode: 'accept-toInvite' })
+    return this.http.patch('http://localhost:3000/api/user-companions/' + currentUserCompanionsID, {ID: this.viewedUser._id, mode: 'accept-fromInvite'})
+    .pipe(map((res:any)=>{
+      return res
+    }))
+  }
+
+  cancelUserCompanionInvite(userID: string){
+    const viewedUserCompanionsID = this.viewedUserCollectionsIDs.userCompanions;
+    const currentUserCompanionsID = this.currentUser.userCompanionsID;
+
+    let params1 = new HttpParams();
+    params1 = params1.append('mode', 'delete-fromInvite');
+    params1 = params1.append('inviterID', this.currentUser._id);
+    this.http.delete('http://localhost:3000/api/user-companions/' + viewedUserCompanionsID, {params: params1})
+
+    let params2 = new HttpParams();
+    params2 = params2.append('mode', 'delete-toInvite');
+    params2 = params2.append('invitedID', userID);
+    return this.http.delete('http://localhost:3000/api/user-companions/' + viewedUserCompanionsID, {params: params2})
+    .pipe(map((res: any)=>{
+      console.log(res)
+      return res;
+    }))
+
+  }
+
+  getCompanion(companionID, currentUser? : boolean){
+
+    const companionsID = currentUser ? this.currentUser.userCompanionsID : this.viewedUserCollectionsIDs.userCompanions;
+    let params = new HttpParams();
+    params = params.append('mode', 'single');
+    params = params.append('userID', companionID)
+
+    return this.http.get('http://localhost:3000/api/user-companions/' + companionsID,{params: params}).pipe(
+      map((res: any) => {
+        return res.user;
+      })
+    );
+  }
+
+
+  getUserCompanions(currentUser? : boolean){
+    const companionsID = currentUser ? this.currentUser.userCompanionsID : this.viewedUserCollectionsIDs.userCompanions;
+    let params = new HttpParams();
+    params = params.append('mode', 'all');
+
+    return this.http.get('http://localhost:3000/api/user-companions/' + companionsID,{params: params}).pipe(
+      map((res: any) => {
+        return res.userCompanions;
+      })
+    );
+  }
+
+
   deleteUserCompanion(){
 
   }

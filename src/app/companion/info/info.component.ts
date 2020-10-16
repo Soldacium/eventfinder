@@ -33,4 +33,14 @@ export class InfoComponent implements OnInit {
 
   }
 
+  getUserInvites(){
+    this.userService.getUserInvites().subscribe(invites => {
+      console.log(invites)
+    })
+  }
+
+  checkIfCompanion(){
+
+  }
+
 }

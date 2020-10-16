@@ -60,6 +60,11 @@ router.post('', (req, res, next) => {
         saved: [],
 
         activities: [],
+
+        companionRequests: {
+            type: {to: [],from: []},
+            required: false
+        }
     })
 
     userData.save().then(data => {
@@ -129,12 +134,24 @@ router.put('/:id', (req,res,next) => {
 
 router.get('/:id',(req,res,next) => {
     //get from database n shit
-    UserData.findOne({_id: req.params.id}).then((userData) => {
-        res.status(200).json({
-            message: 'user gotten',
-            userData: userData
-        });
-    });
+    if(req.params.mode === 'full'){
+        UserData.findOne({_id: req.params.id}).then((userData) => {
+            res.status(200).json({
+                message: 'user gotten',
+                userData: userData
+            });
+        });        
+    }
+
+    if(req.params.mode === 'basic'){
+        UserData.findOne({_id: req.params.id}).then((userData) => {
+            res.status(200).json({
+                message: 'user gotten',
+                userData: userData
+            });
+        });        
+    }
+
 
 });
 
