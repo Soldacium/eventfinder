@@ -17,6 +17,7 @@ import { AuthService } from './auth.service';
 export class UserService {
 
   private currentUser: User;
+  currentUserUpdated = new Subject();
   private userData: UserData;
   private currentUserData: UserData;
   currentUserInvites;
@@ -39,11 +40,11 @@ export class UserService {
   viewedUserCollectionsIDsReady = new Subject();
   viewedUserData: UserData;
   viewedUserFeed: UserFeed;
-  vievedUserCompanions: UserCompanions;
+
   viewedUserEvents = [];
   viewedUserSavedEvents = [];
   viewedUserDataUpdated = new Subject();
-  viewedUserCompanions = [];
+  viewedUserCompanions;
 
   constructor(
     private http: HttpClient,
@@ -63,6 +64,8 @@ export class UserService {
 
   setCurrentUser(user){
     this.currentUser = user;
+    this.currentUserUpdated.next(this.currentUser);
+
   }
 
   getCurrentUser(): User{
@@ -70,6 +73,7 @@ export class UserService {
   }
 
   getCurrentUserData(): UserData{
+
     return this.userData;
   }
   getCurrentViewedUserData(): UserData{
@@ -109,7 +113,7 @@ export class UserService {
       map((res: any) => {
 
         this.viewedUserCollectionsIDs = res.collectionsIDs;
-        this.viewedUserCollectionsIDsReady.next(true);
+        this.viewedUserCollectionsIDsReady.next(res.collectionsIDs);
 
         return this.viewedUserCollectionsIDs;
       })
@@ -119,11 +123,12 @@ export class UserService {
 
   getUserData(ID: string, currentUser?: boolean){
     const userID = (currentUser && this.currentUser) ? this.currentUser.userDataID : ID; //
-    if (userID === '' || !userID){return;}
+    if (userID === '' || !userID){return; }
+
 
     let params = new HttpParams();
     params = params.append('mode', 'full');
-    return this.http.get('http://localhost:3000/api/user-data/' + userID, {params: params}).pipe(
+    return this.http.get('http://localhost:3000/api/user-data/' + userID, {params}).pipe(
       map((res: any) => {
 
         if (currentUser){
@@ -132,6 +137,8 @@ export class UserService {
           this.viewedUserData = res.userData;
           this.viewedUserDataUpdated.next(this.viewedUserData);
         }
+
+
         // console.log(this.viewedUserData, this.userData, currentUser)
         return res.userData;
       })
@@ -143,10 +150,12 @@ export class UserService {
 
     let params = new HttpParams();
     params = params.append('mode', 'basic');
-    return this.http.get('http://localhost:3000/api/user-data/' + userDataID, {params: params}).pipe(
+
+    return this.http.get('http://localhost:3000/api/user-data/' + userDataID, {params}).pipe(
       map((res: any) => {
         // this.userData.image = res.imageUrl;
-        return res.feed;
+        console.log(res.userData);
+        return res.userData;
       })
     );
   }
@@ -292,11 +301,12 @@ export class UserService {
     params = params.append('mode', 'invites');
 
     const companionsID = this.currentUser.userCompanionsID;
-    return this.http.get('http://localhost:3000/api/user-companions/' + companionsID, {params: params})
+    return this.http.get('http://localhost:3000/api/user-companions/' + companionsID, {params})
     .pipe(map((res: any) => {
-      this.currentUserInvites = res.data;
-      return res.data;
-    }))
+      console.log(res);
+      this.currentUserInvites = res.userInvites;
+      return res.userInvites;
+    }));
   }
 
   addUserCompanion(user){
@@ -313,74 +323,98 @@ export class UserService {
     const currentUserCompanionsID = this.currentUser.userCompanionsID;
 
     const toInvitedUser = {ID: this.currentUser._id, dataID: this.currentUser.userDataID, companionsID: this.currentUser.userCompanionsID};
-    const toInviterUser = {ID: this.viewedUser._id, dataID: this.viewedUser.userDataID, companionsID: this.viewedUser.userCompanionsID};
+    const toInviterUser = {ID: this.viewedUserID, dataID: this.viewedUserCollectionsIDs.userData, companionsID: this.viewedUserCollectionsIDs.userCompanions};
 
+    console.log(this.viewedUserCollectionsIDs);
+    console.log(toInvitedUser, toInviterUser);
 
-    this.http.post('http://localhost:3000/api/user-companions/' + viewedUserCompanionsID,{mode: 'add-fromInvite', data: toInvitedUser})
+    this.http.post('http://localhost:3000/api/user-companions/' + viewedUserCompanionsID, {mode: 'add-fromInvite', data: toInvitedUser}).subscribe(res => {
+      console.log(res);
+    });
 
-    //return OK status and add to "invited users" array
+    // return OK status and add to "invited users" array
     return this.http.post('http://localhost:3000/api/user-companions/' + currentUserCompanionsID, {mode: 'add-toInvite', data: toInviterUser })
-    .pipe(map((res:any) => {
+    .pipe(map((res: any) => {
         return res;
       })
-    )
-  
+    );
+
   }
 
-  acceptUserCompanionInvite(invateID){
-    const viewedUserCompanionsID = this.viewedUserCollectionsIDs.userCompanions;
+  acceptUserCompanionInvite(companion?){
+    const viewedUserCompanionsID = companion ? companion.companionsID : this.viewedUserCollectionsIDs.userCompanions;
     const currentUserCompanionsID = this.currentUser.userCompanionsID;
 
-    this.http.patch('http://localhost:3000/api/user-companions/' + viewedUserCompanionsID, {ID: this.currentUser._id, mode: 'accept-toInvite' })
-    return this.http.patch('http://localhost:3000/api/user-companions/' + currentUserCompanionsID, {ID: this.viewedUser._id, mode: 'accept-fromInvite'})
-    .pipe(map((res:any)=>{
-      return res
-    }))
+    const youCompanion = {
+      ID: this.currentUser._id,
+      companionsID: this.currentUser.userCompanionsID,
+      dataID: this.currentUser.userDataID
+    };
+
+    const otherCompanion = companion;
+
+    this.http.patch('http://localhost:3000/api/user-companions/' + viewedUserCompanionsID,
+    {ID: this.currentUser._id, mode: 'accept-toInvite', companion: youCompanion }).subscribe(res => res);
+
+    return this.http.patch('http://localhost:3000/api/user-companions/' + currentUserCompanionsID,
+    {ID: companion ? companion.ID : this.viewedUserID, mode: 'accept-fromInvite', companion: otherCompanion})
+    .pipe(map((res: any) => {
+      return res;
+    }));
   }
 
-  cancelUserCompanionInvite(userID: string){
-    const viewedUserCompanionsID = this.viewedUserCollectionsIDs.userCompanions;
+  cancelUserCompanionInvite(userID: string, userCompanionsID?: string){
+    const viewedUserCompanionsID = userCompanionsID ? userCompanionsID : this.viewedUserCollectionsIDs.userCompanions;
     const currentUserCompanionsID = this.currentUser.userCompanionsID;
 
     let params1 = new HttpParams();
     params1 = params1.append('mode', 'delete-fromInvite');
     params1 = params1.append('inviterID', this.currentUser._id);
-    this.http.delete('http://localhost:3000/api/user-companions/' + viewedUserCompanionsID, {params: params1})
+    this.http.delete('http://localhost:3000/api/user-companions/' + viewedUserCompanionsID, {params: params1}).subscribe(res => res);
 
     let params2 = new HttpParams();
     params2 = params2.append('mode', 'delete-toInvite');
     params2 = params2.append('invitedID', userID);
-    return this.http.delete('http://localhost:3000/api/user-companions/' + viewedUserCompanionsID, {params: params2})
-    .pipe(map((res: any)=>{
-      console.log(res)
+    return this.http.delete('http://localhost:3000/api/user-companions/' + currentUserCompanionsID, {params: params2})
+    .pipe(map((res: any) => {
+      console.log(res);
       return res;
-    }))
+    }));
 
   }
 
-  getCompanion(companionID, currentUser? : boolean){
+  getCompanion(companionID, currentUser?: boolean){
 
     const companionsID = currentUser ? this.currentUser.userCompanionsID : this.viewedUserCollectionsIDs.userCompanions;
     let params = new HttpParams();
     params = params.append('mode', 'single');
-    params = params.append('userID', companionID)
+    params = params.append('userID', companionID);
 
-    return this.http.get('http://localhost:3000/api/user-companions/' + companionsID,{params: params}).pipe(
+    console.log(companionsID, companionID)
+    return this.http.get('http://localhost:3000/api/user-companions/' + companionsID, {params: params}).pipe(
       map((res: any) => {
+        console.log(res)
         return res.user;
       })
     );
   }
 
 
-  getUserCompanions(currentUser? : boolean){
+  getUserCompanions(currentUser?: boolean){
     const companionsID = currentUser ? this.currentUser.userCompanionsID : this.viewedUserCollectionsIDs.userCompanions;
+
     let params = new HttpParams();
     params = params.append('mode', 'all');
 
-    return this.http.get('http://localhost:3000/api/user-companions/' + companionsID,{params: params}).pipe(
+    return this.http.get('http://localhost:3000/api/user-companions/' + companionsID, {params}).pipe(
       map((res: any) => {
-        return res.userCompanions;
+        if(currentUser === true){
+          this.currentUserCompanions = res.userCompanions.companions;
+        }else if(currentUser === false){
+          this.viewedUserCompanions = res.userCompanions.companions;
+        }
+        
+        return res.userCompanions.companions;
       })
     );
   }

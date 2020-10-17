@@ -1,3 +1,36 @@
 <main>
-    
+    <div class="companions">
+        <div class="companion" *ngFor='let companionInfo of companionsInfoArray; index as i  '>
+                    
+                    
+            <div class='companion-content' *ngIf='companionInfo | async; let companion'>
+                <div class="companion-image">
+                    <img [src]='companion.image' alt="">
+                </div>
+                <div class="companion-name">
+                    {{companion.username}}
+                </div>
+                <div class="companion-email">
+                    {{companion.email}}
+                </div>
+                <div class="companion-links">
+                    <button><img src="assets/icons/account/comment2.svg" alt=""></button>
+                    <button><img src="assets/icons/account/board.svg" alt=""></button>
+                </div>
+                <div class="companion-options">
+
+                </div>
+                
+                
+                
+                <!--
+                <div class="invite-content-buttons">
+                    <button (click)='cancelCompanionInvite(invites.to, invitesInfoArray.to, i)'><img src="assets/icons/account/close1.svg" alt="" ></button>
+                </div>                    
+                -->
+
+            </div>
+            
+        </div>
+    </div>
 </main>

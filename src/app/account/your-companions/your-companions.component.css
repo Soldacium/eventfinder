@@ -1,3 +1,17 @@
+main{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+}
+button{
+    cursor: pointer;
+}
+button:focus{
+    outline: none;
+}
+
+
 .search{
     width: calc(200px + 30%);
     height: 4rem;
@@ -5,6 +19,7 @@
     position: relative;
     align-items: center;
     margin: 2rem calc(2rem);
+    z-index: 999;
 
 }
 
@@ -37,6 +52,15 @@ input:focus{
     transform: translate( 0,-50%);
 }
 
+.show-invites-button{
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background-color: black;
+    border: none;
+    
+}
+
 
 .companions{
     width: 100%;
@@ -51,20 +75,215 @@ input:focus{
     border-radius: 1rem;
     background-color: white;
     box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.103);
+    max-width: calc(10% + 10rem);
+}
+
+.companion-content{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem 0;
+    position: relative;
 }
 
 .companion-image{
-
+    position: absolute;
+    top: -3rem;
+    height: 6rem;
+    width: 6rem;
+    border-radius: 50%;
+    border: 3px solid black;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+}
+.companion-image img{
+    height: 100%;
+    min-width: 100%;
+    position: relative;
 }
 
 .companion-name{
-
+    margin-top: 0.5rem;
+    font-size: 1.6rem;
+    font-weight: 600;
 }
 
 .companion-email{
-
+    color: gray;
+}
+.companion-links{
+    margin-top: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    
+}
+.companion-links button{
+    padding: 0.5rem 1.5rem;
+    margin: 0 0.3rem;
+    background-color: rgba(0, 0, 0, 0.075);
+    border-radius: 0.5rem;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
+.companion-links button img{
+    height: 1.3rem;
+}
 .companion-options{
     
 }
+
+
+.invites{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: calc(200px + 30% + 4rem);
+    height: 100%;
+    background-color: white;
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.11);
+    transition: 0.5s ease;
+    padding: 10% 0;
+    overflow-y: auto;
+}
+
+.invites.active{
+    bottom: 0;
+}
+
+.invites.inactive{
+    bottom: -100%;
+}
+
+.invites-switch{
+    position: relative;
+    width: 80%;
+    height: 3rem;
+    overflow: hidden;
+    border-radius: 2rem;
+    display: flex;
+    margin: 0 auto;
+
+}
+
+.switch-bg{
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    border-radius: 1rem;
+    top: 0;
+    left: 0;
+    background-color: var(--color1);
+    transition: 0.5s ease;
+}
+
+.switch-bg.active{
+    left: 0;
+}
+
+.switch-bg.inactive{
+    left: 50%;
+}
+
+.invites-switch button{
+    position: relative;
+    flex: 1 1;
+    border-radius: 1rem;
+    background-color: transparent;
+    border: none;
+    font-weight: 600;
+    font-size: 1.3rem;
+}
+
+.invites-wrap{
+    position: relative;
+    height: calc(100% - 3rem);
+    width: 100%;
+    overflow: hidden;
+}
+.invites-wrap > div{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transition: 0.5s ease;
+}
+
+.invites-to{
+    left: 0;
+    top: 0;
+}
+.invites-to.active{
+    left: 0;
+}
+.invites-to.inactive{
+    left: -100%;
+    opacity: 0;
+}
+
+.invites-from{
+    left: 100%;
+    top: 0;
+}
+.invites-from.active{
+    left: 0;
+}
+.invites-from.inactive{
+    left: 100%;
+    opacity: 0;
+}
+
+.invite-content{
+    display: flex;
+    width: 100%;
+    position: relative;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem 1rem;
+    overflow: hidden;
+}
+
+.invite-content-image{
+    width: 3rem;
+    height: 3rem;
+    margin-right: 0.5rem;
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+}
+.invite-content-image img{
+    position: relative;
+    height: 100%;
+}
+
+.invite-content-buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: 0;
+    height: 100%;
+    padding: 0 1rem;
+    background: linear-gradient(to right, transparent, white);
+}
+
+.invite-content-buttons button{
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.5rem;
+    margin: 0 0.2rem;
+    background-color: gray;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.invite-content-buttons button img{
+    height: 1.3rem;
+}
+

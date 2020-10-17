@@ -8,6 +8,7 @@ const User = require('../models/user');
 const UserCompanions = require('../models/user-companions');
 
 const checkAuth = require('../middleware/check-auth');
+const { db } = require('../models/user');
 
 
 
@@ -64,43 +65,53 @@ router.patch('/:id', (req,res,next) => {
 
 
     if(req.body.mode === 'accept-toInvite'){
-        const dbRef = UserCompanions.findOne({_id: req.params.id})
-        dbRef.update({$pull: {'companionRequests.to': {_id: inviteID}}}).then(companion => {
-            dbRef.update({$push: {companions: companion}}).then(res => {
-                res.status(200).json({
-                    companion: companion
-                })
-            })
-        })
+
+       const dbRef = UserCompanions.findOne({_id: req.params.id})
+       const companion =  req.body.companion;
+       // or update
+       dbRef.findOneAndUpdate({_id: req.params.id, 'companionRequests.to': { $elemMatch: companion} }, 
+       { $pull: { 'companionRequests.to': companion }, 
+       $addToSet: { 'companions': companion} }).then(response => {
+           res.status(200).json({
+               response: response
+           })
+       })
     }
     if(req.body.mode === 'accept-fromInvite'){
         const dbRef = UserCompanions.findOne({_id: req.params.id})
-        dbRef.update({$pull: {'companionRequests.from': {_id: inviteID}}}).then(companion => {
-            dbRef.update({$push: {companions: companion}}).then(res => {
+        const companion =  req.body.companion;
+            
+        dbRef.findOneAndUpdate({_id: req.params.id, 'companionRequests.from': { $elemMatch: companion} }, 
+            { $pull: { 'companionRequests.from': companion }, 
+            $addToSet: { 'companions': companion} }).then(response => {
                 res.status(200).json({
-                    companion: companion
+                    response: response
                 })
             })
-        })
     }
 })
 
 router.delete('/:id', (req,res,next) => {
-    if(req.params.mode = 'delete-fromInvite'){
+    
+    if(req.query.mode === 'delete-fromInvite'){
         UserCompanions.findOneAndUpdate({_id: req.params.id},
-            {$pull: {'companionRequests.from': {userID: req.params.inviterID}}}).then(companion => {
+            {$pull: {'companionRequests.from': {ID: req.query.inviterID}}}).then(delCompanion => {
+                
                 res.status(200).json({
-                    companion: companion
+                    companion: delCompanion
                 })
+                
             })       
     }
 
-    if(req.params.mode = 'delete-toInvite'){
+    if(req.query.mode === 'delete-toInvite'){
         UserCompanions.findOneAndUpdate({_id: req.params.id},
-            {$pull: {'companionRequests.to': {userID: req.params.invitedID}}}).then(companion => {
+            {$pull: {'companionRequests.to': {ID: req.query.invitedID}}}).then(delCompanion => {
+                
                 res.status(200).json({
-                    companion: companion
+                    companion: delCompanion
                 })
+                
             })       
     }
 
@@ -108,7 +119,7 @@ router.delete('/:id', (req,res,next) => {
 
 router.put('/:id', (req,res,next) => {
     const user = req.body;
-    console.log(user)
+
     UserCompanions.updateOne({_id: req.params.id}, user).then(result => {
         res.status(200).json({ message: "Update successful!" });
       });
@@ -117,7 +128,7 @@ router.put('/:id', (req,res,next) => {
 
 router.get('/:id',(req,res,next) => {
     //get from database n shit
-    if(req.params.mode === 'all'){
+    if(req.query.mode === 'all'){
         UserCompanions.findOne({_id: req.params.id}).then((userCompanions) => {
             res.status(200).json({
                 message: 'user gotten',
@@ -126,16 +137,18 @@ router.get('/:id',(req,res,next) => {
         });        
     }
 
-    if(req.params.mode === 'single'){
-        UserCompanions.find({userID: req.params.userID},
-            {_id: req.params.id, companions: {$elemMatch: {userID: req.params.userID}}}).then(user => {
+    if(req.query.mode === 'single'){
+        console.log(req.query.userID, req.params.id)
+        UserCompanions.findOne({_id: req.params.id},
+            {'companions.$': {$elemMatch: {ID: req.query.userID}}}).then(user => {
+                console.log(user)
                 res.status(200).json({
                     user: user
                 })
             })
     }
 
-    if(req.params.mode === 'invites'){
+    if(req.query.mode === 'invites'){
         UserCompanions.findOne({_id: req.params.id}).then((userCompanions) => {
             res.status(200).json({
                 userInvites: userCompanions.companionRequests

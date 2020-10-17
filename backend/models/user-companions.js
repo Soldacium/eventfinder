@@ -9,10 +9,9 @@ const userCompanionsSchema = mongoose.Schema({
         required: false
     },
     companions: {type: [{
-        userID: String,
-        userImg: String,
-        username: String,
-        email: String,
+        ID: String,
+        companionsID: String,
+        dataID: String
     }], required: true},
 
 

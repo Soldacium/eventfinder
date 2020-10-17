@@ -212,17 +212,23 @@ export class ProfileComponent implements OnInit {
   }
 
   getUserData(){
+    console.log(this.user, '1')
+    console.log(this.userService.getCurrentUserID())
     if (this.userService.getCurrentUserID() && !this.userService.getCurrentUserData()){
       this.userService.getUserData(this.userService.getCurrentUserID(), true).subscribe(userData => {
         this.user = userData;
+        console.log(this.user, '2')
         if (this.user){
           this.setUserData(this.user);
         }
       });
     }else if (this.userService.getCurrentUserID()){
+      console.log('yass')
       this.user = this.userService.getCurrentUserData();
+      console.log(this.user, '3')
       this.setUserData(this.user);
     }
+    
   }
 
   setUserData(user: UserData){

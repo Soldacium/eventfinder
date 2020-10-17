@@ -10,37 +10,85 @@ import { UserService } from 'src/app/services/user.service';
 export class InfoComponent implements OnInit {
 
   userData: UserData;
+
+  invitations;
+  invateState = '';
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
-    this.getProfileData()
+    this.getProfileData();
+    
 
   }
 
   getProfileData(){
-    if(!this.userService.viewedUserData){
+    if (!this.userService.viewedUserData){
       this.userService.viewedUserCollectionsIDsReady.subscribe(ready => {
         this.userService.getUserData(this.userService.viewedUserCollectionsIDs.userData).subscribe(data => {
           this.userData = data;
-          console.log(data)
-        })      
-      })      
+        })
+
+        this.checkIfCompanion();
+      })
     }else{
       this.userData = this.userService.viewedUserData;
-      console.log(this.userService.viewedUserData)
+      this.checkIfCompanion();
     }
 
 
   }
 
-  getUserInvites(){
-    this.userService.getUserInvites().subscribe(invites => {
-      console.log(invites)
-    })
+
+
+  searchForUserInvite(){
+    const viewedUserID = this.userService.viewedUserID;
+
+    this.invitations.to ? this.invitations.to.forEach(toInvite => {
+      if (toInvite.ID === viewedUserID){
+        this.invateState = 'toInvite';
+      }
+    }) : '';
+
+    this.invitations.from ? this.invitations.from.forEach(fromInvite => {
+      if (fromInvite.ID === viewedUserID){
+        this.invateState = 'fromInvite';
+      }
+    }) : '';
   }
 
   checkIfCompanion(){
+    this.userService.getCompanion(this.userService.getCurrentUserID(),false).subscribe(companion => {
+      
+      if (companion){
+        console.log(companion);
+      }
+    });
+  }
+
+
+  acceptCompanionInvite(){
+    this.userService.acceptUserCompanionInvite().subscribe(res => {
+      console.log(res)
+    })
+  }
+
+  deleteFromCompanions(){
 
   }
+
+  sendCompanionInvite(){
+    this.userService.sendUserCompanionInvite().subscribe(invite => {
+      console.log(invite);
+      this.invateState = 'toInvite';
+    });
+  }
+
+  cancelCompanionInvite(){
+    this.userService.cancelUserCompanionInvite(this.userService.getViewedUserID()).subscribe(invite => {
+      console.log(invite);
+      this.invateState = '';
+    });
+  }
+
 
 }

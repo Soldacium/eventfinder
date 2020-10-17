@@ -1,5 +1,5 @@
 
-<section *ngIf='userData.desc !== ""'>
+<section *ngIf='userData && userData.desc !== ""'>
     <div class="desc flex-column background" [innerHTML]='userData.desc'>
 
     </div>
@@ -20,22 +20,22 @@
     <div class="intro flex-row">
         <div class="info flex-column background">
             <div class="subsection-title">Contact</div> 
-            <div class="info-static">
+            <div class="info-static" *ngIf='userData'>
                 <div *ngIf='userData.email == ""' class='text-inactive'>Not provided</div>
                 <div name='name'>{{userData.email}}</div>
                 <label for="name">Email</label>
             </div>
-            <div class="info-static">
+            <div class="info-static" *ngIf='userData'>
                 <div *ngIf='userData.username == ""' class='text-inactive'>Not provided</div>
                 <div name='name'>{{userData.username}}</div>
                 <label for="name">Real name</label>
             </div>        
-            <div class="info-static">
+            <div class="info-static" *ngIf='userData'>
                 <div *ngIf='userData.phone == ""' class='text-inactive'>Not provided</div>
                 <div name='name'>{{userData.phone}}</div>
                 <label for="name">Phone</label>
             </div>   
-            <div class="info-static">
+            <div class="info-static" *ngIf='userData'>
                 <div *ngIf='userData.phone == ""' class='text-inactive'>Not provided</div>
                 <div name='name'>{{userData.address}}</div>
                 <label for="name">Address</label>
@@ -43,33 +43,33 @@
         </div>
         <div class="contact flex-column background">
             <div class="subsection-title">Websites</div> 
-            <div class="info-static">
+            <div class="info-static" *ngIf='userData'>
                 <div *ngIf='userData.instagram == ""' class='text-inactive'>Not provided</div>
                 <div name='name'>{{userData.website1}}</div>
                 <label for="name">Website 1</label>
             </div>       
-            <div class="info-static">
+            <div class="info-static" *ngIf='userData'>
                 <div *ngIf='userData.facebook == ""' class='text-inactive'>Not provided</div>
                 <div name='name'>{{userData.website2}}</div>
                 <label for="name">Website 2</label>
             </div> 
             <div class="subsection-title">Media</div> 
-            <div class="info-static">
+            <div class="info-static" *ngIf='userData'>
                 <div *ngIf='userData.instagram == ""' class='text-inactive'>Not provided</div>
                 <div name='name'>{{userData.instagram}}</div>
                 <label for="name">Instagram</label>
             </div>       
-            <div class="info-static">
+            <div class="info-static" *ngIf='userData'>
                 <div *ngIf='userData.facebook == ""' class='text-inactive'>Not provided</div>
                 <div name='name'>{{userData.facebook}}</div>
                 <label for="name">Facebook</label>
             </div>  
-            <div class="info-static">
+            <div class="info-static" *ngIf='userData'>
                 <div *ngIf='userData.twitter == ""' class='text-inactive'>Not provided</div>
                 <div name='name'>{{userData.twitter}}</div>
                 <label for="name">Twitter</label>
             </div>             
-            <div class="info-static">
+            <div class="info-static" *ngIf='userData'>
                 <div *ngIf='userData.linkedin == ""' class='text-inactive'>Not provided</div>
                 <div name='name'>{{userData.linkedin}}</div>
                 <label for="name">LinkedIn</label>

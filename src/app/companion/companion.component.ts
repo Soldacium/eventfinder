@@ -26,7 +26,7 @@ export class CompanionComponent implements OnInit, OnDestroy {
     this.setViewedUserID();
     this.setTitle();
     this.userService.getViewedUserCollectionsIDs(this.userID).subscribe(IDs => {
-      console.log(IDs)
+      //console.log(IDs)
     })
   }
 
@@ -37,8 +37,6 @@ export class CompanionComponent implements OnInit, OnDestroy {
   setViewedUserID(){
     this.route.params.subscribe(params => {
       this.userID= params['userID'];
-      
-      console.log(this.userID)
       this.userService.viewedUserID = this.userID;
     });
   }

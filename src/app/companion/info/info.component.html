@@ -17,8 +17,11 @@
         <div class='info-names'>
             <div class="name" *ngIf='userData'>{{userData.username}}</div>   
             <div class="buttons">
-                <button class='button-companion'><img src="assets/icons/account/add-user.svg" alt=""></button>
-                <button class="button-message"><img src="assets/icons/account/comment2.svg" alt=""></button>
+                <button class='button-companion' (click)='sendCompanionInvite()' *ngIf='invateState === ""'><img src="assets/icons/general/companion-add.svg" alt=""></button>
+                <button class='button-companion' (click)='deleteFromCompanions()' *ngIf='invateState === "isCompanion"'><img src="assets/icons/general/companion-add.svg" alt=""></button>
+                <button class='button-companion' (click)='cancelCompanionInvite()' *ngIf='invateState === "toInvite"'><img src="assets/icons/general/companion-invited.svg" alt=""></button>
+                <button class='button-companion' (click)='acceptCompanionInvite()' *ngIf='invateState === "fromInvite"'><img src="assets/icons/general/companion-accept.svg" alt=""></button>
+                <button class="button-message"><img src="assets/icons/general/message-full.svg" alt=""></button>
             </div>       
         </div>
 

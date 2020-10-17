@@ -1,16 +1,109 @@
-<div class="search">
-    <div class="input-field">
-        <input type="text" [(ngModel)]='searchQuery' (keyup)='searchSavedEvents()'>
-        <img src="assets/icons/general/search.svg" alt="">
-    </div>
-</div>
-<section class="companions">
-    <div class="companion" *ngFor='let companion of companions;index as i'>
-        <div class="companion-image">
-            <img [src]='companionsInfoArray[i].img || async' alt="">
+<main>
+    <div class="search">
+        <button class="show-invites-button" (click)='invitesShown = !invitesShown'></button>
+        <div class="input-field">
+            <input type="text" [(ngModel)]='searchQuery' (keyup)='searchCompanions()'>
+            <img src="assets/icons/general/search.svg" alt="">
         </div>
     </div>
-</section>
-<div class="pages">
+    <section class="companions">
+        <!--
+        <div class="companion" *ngFor='let companion of companions;index as i'>
+            <div class="companion-image">
+                <img [src]='companionsInfoArray[i].img || async' alt="">
+            </div>
+        </div>        
+        -->
+        <div class="companion" *ngFor='let companionInfo of companionsInfoArray; index as i  '>
+                    
+                    
+            <div class='companion-content' *ngIf='companionInfo | async; let companion'>
+                <div class="companion-image">
+                    <img [src]='companion.image' alt="">
+                </div>
+                <div class="companion-name">
+                    {{companion.username}}
+                </div>
+                <div class="companion-email">
+                    {{companion.email}}
+                </div>
+                <div class="companion-links">
+                    <button><img src="assets/icons/account/comment2.svg" alt=""></button>
+                    <button><img src="assets/icons/account/board.svg" alt=""></button>
+                </div>
+                <div class="companion-options">
 
-</div>
+                </div>
+                
+                
+                
+                <!--
+                <div class="invite-content-buttons">
+                    <button (click)='cancelCompanionInvite(invites.to, invitesInfoArray.to, i)'><img src="assets/icons/account/close1.svg" alt="" ></button>
+                </div>                    
+                -->
+
+            </div>
+            
+        </div>
+        
+
+        <div class="pages">
+
+        </div>
+    </section>
+    <section class="invites" [ngClass]='invitesShown ? "active" : "inactive"'>
+        <div class="invites-switch">
+            <div class="switch-bg" [ngClass]='invitesTypeShown ? "active" : "inactive"'></div>
+            <button (click)='invitesTypeShown = true'>To</button>
+            <button (click)='invitesTypeShown = false'>From</button>
+        </div>
+        
+        <div class="invites-wrap">
+            <div class="invites-to" [ngClass]='invitesTypeShown ? "active" : "inactive"'>
+                <div class="invite invite-to" *ngFor='let invite of invitesInfoArray.to; index as i  '>
+                    
+                    
+                    <div class='invite-content' *ngIf='invite | async; let userInfo'>
+                        <div class="invite-content-image">
+                            <img [src]='userInfo.image' alt="">
+                        </div>
+                        {{userInfo.email}}
+                        {{userInfo.username}}
+                        <div class="invite-content-buttons">
+                            <button (click)='cancelCompanionInvite(invites.to, invitesInfoArray.to, i)'><img src="assets/icons/account/close1.svg" alt="" ></button>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="invites-from" [ngClass]='!invitesTypeShown ? "active" : "inactive"'>
+                <div class="invite invite-from" *ngFor='let invite of invitesInfoArray.from; index as i'>
+
+                    <div class='invite-content' *ngIf='invite | async; let userInfo'>
+                        <div class="invite-content-image">
+                            <img [src]='userInfo.image' alt="">
+                        </div>
+                        {{userInfo.email}}
+                        {{userInfo.username}}
+                        <div class="invite-content-buttons">
+                            <button (click)='acceptCompanionInvite(invites.from[i])'>
+                                <img src="assets/icons/account/accept1.svg" alt="" >
+                            </button>
+                            <button (click)='cancelCompanionInvite(invites.from, invitesInfoArray.from, i)'>
+                                <img src="assets/icons/account/close1.svg" alt="" >
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>        
+        
+
+    </section>    
+</main>
+
+
+
+

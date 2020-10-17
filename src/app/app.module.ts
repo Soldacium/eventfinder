@@ -52,7 +52,6 @@ import { SavedListComponent } from './account/saved/saved-list/saved-list.compon
 import { SavedPlannerComponent } from './account/saved/saved-planner/saved-planner.component';
 
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -84,7 +83,9 @@ import { SavedPlannerComponent } from './account/saved/saved-planner/saved-plann
     YourFeedComponent,
     YourCompanionsComponent,
     SavedListComponent,
-    SavedPlannerComponent
+    SavedPlannerComponent,
+
+
 
   ],
   imports: [

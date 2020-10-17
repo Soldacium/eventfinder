@@ -134,7 +134,8 @@ router.put('/:id', (req,res,next) => {
 
 router.get('/:id',(req,res,next) => {
     //get from database n shit
-    if(req.params.mode === 'full'){
+    
+    if(req.query.mode === 'full'){
         UserData.findOne({_id: req.params.id}).then((userData) => {
             res.status(200).json({
                 message: 'user gotten',
@@ -143,7 +144,7 @@ router.get('/:id',(req,res,next) => {
         });        
     }
 
-    if(req.params.mode === 'basic'){
+    if(req.query.mode === 'basic'){
         UserData.findOne({_id: req.params.id}).then((userData) => {
             res.status(200).json({
                 message: 'user gotten',
