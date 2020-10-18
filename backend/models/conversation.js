@@ -4,11 +4,10 @@ const mongoose = require('mongoose');
 const conversationSchema = mongoose.Schema({
     conversationName: {type: String, required: true},
     userID1: {type: String, required: true},
-    userImg1: {type: String, required: true},
-    userName1: {type: String, required: true},
+    userDataID1: {type: String, requred: true},
+
     userID2: {type: String, required: true},
-    userImg2: {type: String, required: true},
-    userName2: {type: String, required: true},
+    userDataID2: {type: String, requred: true},
 
     messages: {type: [{
         senderID: {type: String, required: true},
@@ -18,7 +17,8 @@ const conversationSchema = mongoose.Schema({
 
     color1: {type: String, required: false},
     color2: {type: String, required: false},
-    type: {type: String, required: true}
+    type: {type: String, required: true},
+    eventID: {type: String, required: false},
 
 
 

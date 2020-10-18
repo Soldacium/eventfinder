@@ -71,39 +71,6 @@ router.post('',multer({storage: storage}).single('image'),(req,res,next) => {
     })
 });
 
-/*
-router.post('/:id', (req, res, next) => {
-    if(req.body.mode === 'comment'){
-        const newComment = new Comment(req.body.newComment);  
-        const eventID = req.params.id;
-
-        Event.updateOne({_id: eventID},
-            {$push: {comments: newComment}}).then(comment => {
-                res.status(200).json({
-                    data: newComment
-                })
-            })  
-        
-    }else if(req.body.mode === 'response'){
-        const newResponse = new Comment(req.body.newResponse);
-        const commentID = req.body.commentID;
-        const eventID = req.params.id;
-        
-        Event
-        .findOneAndUpdate({_id: eventID, "comments": { "$exists": true }}, 
-        {$push : {"comments.$[commentID].responses" : newResponse}},{
-            "arrayFilters": [
-              {"commentID._id" : commentID},
-            ]
-        })
-        .then(response => {
-            res.status(200).json({
-                data: newResponse
-            })
-        })      
-    }
-})
-*/
 
 // editing 
 router.put("/:id"), (req, res, next) => {

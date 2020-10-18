@@ -4,21 +4,13 @@ const router = express.Router()
 const Conversation = require('../models/conversation')
 const Message = require('../models/message')
 
-const checkAuth = require('../middleware/check-auth')
+const checkAuth = require('../middleware/check-auth');
+const conversation = require('../models/conversation');
 
 
 router.post('', (req,res,next) => {
-    const conversation = new Conversation({
-        conversationName: req.body.conversationName,
-        userID1: req.body.userID1,
-        userName1: req.body.userName1,
-        userImg1: req.body.userImg1,
-        userID2: req.body.userID2,
-        userName2: req.body.userName2,
-        userImg2: req.body.userImg2,
-        type: 'event',
-        messages: []
-    })
+    const conversation = new Conversation(req.body)
+    console.log(conversation)
 
     conversation.save().then(response => {
         res.status(200).json({
@@ -53,7 +45,7 @@ router.post('/:id',  (req,res,next) => { //create new object with mongoose schem
 
 // gets all conversations where ethier user is current user
 router.get('', (req,res,next) => {
-    const userID = req.param('userID');
+    const userID = req.query.userID;
     /*
     Conversation.find().then((documents) => {
         res.status(200).json({
@@ -61,7 +53,7 @@ router.get('', (req,res,next) => {
         });
     });
     */
-    if(req.param('mode') === 'user'){
+    if(req.query.mode === 'user'){
         Conversation
         .find({$or : [{userID1: userID}, {userID2: userID}]})
         .then(userConversations => {
@@ -69,8 +61,24 @@ router.get('', (req,res,next) => {
                 userConversations
             });
         });
-    }else {
-        
+    }
+    if(req.query.mode === 'check-user') {
+        Conversation
+        .find({userID1: req.query.ID1, userID2: req.query.ID2})
+        .then(convo => {
+            res.status(200).json({
+                conversation: convo
+            })
+        })
+    }
+    if(req.query.mode === 'check-event') {
+        Conversation
+        .find({userID: req.query.userID, eventID: req.query.eventID})
+        .then(convo => {
+            res.status(200).json({
+                conversation: convo
+            })
+        })
     }
     
 

@@ -1,6 +1,8 @@
 <main>
     <div class="search">
-        <button class="show-invites-button" (click)='invitesShown = !invitesShown'></button>
+        <button class="show-invites-button" (click)='invitesShown = !invitesShown'>
+            <img src="assets/icons/general/companion-invited.svg" alt="">
+        </button>
         <div class="input-field">
             <input type="text" [(ngModel)]='searchQuery' (keyup)='searchCompanions()'>
             <img src="assets/icons/general/search.svg" alt="">
@@ -31,6 +33,9 @@
                     <button><img src="assets/icons/account/comment2.svg" alt=""></button>
                     <button><img src="assets/icons/account/board.svg" alt=""></button>
                 </div>
+                <button class="companion-options-button">
+                    <img src="assets/icons/account/more.svg" alt="">
+                </button>
                 <div class="companion-options">
 
                 </div>

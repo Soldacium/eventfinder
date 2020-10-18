@@ -84,34 +84,23 @@ export class MessagesService {
         return this.userConversations;
       })
     );
-
-
   }
 
-  createNewConversation(id1?, id2?){
-    const ID1 = this.eventsService.getCurrentEventCreatorID();
-    const ID2 = this.authService.getUserID();
-
-    const currentUserData = this.userService.getCurrentUserData();
-    const currentEvent = this.eventsService.getCurrentEvent();
-
-    if (ID1 === undefined || ID2 === undefined || currentEvent === undefined || currentUserData === undefined){
-      return 0;
-    }
-
-    if (currentUserData.image === undefined || currentUserData.image === null){
-      currentUserData.image = 'assets/icons/general/user.svg';
-    }
-
+  createNewUserConversation(user1IDs, user2IDs){
     const newConvo: Conversation = {
-      userID1: ID1,
-      userID2: ID2,
-      userImg1: currentEvent.iconImg,
-      userImg2: currentUserData.image,
-      userName1: currentEvent.organisator,
-      userName2: currentUserData.username,
-      conversationName: currentEvent.title,
+      userID1: user1IDs.ID,
+      userDataID1: user1IDs.dataID,
+      userID2: user2IDs.ID,
+      userDataID2: user2IDs.dataID,
+
+      conversationName: '',
+      nick1: '',
+      nick2: '',
       messages: [],
+      type: 'user',
+
+      color1: '',
+      color2: ''
     };
 
     this.http
@@ -119,6 +108,61 @@ export class MessagesService {
     .subscribe(newConversation => {
       this.router.navigate(['/account/messages']);
     });
+  }
+
+  createNewEventConversation(){
+    const ID1 = this.eventsService.getCurrentEventCreatorID();
+    const ID2 = this.authService.getUserID();
+
+    const currentUserData = this.userService.getCurrentUserData();
+    const currentEvent = this.eventsService.getCurrentEvent();
+
+    if (ID1 === undefined || ID2 === undefined || currentEvent === undefined || currentUserData === undefined){ return 0; }
+
+    if (currentUserData.image === undefined || currentUserData.image === null){ currentUserData.image = 'assets/icons/general/user.svg'; }
+
+    const newConvo: Conversation = {
+      userID1: ID1,
+      userDataID1: '',
+      userID2: ID2,
+      userDataID2: this.userService.getCurrentUser().userDataID,
+
+      conversationName: currentEvent.title,
+      messages: [],
+      type: 'event',
+      eventID: currentEvent._id,
+
+      color1: '',
+      color2: ''
+    };
+
+    this.http
+    .post('http://localhost:3000/api/messages/', newConvo)
+    .subscribe(newConversation => {
+      this.router.navigate(['/account/messages']);
+    });
+  }
+
+  checkForEventConversation(eventID){
+    const userID = this.userService.getCurrentUserID()
+    let params = new HttpParams();
+    params = params.append('mode', 'check-event');
+    params = params.append('userID', userID);
+    params = params.append('eventID', this.eventsService.getCurrentEvent()._id);
+
+    return this.http
+    .get('http://localhost:3000/api/messages/', {params: params})
+    .pipe(map((res: any)=> {
+      return res;
+    }))
+  }
+
+  joinEventGroupConversation(){
+
+  }
+
+  deleteEventGroupConversation(){
+    
   }
 
   getConversation(id){

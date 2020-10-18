@@ -82,17 +82,15 @@ export class EventsService {
     });
   }
 
-  unsaveEvent(eventId?: string){
-    const eventIdObj = {eventID: '', mode: 'save'};
+  unsaveEvent(event?: Event){
     const userID = this.userService.getCurrentUserID();
-    const participantsID = this.currentEvent.participantsID;
+    const participantsID = event ? event.participantsID : this.currentEvent.participantsID;
 
-    eventId ? eventIdObj.eventID = eventId : eventIdObj.eventID = this.currentEvent._id;
 
-    const userIDobj = { userID };
     this.http
-    .patch('http://localhost:3000/api/event-participants/' + participantsID, userIDobj)
+    .patch('http://localhost:3000/api/event-participants/' + participantsID, {userID: userID})
     .subscribe(participant => {
+      
       this.currentParticipants = this.currentParticipants.filter(participant => participant.userID !== userID);
       this.participantsUpdated.next(this.currentParticipants);
     });

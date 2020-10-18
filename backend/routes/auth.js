@@ -65,7 +65,7 @@ router.get('/login/:id',(req,res,next) => {
     //get from database n shit
     User.findOne({_id: req.params.id}).then((user) => {
 
-        if(req.param('mode') !== 'onlyCollections'){
+        if(req.query.mode !== 'onlyCollections'){
             res.status(200).json({
                 message: 'user gotten',
                 userData: user

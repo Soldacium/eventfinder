@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { EventsService } from 'src/app/services/events.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-saved-list',
@@ -19,7 +20,8 @@ export class SavedListComponent implements OnInit {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private eventsService: EventsService) { }
+    private eventsService: EventsService,
+    private userService: UserService) { }
 
   ngOnInit(): void {
     this.getSavedEvents();
@@ -38,7 +40,9 @@ export class SavedListComponent implements OnInit {
   setupSavedEventsReadyListener(){
     this.eventsService.eventsReady.subscribe(ready => {
       this.getSavedEvents()
+      console.log(ready)
       this.authService.getUserListener().subscribe(user => {
+        console.log(user)
         if(ready && (this.savedEvents === undefined || this.savedEvents === [])){
           this.getSavedEvents();
         }
@@ -54,6 +58,7 @@ export class SavedListComponent implements OnInit {
       this.normalizeEventTimes();
       this.searchSavedEvents();
     }
+    console.log(saved)
   }
 
   normalizeEventTags(){
@@ -94,7 +99,12 @@ export class SavedListComponent implements OnInit {
 
   }
   delete(save){
-    this.eventsService.unsaveEvent(save._id);
+    this.eventsService.unsaveEvent(save);
+    this.userService.deleteSavedEventRef(save._id).subscribe(saved => {
+      this.savedEvents = saved;
+    });
+    this.searchedSavedEvents.splice(this.searchedSavedEvents.indexOf(save),1)
+    this.savedEvents.splice(this.savedEvents.indexOf(save),1)
   }
   info(save){
 

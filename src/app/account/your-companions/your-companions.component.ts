@@ -60,6 +60,12 @@ export class YourCompanionsComponent implements OnInit {
           this.getUserInvitesBasicInfo();
         });
       });
+    }else if(!this.userService.currentUserInvites){
+      this.userService.getUserInvites().subscribe(invites => {
+        this.invites = invites;
+        console.log(this.invites);
+        this.getUserInvitesBasicInfo();
+      });
     }else{
       console.log(this.userService.currentUserInvites);
       this.invites = this.userService.currentUserInvites;
