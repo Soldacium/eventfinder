@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Event } from 'src/app/models/event.model';
-import * as L from 'leaflet'
+import * as L from 'leaflet';
 import { EventsService } from 'src/app/services/events.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { MessagesService } from 'src/app/services/messages.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-make-event',
@@ -45,7 +47,7 @@ export class MakeEventComponent implements OnInit {
     'Description',
     'Plan',
     'Ready'
-  ]
+  ];
   windowWidth = 1;
 
 
@@ -84,8 +86,8 @@ export class MakeEventComponent implements OnInit {
 
   eventTypes = ['Party', 'Meeting', 'Concert', 'Happening', 'Opening', ];
   eventTags = [
-    'Huge place','Small place', 'Free drinks', 'Charity', 
-    'Dancing', 'Drinking', 'Gastronomy', 'Open space', 
+    'Huge place', 'Small place', 'Free drinks', 'Charity',
+    'Dancing', 'Drinking', 'Gastronomy', 'Open space',
     'Closed space', 'Sponsored', 'Pay-as-you-go', 'Need invite',
     'Science', 'Culture', 'Religion', 'Sport', 'Weird', 'Innovative' ];
 
@@ -97,10 +99,14 @@ export class MakeEventComponent implements OnInit {
 
   timelineEvents = [];
 
-  constructor(private eventsService: EventsService, private authService: AuthService) { }
+  constructor(
+    private eventsService: EventsService,
+    private authService: AuthService,
+    private messagesService: MessagesService,
+    private router: Router) { }
 
   ngOnInit(): void {
-    this.setupWindowWidthListener()
+    this.setupWindowWidthListener();
 
   }
 
@@ -108,7 +114,7 @@ export class MakeEventComponent implements OnInit {
     this.windowWidth =  window.innerWidth * 0.9 - 150;
     window.addEventListener('resize', () => {
       this.windowWidth = window.innerWidth * 0.9 - 150;
-    })
+    });
   }
 
   nextSection(){
@@ -124,8 +130,8 @@ export class MakeEventComponent implements OnInit {
   /* map and place search */
   checkMap(adress){
     fetch(`https://google-maps-geocoding.p.rapidapi.com/geocode/json?language=en&address=${adress}`, {
-    'method': 'GET',
-    'headers': {
+    method: 'GET',
+    headers: {
       'x-rapidapi-host': 'google-maps-geocoding.p.rapidapi.com',
       'x-rapidapi-key': '45679e5923mshcee5ececde58af4p140c23jsn2b5fef76a776'
     }
@@ -137,12 +143,12 @@ export class MakeEventComponent implements OnInit {
 
       // console.log(this.adressInfo, this.adressLatLon)
 
-      if(this.marker !== undefined && this.marker !== null){
-        this.leafletMap.removeLayer(this.marker)
+      if (this.marker !== undefined && this.marker !== null){
+        this.leafletMap.removeLayer(this.marker);
       }
 
-      this.marker = new L.Marker(this.adressLatLon).addTo(this.leafletMap)
-      this.leafletMap.setView([this.adressLatLon.lat,this.adressLatLon.lng],5)
+      this.marker = new L.Marker(this.adressLatLon).addTo(this.leafletMap);
+      this.leafletMap.setView([this.adressLatLon.lat, this.adressLatLon.lng], 5);
 
       this.info.address = this.adressInfo.formatted_address;
 
@@ -155,7 +161,7 @@ export class MakeEventComponent implements OnInit {
     });
   }
   onMapReady(map: L.Map){
-    this.leafletMap = map; 
+    this.leafletMap = map;
   }
 
   /* files */
@@ -178,7 +184,7 @@ export class MakeEventComponent implements OnInit {
       this.imgURL = reader.result;
     };
 
-    this.file = files[0]
+    this.file = files[0];
   }
   clickImage(){
     document.getElementById('selectedFile').click();
@@ -186,9 +192,9 @@ export class MakeEventComponent implements OnInit {
 
   /*requirements */
   addRequirement(req){
-    if(this.additionalRequirement !== ''){
+    if (this.additionalRequirement !== ''){
       this.additionalRequirements.push(req);
-      this.additionalRequirement = '';      
+      this.additionalRequirement = '';
     }
 
   }
@@ -229,7 +235,7 @@ export class MakeEventComponent implements OnInit {
   }
 
   post(){
-    const user = this.authService.getUser()
+    const user = this.authService.getUser();
     const event: Event  = {
       title: this.info.name,
       organisator: this.info.organisator,
@@ -239,15 +245,15 @@ export class MakeEventComponent implements OnInit {
         end: this.info.end
       },
       coords: {
-        lat: this.adressLatLon.lat, 
-        lon:this.adressLatLon.lng
+        lat: this.adressLatLon.lat,
+        lon: this.adressLatLon.lng
       },
 
       website1: this.info.website1,
       website2: this.info.website2,
       phone: this.info.phone,
       email: this.info.email,
-      
+
       iconImg: '',
       type: this.chosenType,
       tags: this.chosenTags,
@@ -261,11 +267,21 @@ export class MakeEventComponent implements OnInit {
 
       plan: this.timelineEvents,
 
-      
-      userID: user._id,
-    }
 
-    this.eventsService.postEvent(event, this.file)
+      userID: user._id,
+    };
+
+    this.eventsService.postEvent(event, this.file);
+    this.eventsService.eventPosted.subscribe((event:any) => {
+      console.log(event)
+      const eventObj = event.post.createdPost
+      this.messagesService.createNewGroupConversation(user._id, 'event', eventObj._id, eventObj.title, eventObj.iconImg)
+      .subscribe(res =>{
+        console.log(res)
+        this.router.navigate(['/account/your-events'])
+      });
+    })
+    
   }
 
 

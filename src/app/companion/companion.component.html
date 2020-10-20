@@ -14,11 +14,11 @@
         -->  
 
         <ul class='links'>
-            <li><a [routerLink]='["profile", {}]' [ngClass]="(router.isActive('/account',false))?'active':'naah'" skip>Profile</a></li>
-            <li><a [routerLink]='["feed"]' [ngClass]="(router.isActive('/account',false))?'active':'naah'">Feed</a></li>
-            <li><a [routerLink]='["events-saved"]' [ngClass]="(router.isActive('/',true))?'active':'naah'">Saved</a></li>
-            <li><a [routerLink]='["events-made"]' [ngClass]="(router.isActive('/login',true))?'active':'naah'">Made</a></li>
-            <li><a [routerLink]='["companions"]' [ngClass]="(router.isActive('/login',true))?'active':'naah'">Companions</a></li>
+            <li><a [routerLink]='["profile", {}]' [ngClass]="checkIfRoute('profile')?'active':'naah'" skip>Profile</a></li>
+            <li><a [routerLink]='["feed"]' [ngClass]="checkIfRoute('feed')?'active':'naah'">Feed</a></li>
+            <li><a [routerLink]='["events-saved"]' [ngClass]="checkIfRoute('events-saved')?'active':'naah'">Saved</a></li>
+            <li><a [routerLink]='["events-made"]' [ngClass]="checkIfRoute('events-made')?'active':'naah'">Made</a></li>
+            <li><a [routerLink]='["companions"]' [ngClass]="checkIfRoute('companions')?'active':'naah'">Companions</a></li>
             
         </ul>  
     </nav>  

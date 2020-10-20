@@ -242,6 +242,10 @@ div > .subsection-title:first-of-type{
   box-shadow: 0 0 2px 1px transparent;
 }
 
+.starters .input-box{
+  min-width: calc(20vw + 5rem);
+}
+
 .icon-wrap{
   height: 12rem;
   width: 12rem;

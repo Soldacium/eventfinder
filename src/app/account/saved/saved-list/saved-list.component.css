@@ -60,6 +60,7 @@ input:focus{
     position: relative;
     background-color: white;
     animation: 0.9s fadeIn;
+    left: 0;
 
 
 }

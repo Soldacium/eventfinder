@@ -20,14 +20,14 @@ export class CompanionComponent implements OnInit, OnDestroy {
     public router: Router) { }
 
   ngOnInit(): void {
-    document.documentElement.scrollTop = 0
+    document.documentElement.scrollTop = 0;
 
-    
+
     this.setViewedUserID();
     this.setTitle();
     this.userService.getViewedUserCollectionsIDs(this.userID).subscribe(IDs => {
-      //console.log(IDs)
-    })
+      // console.log(IDs)
+    });
   }
 
   ngOnDestroy() {
@@ -36,7 +36,7 @@ export class CompanionComponent implements OnInit, OnDestroy {
 
   setViewedUserID(){
     this.route.params.subscribe(params => {
-      this.userID= params['userID'];
+      this.userID = params.userID;
       this.userService.viewedUserID = this.userID;
     });
   }
@@ -44,14 +44,18 @@ export class CompanionComponent implements OnInit, OnDestroy {
   public setTitle() {
     this.route.queryParams.subscribe(qparams => {
       this.titleService.setTitle( 'User Profile');
-    })
-    
+    });
+
   }
 
   setUserData(){
-    
+
   }
 
-  
+  checkIfRoute(route: string){
+    return this.router.isActive(`/companion/${this.userID}/${route}`, true)
+  }
+
+
 
 }

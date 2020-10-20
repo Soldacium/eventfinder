@@ -390,10 +390,10 @@ export class UserService {
     params = params.append('mode', 'single');
     params = params.append('userID', companionID);
 
-    console.log(companionsID, companionID)
-    return this.http.get('http://localhost:3000/api/user-companions/' + companionsID, {params: params}).pipe(
+    console.log(companionsID, companionID);
+    return this.http.get('http://localhost:3000/api/user-companions/' + companionsID, {params}).pipe(
       map((res: any) => {
-        console.log(res)
+        console.log(res);
         return res.user;
       })
     );
@@ -408,20 +408,29 @@ export class UserService {
 
     return this.http.get('http://localhost:3000/api/user-companions/' + companionsID, {params}).pipe(
       map((res: any) => {
-        if(currentUser === true){
+        if (currentUser === true){
           this.currentUserCompanions = res.userCompanions.companions;
-        }else if(currentUser === false){
+        }else if (currentUser === false){
           this.viewedUserCompanions = res.userCompanions.companions;
         }
-        
+
         return res.userCompanions.companions;
       })
     );
   }
 
 
-  deleteUserCompanion(){
+  deleteUserCompanion(companion){
+    let params = new HttpParams();
+    params = params.append('mode', 'delete-companion');
+    this.http
+    .delete('http://localhost:3000/api/user-companions/' + companion.companionsID, {params});
 
+    return this.http
+    .delete('http://localhost:3000/api/user-companions/' + this.currentUser.userCompanionsID, {params})
+    .pipe(map((res: any) => {
+      return res;
+    }));
   }
 
   addUserFollower(){

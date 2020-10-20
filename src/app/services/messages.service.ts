@@ -4,6 +4,7 @@ import { AuthService } from './auth.service';
 import { EventsService } from './events.service';
 
 import { Conversation } from '../models/conversation.model';
+import { ConversationGroup } from '../models/conversation-group.model';
 import { Message } from '../models/message.model';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -32,7 +33,7 @@ export class MessagesService {
     private authService: AuthService,
     private router: Router,
     private userService: UserService) {
-      this.setSocket()
+      this.setSocket();
      }
 
 
@@ -60,6 +61,16 @@ export class MessagesService {
     console.log('left the room' + room);
   }
 
+  postMessage(conversationId: string, message: Message){
+    const newMessage = message;
+    this.http
+    .post('http://localhost:3000/api/messages/' + conversationId, newMessage)
+    .subscribe((message) => {
+      this.socket.emit('new message', newMessage, conversationId);
+      console.log(message);
+    });
+  }
+
 
 
 
@@ -70,7 +81,7 @@ export class MessagesService {
 
   getUserConversations(){
     const userID = this.userService.getCurrentUserID();
-    const conversations = []
+    const conversations = [];
 
     let params = new HttpParams();
     params = params.append('mode', 'user');
@@ -143,27 +154,86 @@ export class MessagesService {
     });
   }
 
+  createNewGroupConversation(makerID: string, type: string, eventID?: string, conversationName?:string, image?: string){
+    const newGroupConvo: ConversationGroup = {
+      messages: [],
+      makerID,
+      users: [],
+      type,
+      eventID: eventID ? eventID : '',
+      color1: '',
+      color2: '',
+      conversationName: conversationName ? conversationName : '',
+      image: image ? image : ''
+    };
+
+    return this.http
+    .post('http://localhost:3000/api/messages-group/', newGroupConvo)
+    .pipe(map((res: any) => {
+      return res;
+    }));
+  }
+
+  getUserGroupConversations(){
+
+  }
+
+  getEventGroupConversation(eventID){
+    let params = new HttpParams();
+    params = params.append('mode', 'events');
+    params = params.append('eventID', eventID);
+    return this.http
+    .get('http://localhost:3000/api/messages-group/', {params})
+    .pipe(map((res: any) => {
+      return res;
+    }));
+  }
+
   checkForEventConversation(eventID){
-    const userID = this.userService.getCurrentUserID()
+    const userID = this.userService.getCurrentUserID();
     let params = new HttpParams();
     params = params.append('mode', 'check-event');
     params = params.append('userID', userID);
     params = params.append('eventID', this.eventsService.getCurrentEvent()._id);
 
     return this.http
-    .get('http://localhost:3000/api/messages/', {params: params})
-    .pipe(map((res: any)=> {
+    .get('http://localhost:3000/api/messages/', {params})
+    .pipe(map((res: any) => {
       return res;
-    }))
+    }));
   }
 
-  joinEventGroupConversation(){
+  joinEventGroupConversation(eventID){
+    const userInfo = this.userService.getCurrentUser();
+    const user = {
+      ID: userInfo._id,
+      dataID: userInfo.userDataID,
+      conversationsID: userInfo.userCompanionsID,
+      feedID: userInfo.userFeedID
+    };
 
+    return this.http
+    .post('http://localhost:3000/api/messages-group/', {user, eventID})
+    .pipe(map((res: any) => {
+      console.log(res);
+      return res;
+    }));
   }
+
+
+
 
   deleteEventGroupConversation(){
-    
+
   }
+
+  deleteUserConversation(){
+
+  }
+
+
+
+
 
   getConversation(id){
     this.http
@@ -174,13 +244,5 @@ export class MessagesService {
     });
   }
 
-  postMessage(conversationId: string, message: Message){
-    const newMessage = message;
-    this.http
-    .post('http://localhost:3000/api/messages/' + conversationId, newMessage)
-    .subscribe((message) => {
-      this.socket.emit('new message', newMessage, conversationId);
-      console.log(message);
-    });
-  }
+
 }

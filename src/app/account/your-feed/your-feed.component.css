@@ -70,11 +70,11 @@ button:focus{
   }
 
 .posts{
-    width: 70%;
+    width: calc(70% + 8rem);
     
-    margin: 0 15%;
+    margin: 0 calc(15% - 4rem);
     height: 100%;
-    padding: 10rem 5rem;
+    padding: 10rem calc(5% + 1rem);
     position: absolute;
     top: 0;
     overflow-y: auto;

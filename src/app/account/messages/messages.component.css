@@ -6,6 +6,13 @@ main{
     background-color: rgb(250, 250, 250);
     
 }
+button{
+    cursor: pointer;
+}
+
+button:focus{
+    outline: none;
+}
 .contacts{
     height: 100%;
     width: 30%;
@@ -51,22 +58,45 @@ input:focus{
     right: 1rem;
 }
 
+
 .contact-types{
-    display: flex;
-    width: 100%;
-    padding: 0rem 1rem;
     position: relative;
+    width: 80%;
+    height: 3rem;
+    overflow: hidden;
+    border-radius: 2rem;
+    display: flex;
+    margin: 0 auto;
+
+}
+
+.switch-bg{
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    border-radius: 1rem;
+    top: 0;
+    left: 0;
+    background-color: var(--color1);
+    transition: 0.5s ease;
+}
+
+.switch-bg.active{
+    left: 0;
+}
+
+.switch-bg.inactive{
+    left: 50%;
 }
 
 .contact-types button{
+    position: relative;
     flex: 1 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0.5rem 1rem;
-    background-color: white;
-    
-    border: 1px solid gray;
+    border-radius: 1rem;
+    background-color: transparent;
+    border: none;
+    font-weight: 600;
+    font-size: 1.1rem;
 }
 
 

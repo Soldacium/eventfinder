@@ -10,6 +10,7 @@ const eventsRoutes = require('./routes/events');
 const eventCommentsRoutes = require('./routes/event-comments');
 const eventParticipantsRoutes = require('./routes/event-participants');
 const messagesRoutes = require('./routes/messages')
+const messagesGroupRoutes = require('./routes/messages-group')
 const authRoutes = require('./routes/auth')
 
 const userCompanionsRoutes= require('./routes/user-companions');
@@ -69,7 +70,9 @@ app.use('/api/auth',authRoutes);
 app.use('/api/user-data', userDataRoutes);
 app.use('/api/user-feed', userFeedRoutes);
 app.use('/api/user-companions', userCompanionsRoutes);
+
 app.use('/api/messages',messagesRoutes);
+app.use('/api/messages-group',messagesGroupRoutes);
 
 //export to server
 module.exports = app;

@@ -66,7 +66,6 @@ server.listen(port, () => {
 });
 
 io.on('connection', (socket) => {
-  console.log('connectededed')
 
   socket.on('new message', (data, room) => {
     // we tell the client to execute 'new message'

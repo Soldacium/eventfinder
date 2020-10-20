@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MessagesService } from 'src/app/services/messages.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -28,7 +29,9 @@ export class YourCompanionsComponent implements OnInit {
   invitesShown = false;
   invitesTypeShown = true;
   userData;
-  constructor(private userService: UserService) { }
+  constructor(
+    private userService: UserService,
+    private messagesService: MessagesService) { }
 
   ngOnInit(): void {
     this.getUserCompanions();
@@ -88,12 +91,14 @@ export class YourCompanionsComponent implements OnInit {
   acceptCompanionInvite(companion){
 
     this.userService.acceptUserCompanionInvite(companion).subscribe(res => {
-      console.log(res);
+      this.messagesService.createNewUserConversation(companion.ID,this.userService.getCurrentUserID())
     });
   }
 
-  deleteFromCompanions(){
-
+  deleteFromCompanions(companion){
+    this.userService.deleteUserCompanion(companion).subscribe(res => {
+      console.log(res)
+    })
   }
   cancelCompanionInvite(invitesArray, invitesInfoArray, index: number){
     const userIDs = invitesArray[index];

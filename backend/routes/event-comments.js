@@ -23,7 +23,6 @@ router.post('/:id', (req, res, next) => {
     console.log(req.body.mode)
     if(req.body.mode === 'comment'){
         const newComment = new Comment(req.body.newComment);  
-        
 
         EventComments.updateOne({_id: req.params.id},
             {$push: {comments: newComment}}).then(comment => {
@@ -31,7 +30,7 @@ router.post('/:id', (req, res, next) => {
                     data: newComment
                 })
             })  
-        
+     
     }else if(req.body.mode === 'response'){
         const newResponse = new Comment(req.body.newComment);
         const commentID = req.body.commentID;

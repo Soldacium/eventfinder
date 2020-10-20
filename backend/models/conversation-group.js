@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 
 
 //makin schemas with mongoose
-const conversationSchema = mongoose.Schema({
-    conversationName: {type: String, required: true},
+const conversationGroupSchema = mongoose.Schema({
+    conversationName: {type: String, required: false},
     
 
     messages: {type: [{
@@ -21,7 +21,12 @@ const conversationSchema = mongoose.Schema({
     color1: {type: String, required: false},
     color2: {type: String, required: false},
 
+    makerID: {type: String, required: true},
+    eventID: {type: String, required: false},
+    image: {type: String, required: false},
+    type: {type: String, required: true},
+
 
 });
 
-module.exports = mongoose.model('Conversation', conversationSchema)
+module.exports = mongoose.model('ConversationGroup', conversationGroupSchema)

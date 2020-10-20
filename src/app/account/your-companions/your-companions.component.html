@@ -68,13 +68,26 @@
             <div class="invites-to" [ngClass]='invitesTypeShown ? "active" : "inactive"'>
                 <div class="invite invite-to" *ngFor='let invite of invitesInfoArray.to; index as i  '>
                     
-                    
+                    <div *ngIf='!(invite | async)'>
+                        <div class="spinner-dots">
+
+                        </div>
+                    </div>
                     <div class='invite-content' *ngIf='invite | async; let userInfo'>
                         <div class="invite-content-image">
                             <img [src]='userInfo.image' alt="">
                         </div>
-                        {{userInfo.email}}
-                        {{userInfo.username}}
+                        <div>
+                            <div class="invite-username">
+                                {{userInfo.username}}
+                            </div>
+                            <div class="invite-email">
+                                {{userInfo.email}}
+                            </div>
+                        
+                                              
+                        </div>
+
                         <div class="invite-content-buttons">
                             <button (click)='cancelCompanionInvite(invites.to, invitesInfoArray.to, i)'><img src="assets/icons/account/close1.svg" alt="" ></button>
                         </div>

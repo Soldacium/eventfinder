@@ -29,11 +29,11 @@
     height: 2.3rem;
     border-radius: 50%;
     margin-left: 0.7rem;
-    border: var(--color2) 2px solid;
+    border: rgba(0, 0, 0, 0.253) 3px solid;
 }
 .image-wrap img:nth-of-type(2){
     padding: 0.3rem;
-    border: var(--color1) 2px solid;
+    border: rgba(0, 0, 0, 0.253) 3px solid;
 }
 
 .text-wrap{

@@ -47,7 +47,8 @@ button{
 
 .event-img img{
     position: relative;
-    max-width: 150%;
+    min-width: 100%;
+    min-height: 100%;
 }
 
 .event-img-shadow{

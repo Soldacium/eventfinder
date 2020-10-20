@@ -21,6 +21,8 @@ export class EventsService {
   eventsUpdated = new Subject();
   eventsReady = new Subject();
 
+  eventPosted = new Subject();
+
   savedEventsUpdated = new Subject();
 
   commentsUpdated = new Subject();
@@ -104,6 +106,7 @@ export class EventsService {
     return this.http.get('http://localhost:3000/api/events/')
     .subscribe((res: any) => {
       this.events = res.events;
+      console.log(this.events)
       this.eventsReady.next(true);
     });
   }
@@ -127,6 +130,7 @@ export class EventsService {
 
   getSavedEvents(viewedUser?: boolean){
     const userData = viewedUser ? this.userService.getCurrentViewedUserData() : this.userService.getCurrentUserData();
+    console.log(userData)
     if (!userData){
       return [];
     }
@@ -180,6 +184,8 @@ export class EventsService {
     this.http.post<any>('http://localhost:3000/api/event-participants/', '').subscribe(resP => {
       participantsID = resP.data._id;
       this.http.post<any>('http://localhost:3000/api/event-comments/', '').subscribe(resC => {
+
+        this.http.post<any>('http://localhost:3000/api/messages-group/', '')
         commentsID = resC.data._id;
         if (commentsID && participantsID){
           const eventData = this.makePostData(event, img);
@@ -189,12 +195,14 @@ export class EventsService {
           this.http
           .post<{message: string, data: Event}>('http://localhost:3000/api/events/', eventData)
           .subscribe(res => {
-
+            this.eventPosted.next(res)
           });
         }
       });
     });
   }
+
+
   deleteEvent(eventID){
     this.http
     .delete('http://localhost:3000/api/events/' + eventID)

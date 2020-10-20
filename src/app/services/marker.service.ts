@@ -17,16 +17,6 @@ export class MarkerService {
   focusOnEvent = new Subject();
   searchedMapMarkersUpdated = new Subject<Array<object>>();
 
-  greenIcon = L.icon({
-    iconUrl: '/assets/icons/tags/drink.svg',
-    shadowUrl: '/assets/icons/general/circle.svg',
-
-    iconSize:     [30, 30], // size of the icon
-    shadowSize:   [40, 40], // size of the shadow
-    iconAnchor:   [0, 0], // point of the icon which will correspond to marker's location
-    shadowAnchor: [5, 5],  // the same for the shadow
-    popupAnchor:  [15, -10] // point from which the popup should open relative to the iconAnchor
-  });
 
   private allEvents: Array<Event>;
   private searchEvents: Array<Event>;
@@ -42,12 +32,14 @@ export class MarkerService {
     .subscribe((res: any) => {
       this.allEvents = res.events;
       events = res.events;
+      console.log(events)
       events.forEach((event: any) => {
         const coords = JSON.parse(event.coords);
         const lat = coords.lat;
         const lon = coords.lon;
 
-        const circle = L.marker([lat, lon], {icon: this.greenIcon});
+
+        const circle = L.marker([lat, lon], {icon: this.pickIcon(event.type)});
         circle.bindPopup(fl => this.createPopupComponentWithMessage(event));
         circle.addTo(map);
 
@@ -59,6 +51,10 @@ export class MarkerService {
     return markers;
   }
 
+  private pickIcon(type){
+    return L.divIcon({className: `leaflet-div-icon-${type}`, iconSize: L.point(38,38)})
+  }
+
   getMarkersFromEvents(events: Array<object>): Array<object>{
 
     const markers = [];
@@ -67,7 +63,7 @@ export class MarkerService {
       const lat = coords.lat;
       const lon = coords.lon;
 
-      const circle = L.marker([lat, lon], {icon: this.greenIcon});
+      const circle = L.marker([lat, lon], {icon: this.pickIcon(event.type)});
       circle.bindPopup(fl => this.createPopupComponentWithMessage(event));
 
       markers.push(circle);

@@ -23,10 +23,10 @@
         </div>
 
     </div>
-    <button class="next-section section-change" (click)='nextSection()'>
+    <button class="next-section section-change" (click)='nextSection()' *ngIf='currentSection < 5'>
         <img src="assets/icons/account/next2.svg" alt="">
     </button>
-    <button class="prev-section section-change" (click)='prevSection()'>
+    <button class="prev-section section-change" (click)='prevSection()' *ngIf='currentSection > 1'>
         <img src="assets/icons/account/next2.svg" class="rotated" alt="">
     </button>
     <!--
@@ -69,8 +69,11 @@
             [(ngModel)] = 'info.organisator' #organisator='ngModel' maxlength="20" minlength="1"/>
             <label for="org" class="input-label">Organisator</label>
         </div>  
-        <div *ngIf='organisator.touched && organisator.errors.minlength' class="error">Can't be empty</div>
-        <div *ngIf='organisator.touched && organisator.errors.maxlength' class="error">Can't be be longer than 30 characters</div>
+        <div *ngIf='organisator.errors'>
+            <div *ngIf='organisator.touched && organisator.errors.minlength' class="error">Can't be empty</div>
+            <div *ngIf='organisator.touched && organisator.errors.maxlength' class="error">Can't be be longer than 30 characters</div>
+        </div>
+
 
         <div class="event-types">
             <button class="event-type" *ngFor='let type of eventTypes' (click)='pickType(type)' [ngClass]="(chosenType === type?'active':'naah')">

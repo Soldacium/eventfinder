@@ -52,7 +52,7 @@ export class InteractionComponent implements OnInit, OnChanges {
   }
 
   createNewConversation(){
-    this.messageService.createNewConversation();
+    this.messageService.createNewEventConversation();
   }
 
   postComment(){

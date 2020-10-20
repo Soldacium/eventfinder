@@ -57,7 +57,7 @@ export class YourFeedComponent implements OnInit {
 
   chosenCompanions = [];
 
-  expandedPosts = []
+  expandedPosts = [];
 
 
 
@@ -87,7 +87,7 @@ export class YourFeedComponent implements OnInit {
   ngOnInit(): void {
     this.setEmptyPost();
     this.getFeedPosts();
-    
+
   }
 
 
@@ -95,12 +95,12 @@ export class YourFeedComponent implements OnInit {
 
   /* MAP */
   onMapReady(map: L.Map){
-    this.leafletMap = map; 
+    this.leafletMap = map;
   }
   checkMap(adress){
     fetch(`https://google-maps-geocoding.p.rapidapi.com/geocode/json?language=en&address=${adress}`, {
-    'method': 'GET',
-    'headers': {
+    method: 'GET',
+    headers: {
       'x-rapidapi-host': 'google-maps-geocoding.p.rapidapi.com',
       'x-rapidapi-key': '45679e5923mshcee5ececde58af4p140c23jsn2b5fef76a776'
     }
@@ -110,16 +110,16 @@ export class YourFeedComponent implements OnInit {
       this.adressInfo = data.results[0];
       this.adressLatLon = data.results[0].geometry.location;
 
-      if(this.marker !== undefined && this.marker !== null){
-        this.leafletMap.removeLayer(this.marker)
+      if (this.marker !== undefined && this.marker !== null){
+        this.leafletMap.removeLayer(this.marker);
       }
 
-      this.marker = new L.Marker(this.adressLatLon).addTo(this.leafletMap)
-      this.leafletMap.setView([this.adressLatLon.lat,this.adressLatLon.lng],5)
+      this.marker = new L.Marker(this.adressLatLon).addTo(this.leafletMap);
+      this.leafletMap.setView([this.adressLatLon.lat, this.adressLatLon.lng], 5);
 
       this.postData.relatedPlace = this.adressInfo.formatted_address;
 
-      console.log(data)
+      console.log(data);
 
 
 
@@ -153,20 +153,20 @@ export class YourFeedComponent implements OnInit {
     };
   }
   expandPost(i){
-    this.expandedPosts.push(i)
+    this.expandedPosts.push(i);
   }
 
   /* bonus content */
 
   searchYourEvents(){
-    console.log(this.searchedEvents)
-    this.searchedEvents = this.eventsService.getSearchedSavedEvents(this.searchQuery)
+    console.log(this.searchedEvents);
+    this.searchedEvents = this.eventsService.getSearchedSavedEvents(this.searchQuery);
   }
 
   chooseRelatedEvent(event){
     this.relatedEvent = event;
     this.searchQuery = '';
-    this.searchedEvents = []
+    this.searchedEvents = [];
   }
   unchooseEvent(){
     this.relatedEvent = undefined;
@@ -177,7 +177,7 @@ export class YourFeedComponent implements OnInit {
     this.currentTagText = '';
   }
   deleteTag(clickedTag){
-    this.chosenTags = this.chosenTags.filter(tag => tag !== clickedTag)
+    this.chosenTags = this.chosenTags.filter(tag => tag !== clickedTag);
   }
 
 
@@ -215,7 +215,7 @@ export class YourFeedComponent implements OnInit {
       this.imgURL = reader.result;
     };
 
-    this.file = files[0]
+    this.file = files[0];
   }
   clickImage(){
     document.getElementById('selectedFile').click();
@@ -228,41 +228,41 @@ export class YourFeedComponent implements OnInit {
     post.relatedTags = this.chosenTags;
     post.relatedPlaceCoords = this.adressLatLon || {};
     post.relatedPlace = this.adressInfo ? this.adressInfo.formatted_address : '';
-    post.date = new Date().toLocaleString()
+    post.date = new Date().toLocaleString();
     post.relatedCompanions = this.chosenCompanions;
     post.relatedActivities = this.chosenActivities;
     post.relatedEventID = this.relatedEvent ? this.relatedEvent._id : '';
 
-    console.log(this.file)
-    this.userFeedService.postToUserFeed(post,this.file)
+    console.log(this.file);
+    this.userFeedService.postToUserFeed(post, this.file)
     .subscribe(addedPost => {
-      
-      this.feed.push(post)
-      this.userFeedService.updateSavedFeed(post)
-    })
-    
-    //console.log(post)
-    
+
+      this.feed.push(post);
+      this.userFeedService.updateSavedFeed(post);
+    });
+
+    // console.log(post)
+
   }
 
   getFeedPosts(){
-    if(!this.authService.getUser() && this.userFeedService.getSavedFeed().length === 0){
+    if (!this.authService.getUser() && this.userFeedService.getSavedFeed().length === 0){
       this.authService.getUserListener()
       .subscribe((user: any) => {
         this.userFeedService.getUserFeed(this.userService.getCurrentUser().userFeedID, true).subscribe(feed => {
           this.feed = feed;
-          console.log('done1', this.feed)
-        })
-        
+          console.log('done1', this.feed);
+        });
 
-      });      
-    }else if(this.userFeedService.getSavedFeed().length > 0){
-      this.feed = this.userFeedService.getSavedFeed()
+
+      });
+    }else if (this.userFeedService.getSavedFeed().length > 0){
+      this.feed = this.userFeedService.getSavedFeed();
     }else{
-      this.userFeedService.getUserFeed(this.userService.getCurrentUser().userFeedID,true).subscribe(feed => {
+      this.userFeedService.getUserFeed(this.userService.getCurrentUser().userFeedID, true).subscribe(feed => {
         this.feed = feed;
-        console.log('done2',this.feed)
-      })
+        console.log('done2', this.feed);
+      });
     }
 
 

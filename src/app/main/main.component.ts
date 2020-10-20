@@ -29,7 +29,7 @@ export class MainComponent implements OnInit {
   };
 
   optionsHidden = true;
-  currentEventInfoIsHidden = false;
+  currentEventInfoIsHidden = true;
 
   eventMarkers = [];
 

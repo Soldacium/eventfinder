@@ -3,6 +3,7 @@ import { Observable, Subject, VirtualTimeScheduler } from 'rxjs';
 import { Event } from 'src/app/models/event.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { EventsService } from 'src/app/services/events.service';
+import { MessagesService } from 'src/app/services/messages.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -40,7 +41,8 @@ export class MainInfoComponent implements OnInit, OnChanges {
 
 
   constructor(private eventsService: EventsService,
-              private userService: UserService) { }
+              private userService: UserService,
+              private messagesService: MessagesService) { }
 
   ngOnInit(): void { }
 
@@ -116,6 +118,7 @@ export class MainInfoComponent implements OnInit, OnChanges {
     this.userService.addSavedEventRef(this.currentEvent._id).subscribe(saved => {
       this.savedEvents = saved;
       this.updateSaveButton();
+      this.messagesService.joinEventGroupConversation(this.currentEvent._id)
     });
   }
 

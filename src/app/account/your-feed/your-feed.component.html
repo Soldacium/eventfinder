@@ -41,17 +41,28 @@
                 <button class="more-content" (click)='expandPost(i)'>
                     
                 </button>
-                <div class="content" [innerHTML]='post.content' [ngClass]='expandedPosts.includes(i)?"full":"hidden"'>
-                    
-                </div>
-                <div class='companions'>
-                    <div class="companion" *ngFor='let companion of post.relatedCompanions'>
-                        {{companion}}
+                <div class="content"  [ngClass]='expandedPosts.includes(i)?"full":"hidden"'>
+                    <div class="content-text" [innerHTML]='post.content'></div>
+
+                    <div class='companions'>
+                        <div class="companion" *ngFor='let companion of post.relatedCompanions'>
+                            {{companion}}
+                        </div>
+                    </div>
+                    <div class="images">
+    
+                    </div>
+                    <div class="related-place" *ngIf='post.relatedPlace'>
+                        {{post.relatedPlace}}
+                    </div>
+                    <div class="related-companions" *ngIf='post.relatedCompanions'>
+                        Companion
+                    </div>
+                    <div class="related-event" *ngIf='post.relatedEventID'>
+                        Event
                     </div>
                 </div>
-                <div class="images">
 
-                </div>
             </div>
         </div>
     </section>

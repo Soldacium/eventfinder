@@ -8,29 +8,28 @@
             </div>
         </div>
 
+
         <div class="contact-types">
-            <button>Events</button>
-            <button>Companions</button>
+            <div class="switch-bg" [ngClass]='contactTypeShown ? "active" : "inactive"'></div>
+            <button (click)='contactTypeShown = true'>Events</button>
+            <button (click)='contactTypeShown = false'>Companions</button>
         </div>
 
 
         <div class="contacts-display">
 
-            <div class="contact" *ngFor='let contact of searchedConversations' (click)='openConversation(contact)'>
+            <div class="contact" *ngFor='let contact of searchedConversations; index as i' (click)='openConversation(contact)'>
 
                 <span class="contact-color"></span>
 
-                <div class="contact-info">
-                    <div class="contact-img" *ngIf='contact.userID1 !== userID'>
-                        <img [src]=[contact.userImg1] alt="">
-                    </div>
-                    <div class="contact-img" *ngIf='contact.userID2 !== userID'>
-                        <img [src]=[contact.userImg2] alt="">
+                <div class="contact-info" *ngIf='conversationsUserInfo[i] | async; let userInfo'>
+                    <div class="contact-img">
+                        <img [src]=[userInfo.image] alt="">
                     </div>
                     <div class="text">
-                        <div class="organisator-name" *ngIf='contact.userID1 !== userID'>{{contact.userName1}}</div>
-                        <div class="organisator-name" *ngIf='contact.userID2 !== userID'>{{contact.userName2}}</div>
-                        <div class="event-name">{{contact.conversationName}}</div>                
+                        <div class="organisator-name" *ngIf='contact.userID1 !== userID'>{{contact.nick1}}</div>
+                        <div class="organisator-name" *ngIf='contact.userID2 !== userID'>{{contact.nick2}}</div>
+                        <div class="event-name">{{contact.conversationName || userInfo.username}}</div>                
                     </div>                
                 </div>
                 <div class="contact-message" *ngIf='contact.messages.length >= 1'>
@@ -46,21 +45,29 @@
     </section>
 
     <section class="conversation" *ngIf='currentConversation'>
+        <div class="row"> 
+            <div class="col-md"> 1 of 3 </div> 
+            <div class="col-md-auto"> 2 of 3 </div> 
+            <div class="col-md-auto"> 3 of 3 </div> 
+        </div>
 
         <div class="conversation-info" >
             <!--
             <div class="conversation-image">
                 <img src="assets/icons/tags/fist.svg" alt="">
-            </div>            
-            -->           
+            </div>    
+            
+            
             <div class="contact-img" *ngIf='currentConversation.userID1 !== userID'>
                 <img [src]=[currentConversation.userImg1] alt="">
             </div>
             <div class="contact-img" *ngIf='currentConversation.userID2 !== userID'>
                 <img [src]=[currentConversation.userImg2] alt="">
-            </div>
+            </div>            
+        -->           
+
             <div class="conversation-name">
-                <div class="organisator-name">{{currentConversation.userName1}}</div>
+                <div class="organisator-name">{{currentConversation.nick1}}</div>
                 <div class="event-name">{{currentConversation.conversationName}}</div>
             </div>
             <div class="conversation-options">

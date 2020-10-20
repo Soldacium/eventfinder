@@ -13,6 +13,7 @@ export class SavedListComponent implements OnInit {
 
   makeSure = false;
   searchQuery = '';
+  inspectedSave;
 
 
   savedEvents = [];
@@ -102,6 +103,7 @@ export class SavedListComponent implements OnInit {
     this.eventsService.unsaveEvent(save);
     this.userService.deleteSavedEventRef(save._id).subscribe(saved => {
       this.savedEvents = saved;
+      this.inspectedSave = undefined;
     });
     this.searchedSavedEvents.splice(this.searchedSavedEvents.indexOf(save),1)
     this.savedEvents.splice(this.savedEvents.indexOf(save),1)

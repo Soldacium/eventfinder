@@ -8,7 +8,7 @@ export class Conversation{
     userID2: string;
     userDataID2: string;
 
-    messages: []; /*{
+    messages: object[]; /*{
         senderID: string,
         message: string,
         date: string,
