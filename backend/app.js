@@ -27,7 +27,7 @@ const app = express();
 
 
 
-mongoose.connect('mongodb+srv://Wojtemon:22moko22@eventfinder.chq9z.mongodb.net/EventFinder?retryWrites=true&w=majority', { useNewUrlParser: true , useUnifiedTopology: true}) //if not working remowe retrywrites
+mongoose.connect('mongodb+srv://<login>:<password>@eventfinder.chq9z.mongodb.net/<database>?retryWrites=true&w=majority', { useNewUrlParser: true , useUnifiedTopology: true}) //if not working remowe retrywrites
     .then(() => {
         console.log('connected')
     })
