@@ -11,6 +11,7 @@ import { UserService } from 'src/app/services/user.service';
 export class InfoComponent implements OnInit {
 
   userData: UserData;
+  companionsRefs = []
 
   invitations;
   invateState = '';
@@ -58,13 +59,29 @@ export class InfoComponent implements OnInit {
     }) : '';
   }
 
-  checkIfCompanion(){
-    this.userService.getCompanion(this.userService.getCurrentUserID(), false).subscribe(companion => {
 
-      if (companion){
-        console.log(companion);
+  getUserCompanions(){
+    if (!this.userService.getCurrentUser() && !this.userService.currentUserCompanions){
+      this.userService.currentUserUpdated.subscribe(ready => {
+        this.userService.getUserCompanions(true).subscribe(companionsRefs => {
+          this.companionsRefs = companionsRefs;
+        })
+      });
+    }else if (!this.userService.currentUserCompanions){
+      this.userService.getUserCompanions(true).subscribe(companionsRefs => {
+        this.companionsRefs = companionsRefs;
+      });
+    }else{
+      this.companionsRefs = this.userService.currentUserCompanions;
+    }
+  }
+  checkIfCompanion(){
+    const viewedUserID = this.userService.getViewedUserID()
+    this.companionsRefs.forEach(companionRef => {
+      if(companionRef.ID == viewedUserID){
+        this.invateState = 'isCompanion';
       }
-    });
+    })
   }
 
 

@@ -7,11 +7,13 @@
 </div>
 
 <div class="overlay" [ngClass]='inspectedSave ? "active" : "inactive"'>
-    <div>
-        <div></div>
+    <div class='overlay-message' *ngIf='inspectedSave'>
         <div>
-            <button (click)='inspectedSave = undefined '>Cancel</button>
-            <button (click)='delete(inspectedSave) '>Unsave</button>
+            Are you sure to unsave <b>{{inspectedSave.title}}?</b>
+        </div>
+        <div>
+            <button (click)='inspectedSave = undefined ' class="cancel">Cancel</button>
+            <button (click)='delete(inspectedSave) ' class="unsave">Unsave</button>
         </div>
     </div>
 </div>

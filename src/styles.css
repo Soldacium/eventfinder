@@ -37,6 +37,24 @@ html{
     
     
     scroll-behavior: smooth;
+
+    --smooth-shadow-small: 0 0.5px 0.5px rgba(0, 0, 0, 0.05), 
+    0 1px 1px rgba(0,0,0,0.05), 
+    0 2px 2px rgba(0,0,0,0.05), 
+    0 4px 4px rgba(0,0,0,0.05),
+    0 8px 8px rgba(0,0,0,0.05);
+
+    --smooth-shadow-medium: 0 1px 1px rgba(0, 0, 0, 0.065), 
+    0 2px 2px rgba(0,0,0,0.065), 
+    0 3px 3px rgba(0,0,0,0.065), 
+    0 5px 5px rgba(0,0,0,0.065),
+    0 8px 8px rgba(0,0,0,0.065);
+
+    --smooth-shadow-big: 0 1px 1px rgba(0, 0, 0, 0.08), 
+    0 2px 2px rgba(0,0,0,0.08), 
+    0 4px 4px rgba(0,0,0,0.08), 
+    0 8px 8px rgba(0,0,0,0.08),
+    0 16px 16px rgba(0,0,0,0.08);
 }
 
 iframe{

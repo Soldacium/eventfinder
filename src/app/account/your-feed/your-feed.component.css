@@ -70,23 +70,24 @@ button:focus{
   }
 
 .posts{
-    width: calc(70% + 8rem);
+    width: 100%;
     
-    margin: 0 calc(15% - 4rem);
     height: 100%;
-    padding: 10rem calc(5% + 1rem);
+    padding: 5rem calc(20% - 4rem);
     position: absolute;
     top: 0;
     overflow-y: auto;
     transition: 0.3s;
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
 }
 .posts.active{
     right: 0;
+    opacity: 1;
 }
 .posts.inactive{
     right: 100%;
+    opacity: 0;
 }
 
 .post{
@@ -101,9 +102,10 @@ button:focus{
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    margin-top: 3rem;
+    margin-top: 4rem;
+    margin-bottom: 2rem;
 
-    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.075);
+    box-shadow: var(--smooth-shadow-small);
 }
 .post-options{
     position: absolute;
@@ -287,6 +289,61 @@ button:focus{
 
 
 
+.timeline{
+    position: fixed;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    z-index: 10;
+    left: calc(10% + 100px);
+    width: 10%;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.number{
+    position: absolute;
+    width: 2rem;
+    height: 2rem;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    background-color: white;
+}
+
+.numberPrev{
+}
+.numberPrev.toTop{
+    animation: toTop ease 0.3s forwards;
+}
+.numberPrev.toBottom{
+    animation: toBottom ease 0.3s forwards;
+}
+
+@keyframes toTop{
+    0%{
+        top: 50%;
+    }100%{
+        top: 0;
+    }
+}
+
+@keyframes toBottom{
+    0%{
+        top: 50%;
+    }100%{
+        top: 80%;
+    }
+}
+
+@keyframes fromTop{
+    0%{
+
+    }
+}
+
+
+
+
 
 
 
@@ -316,9 +373,11 @@ button:focus{
 }
 .make-post.active{
     left: 0;
+    opacity: 1;
 }
 .make-post.inactive{
     left: 100%;
+    opacity: 0;
 }
 .make-post-title-wrap{
     position: relative;

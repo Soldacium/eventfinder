@@ -21,7 +21,7 @@ export class UserService {
   private userData: UserData;
   private currentUserData: UserData;
   currentUserInvites;
-  currentUserCompanions: UserCompanions;
+  currentUserCompanions;
   private userID;
   private token: string;
 
@@ -421,14 +421,20 @@ export class UserService {
 
 
   deleteUserCompanion(companion){
-    let params = new HttpParams();
-    params = params.append('mode', 'delete-companion');
+    console.log(companion)
+    let params1 = new HttpParams();
+    params1 = params1.append('mode', 'delete-companion');
+    params1 = params1.append('userID', this.currentUser._id)
     this.http
-    .delete('http://localhost:3000/api/user-companions/' + companion.companionsID, {params});
+    .delete('http://localhost:3000/api/user-companions/' + companion.companionsID, {params: params1}).subscribe(res => res);
 
+    let params2 = new HttpParams();
+    params2 = params2.append('mode', 'delete-companion');
+    params2 = params2.append('userID', companion.ID)
     return this.http
-    .delete('http://localhost:3000/api/user-companions/' + this.currentUser.userCompanionsID, {params})
+    .delete('http://localhost:3000/api/user-companions/' + this.currentUser.userCompanionsID, {params: params2})
     .pipe(map((res: any) => {
+      console.log(res)
       return res;
     }));
   }

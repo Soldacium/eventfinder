@@ -10,9 +10,9 @@
     </button>
 
 
-    <section class="posts" [ngClass]='viewFeed?"active":"inactive"'>
+    <section class="posts" [ngClass]='viewFeed?"active":"inactive"' (scroll)='onScroll($event)'>
 
-        <div class='post' *ngFor='let post of feed; index as i' >
+        <div class='post' *ngFor='let post of feed; index as i' #postSelector id='{{i}}'>
             <button class="post-options">
                 <img src="assets/icons/account/more.svg" alt="">
             </button>
@@ -22,7 +22,7 @@
                 </div>
                 <div class="post-intro-text">
                     <div class="title">
-                        {{post.title}}
+                        {{post.title}} 
                     </div>  
    
                     <div class="post-tags">
@@ -64,6 +64,18 @@
                 </div>
 
             </div>
+        </div>
+        <div class="timeline">
+            <div class="number numberPrev" *ngIf="prevPostNumber !== undefined" [ngClass]="prevPostNumber <= currentPostNumber? 'toTop': 'toBottom'">
+                {{prevPostNumber}}
+            </div>
+            <!--
+            <div class="number numberCurr">
+                {{currentPostNumber}}
+            </div>                
+            -->
+
+            
         </div>
     </section>
 

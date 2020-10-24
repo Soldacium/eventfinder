@@ -92,10 +92,10 @@ import { SavedPlannerComponent } from './account/saved/saved-planner/saved-plann
     BrowserModule,
     AppRoutingModule,
     LeafletModule,
-    CKEditorModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    CKEditorModule,
     RouterModule.forRoot([
       {
         path: '',

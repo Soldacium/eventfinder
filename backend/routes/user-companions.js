@@ -115,6 +115,15 @@ router.delete('/:id', (req,res,next) => {
             })       
     }
 
+    if(req.query.mode === 'delete-companion'){
+        UserCompanions.findOneAndUpdate({_id: req.params.id},
+            {$pull: {'companions': {ID: req.query.userID}}}).then(delCompanion => {
+                res.status(200).json({
+                    companion: delCompanion
+                })
+            })
+    }
+
 })
 
 router.put('/:id', (req,res,next) => {

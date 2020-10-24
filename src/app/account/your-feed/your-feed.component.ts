@@ -13,7 +13,13 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./your-feed.component.css']
 })
 export class YourFeedComponent implements OnInit {
+
+
+  postRefs = Array<HTMLDivElement>(3);
+  currentPostNumber = 0;
+  prevPostNumber = 1;
   /* map stuff */
+
   marker;
   adressInfo;
   adressLatLon;
@@ -88,8 +94,47 @@ export class YourFeedComponent implements OnInit {
     this.setEmptyPost();
     this.getFeedPosts();
 
+
   }
 
+
+
+  onScroll(event){
+    const offset = document.querySelector('.posts').scrollTop;
+
+    if (this.postRefs[1] == null || this.postRefs[1] == undefined){
+      this.postRefs[0] = document.querySelector("[id='0']");
+      this.postRefs[1] = document.querySelector("[id='0']");
+      this.postRefs[2] = document.querySelector("[id='1']");
+      
+    }
+    
+    console.log(offset, this.postRefs[0].offsetTop,this.postRefs[1].offsetTop)
+    if (offset > this.postRefs[1].offsetTop){
+      this.prevPostNumber = undefined;
+      const idNum = parseInt(this.postRefs[1].id);
+      this.postRefs[0] = this.postRefs[1];
+      this.postRefs[1] = this.postRefs[2];
+      this.postRefs[2] = document.querySelector(`[id='${idNum + 1}']`);
+
+
+      this.prevPostNumber = idNum;
+      this.currentPostNumber = idNum + 1;
+    }else if(offset <= this.postRefs[0].offsetTop){
+      this.prevPostNumber = undefined;
+      const idNum = parseInt(this.postRefs[1].id);
+      this.postRefs[0] = document.querySelector(`[id='${idNum - 1}']`);;
+      this.postRefs[1] = this.postRefs[0];
+      this.postRefs[2] = this.postRefs[1];
+
+
+      this.prevPostNumber = idNum;
+      this.currentPostNumber = idNum - 1;
+    }
+
+    
+
+  }
 
 
 
@@ -251,6 +296,7 @@ export class YourFeedComponent implements OnInit {
       .subscribe((user: any) => {
         this.userFeedService.getUserFeed(this.userService.getCurrentUser().userFeedID, true).subscribe(feed => {
           this.feed = feed;
+
           console.log('done1', this.feed);
         });
 
@@ -258,9 +304,11 @@ export class YourFeedComponent implements OnInit {
       });
     }else if (this.userFeedService.getSavedFeed().length > 0){
       this.feed = this.userFeedService.getSavedFeed();
+
     }else{
       this.userFeedService.getUserFeed(this.userService.getCurrentUser().userFeedID, true).subscribe(feed => {
         this.feed = feed;
+
         console.log('done2', this.feed);
       });
     }

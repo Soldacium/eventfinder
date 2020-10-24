@@ -196,6 +196,9 @@ a{
     transition: 0.3s;
     color: white;
     z-index: 19;
+    background-color: rgb(41, 41, 41);
+    border: 4px var(--color1) solid;
+    border-width: 4px 0px;
     
 }
 
@@ -210,35 +213,49 @@ a{
     z-index: 20;
 }
 
-.date-start{
-    background-color:  rgb(255, 187, 0);
-    margin-right: 1.5rem;
-    
-    
-}
-.date-start::before{
+.date-start:after,
+.date-end:after{
     content: '';
     position: absolute;
-    left: 100%;
-    top: 0;
+    top: 0px;
     width: 0;
     height: 0;
-    border-top: 6rem solid rgb(255, 187, 0);
-    border-right: 30px solid transparent;
 }
-.date-end{
-    background-color: var(--color1); 
-    margin-left: 1.5rem;
-}
+.date-start::before,
 .date-end::before{
     content: '';
     position: absolute;
-    right: 100%;
-    top: 0;
+    top: -4px;
     width: 0;
     height: 0;
-    border-bottom: 6rem solid  var(--color1);
+}
+
+.date-start{
+    margin-right: 2rem;
+}
+.date-start::after{
+    left: 100%;
+    border-top: calc(6rem - 8px) solid rgb(41, 41, 41);
+    border-right: 30px solid transparent;
+}
+.date-start::before{
+    left: 100%;
+    border-top: calc(6rem) solid var(--color1);
+    border-right: 36px solid transparent;
+}
+.date-end{
+    margin-left: 2rem;
+}
+.date-end::after{
+    right: 100%;
+    border-bottom: calc(6rem - 8px) solid  rgb(41, 41, 41);
     border-left: 30px solid transparent;
+}
+
+.date-end::before{
+    right: 100%;
+    border-bottom: calc(6rem) solid  var(--color1);
+    border-left: 36px solid transparent;
 }
 
 .place{

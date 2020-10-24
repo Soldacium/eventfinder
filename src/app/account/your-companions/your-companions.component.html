@@ -33,12 +33,15 @@
                     <button><img src="assets/icons/account/comment2.svg" alt=""></button>
                     <button><img src="assets/icons/account/board.svg" alt=""></button>
                 </div>
-                <button class="companion-options-button">
+                <button class="companion-options-button" *ngIf='companionsRefs' (click)='openOptions(companionsRefs[i], $event)'>
                     <img src="assets/icons/account/more.svg" alt="">
-                </button>
-                <div class="companion-options">
+                    <div class="companion-options"  [ngClass]='viewedCompanion == companionsRefs[i] ? "active": "inactive"' (click)='$event.stopPropagation()'>
+                        <button class="companion-option block">Block</button>
+                        <button class="companion-option delete" (click)='deleteCompanion()'>Delete</button>
 
-                </div>
+                    </div>
+                </button>
+
                 
                 
                 

@@ -9,6 +9,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class YourCompanionsComponent implements OnInit {
 
+  viewedCompanion = '';
   companionsRefs;
   companionsInfoArray = [];
 
@@ -176,6 +177,22 @@ export class YourCompanionsComponent implements OnInit {
 
   prevPage(){
 
+  }
+
+  openOptions(companion, event){
+    this.viewedCompanion = companion;
+    console.log(this.companionsRefs, this.viewedCompanion, this.companionsRefs[0] == this.viewedCompanion)
+    event.stopPropagation();
+  }
+
+  deleteCompanion(){
+    this.userService.deleteUserCompanion(this.viewedCompanion).subscribe(res => {
+      console.log(res)
+    })
+  }
+
+  blockCompanion(){
+    console.log('not implemented')
   }
 
 }

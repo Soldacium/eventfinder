@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Event } from 'src/app/models/event.model';
 import * as L from 'leaflet';
+
+
 import { EventsService } from 'src/app/services/events.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { MessagesService } from 'src/app/services/messages.service';
 import { Router } from '@angular/router';
+
+
 
 @Component({
   selector: 'app-make-event',
@@ -18,6 +22,8 @@ export class MakeEventComponent implements OnInit {
    */
 
    /* image + async check if posted */
+   //import * as BalloonEditor from '@ckeditor/ckeditor5-editor-balloon';
+  //public editor = BalloonEditor;
   public imagePath;
   imgURL: any;
   public message: string;
