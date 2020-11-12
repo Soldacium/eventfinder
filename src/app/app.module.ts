@@ -84,10 +84,8 @@ import { SavedPlannerComponent } from './account/saved/saved-planner/saved-plann
     YourCompanionsComponent,
     SavedListComponent,
     SavedPlannerComponent,
-
-
-
   ],
+
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -105,7 +103,6 @@ import { SavedPlannerComponent } from './account/saved/saved-planner/saved-plann
         path: 'account',
         canActivate: [AuthGuardGuard],
         component: AccountComponent,
-        
         children: [
           {
             path: '',
@@ -189,17 +186,17 @@ import { SavedPlannerComponent } from './account/saved/saved-planner/saved-plann
   ],
   providers: [
     MarkerService,
-    AuthGuardGuard, 
-    AuthService, 
-    EventsService, 
-    MessagesService, 
+    AuthGuardGuard,
+    AuthService,
+    EventsService,
+    MessagesService,
     UserService,
     UserFeedService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { 
+export class AppModule {
   constructor(private injector: Injector) {
     const PopupElement = createCustomElement(MarkerComponent, {injector});
     // Register the custom element with the browser.

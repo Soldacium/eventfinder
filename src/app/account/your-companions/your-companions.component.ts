@@ -27,7 +27,7 @@ export class YourCompanionsComponent implements OnInit {
   };
 
 
-  invitesShown = false;
+  invitesShown = true;
   invitesTypeShown = true;
   userData;
   constructor(

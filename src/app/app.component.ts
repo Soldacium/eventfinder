@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from './services/auth.service';
 import { EventsService } from './services/events.service';
 
-import * as io from 'socket.io-client'
 
 @Component({
   selector: 'app-root',
@@ -11,14 +10,14 @@ import * as io from 'socket.io-client'
 })
 export class AppComponent implements OnInit {
   title = 'eventFinder';
-  socket;
 
-  constructor(private authService: AuthService,
+  constructor(
+    private authService: AuthService,
     private eventsService: EventsService){}
 
   ngOnInit(){
     this.authService.autoAuthUser();
-    this.eventsService.getEvents()
+    this.eventsService.getEvents();
   }
 
 

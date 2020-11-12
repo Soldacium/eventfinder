@@ -28,15 +28,22 @@ export class MainOptionsComponent implements OnInit {
     maxPrice: 1000
   };
 
-  constructor(private markerService: MarkerService) { }
+
+
+
+  constructor(
+    private markerService: MarkerService,
+    ) { }
 
   ngOnInit(): void {
   }
 
+
+
+
   /* types and tags */
   pickType(type){
     this.chosenType === type ? this.chosenType = '' : this.chosenType = type;
-    console.log(this.chosenType);
   }
   pickTag(tag) {
     const isTag = this.chosenTags.includes(tag);
@@ -46,6 +53,10 @@ export class MainOptionsComponent implements OnInit {
       this.chosenTags.splice(this.chosenTags.indexOf(tag), 1);
     }
   }
+
+
+
+
 
   search(){
 

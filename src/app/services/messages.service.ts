@@ -27,13 +27,18 @@ export class MessagesService {
   conversationsUpdated = new Subject<Conversation[]>();
   newMessage = new Subject();
 
+
+
+
   constructor(
     private http: HttpClient,
     private eventsService: EventsService,
     private authService: AuthService,
     private router: Router,
     private userService: UserService) {
+
       this.setSocket();
+
      }
 
 
@@ -61,12 +66,26 @@ export class MessagesService {
     console.log('left the room' + room);
   }
 
-  postMessage(conversationId: string, message: Message){
+
+
+
+  /* POSTING MESSAGES */
+
+  postMessage(conversationID: string, message: Message){
     const newMessage = message;
     this.http
-    .post('http://localhost:3000/api/messages/' + conversationId, newMessage)
+    .post('http://localhost:3000/api/messages/' + conversationID, newMessage)
     .subscribe((message) => {
-      this.socket.emit('new message', newMessage, conversationId);
+      this.socket.emit('new message', newMessage, conversationID);
+      console.log(message);
+    });
+  }
+
+  postGroupMessage(conversationID: string, message: Message){
+    this.http
+    .post('http://localhost:3000/api/messages-group/' + conversationID, message)
+    .subscribe((message) => {
+      this.socket.emit('new message', message, conversationID);
       console.log(message);
     });
   }
@@ -75,6 +94,7 @@ export class MessagesService {
 
 
 
+  /* GETTING CONVERSATIONS */
   getAllConversations(){
     return this.allConversations;
   }
@@ -96,6 +116,25 @@ export class MessagesService {
       })
     );
   }
+
+
+  getConversation(id){
+    this.http
+    .get('http://localhost:3000/api/messages/' + id)
+    .subscribe((res: Conversation) => {
+      this.currentConversation = res;
+      return res;
+    });
+  }
+
+
+
+
+
+
+
+
+  /* CREATING CONVERSATIONS */
 
   createNewUserConversation(user1IDs, user2IDs){
     const newConvo: Conversation = {
@@ -235,14 +274,7 @@ export class MessagesService {
 
 
 
-  getConversation(id){
-    this.http
-    .get('http://localhost:3000/api/messages/' + id)
-    .subscribe((res: Conversation) => {
-      this.currentConversation = res;
-      return res;
-    });
-  }
+
 
 
 }

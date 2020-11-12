@@ -45,7 +45,10 @@ router.post('/:id',(req,res,next) => {
                 data: PP
             })
         }) 
-})
+});
+
+
+
 
 router.patch('/:id',(req,res,next) => {
     const userID = req.body.userID;
@@ -57,7 +60,7 @@ router.patch('/:id',(req,res,next) => {
             })
         })
         
-})
+});
 
 module.exports = router;
 

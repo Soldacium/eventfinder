@@ -7,10 +7,12 @@
             WWW
         </div>            
         -->
+        
 
+        
         <ul class='links'>
-            <li><a [routerLink]='["/account"]' [ngClass]="(router.isActive('/account',false))?'active':'naah'">Account</a></li>
-            <li><a [routerLink]='["/"]' [ngClass]="(router.isActive('/',true))?'active':'naah'">Home</a></li>
+            <li *ngIf='authenticated === true'><a [routerLink]='["/account"]' [ngClass]="(router.isActive('/account',false))?'active':'naah'">Account</a></li>
+            <li><a [routerLink]='["/"]' [ngClass]="(router.isActive('/',true))?'active':'naah'">Map</a></li>
             <li *ngIf='authenticated === false'><a [routerLink]='["/login"]' [ngClass]="(router.isActive('/login',true))?'active':'naah'">Login</a></li>
             <li *ngIf='authenticated === true'><a (click)='logout()'>Logout</a></li>
             

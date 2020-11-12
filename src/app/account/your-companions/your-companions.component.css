@@ -36,7 +36,7 @@ button:focus{
     border-radius: 1rem;
     padding: 1rem 1rem;
     width: 100%;
-    box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.082);
+    box-shadow: 0 0px 2px 1px rgba(0, 0, 0, 0.082);
 }
 
 input:focus{
@@ -61,10 +61,11 @@ input:focus{
     display: flex;
     justify-content: center;
     align-items: center;
+    box-shadow: 0 0px 2px 1px rgba(0, 0, 0, 0.082);
 }
 
 .show-invites-button img{
-    height: 2.5rem;
+    height: 2.25rem;
 }
 
 
@@ -201,8 +202,24 @@ input:focus{
     background-color: white;
     box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.11);
     transition: 0.5s ease;
-    padding: 10% 0;
+    padding: 8% 0;
     overflow-y: auto;
+}
+
+.invites::-webkit-scrollbar-track{
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0);
+    background-color: #252525;  
+}
+
+.invites::-webkit-scrollbar{
+	width: 12px;
+	background-color: var(--color1);
+}
+
+.invites::-webkit-scrollbar-thumb{
+	border-radius: 2px;
+    background-color: var(--color1);
+    max-height: 30vh;
 }
 
 .invites.active{
@@ -213,14 +230,21 @@ input:focus{
     bottom: -100%;
 }
 
+.title{
+    width: 100%;
+    position: relative;
+    z-index: 40;
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 500;
+}
+
 .invites-switch{
     position: relative;
-    width: 80%;
-    height: 3rem;
-    overflow: hidden;
-    border-radius: 2rem;
+    width: 70%;
     display: flex;
     margin: 0 auto;
+    background-color: rgb(255, 255, 255);
 
 }
 
@@ -228,7 +252,7 @@ input:focus{
     position: absolute;
     width: 50%;
     height: 100%;
-    border-radius: 1rem;
+    border-radius: 0.75rem;
     top: 0;
     left: 0;
     background-color: var(--color1);
@@ -249,8 +273,16 @@ input:focus{
     border-radius: 1rem;
     background-color: transparent;
     border: none;
-    font-weight: 600;
-    font-size: 1.3rem;
+    font-weight: 500;
+    font-size: 1.2rem;
+    margin: 0.5rem 1rem;
+    padding: 0.5rem 0;
+    transition: 0.3s;
+
+}
+.invites-switch button.active{
+    box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.062);
+    background-color: var(--color3);
 }
 
 .invites-wrap{
@@ -290,20 +322,31 @@ input:focus{
     opacity: 0;
 }
 
+.invite{
+    margin: 0 0.5rem;
+    margin-top: 0.5rem;
+    border-radius: 0.5rem;
+    transition: 0.3s ease;
+}
+.invite:hover{
+    background-color: rgb(245, 245, 245);
+}
+
+
 .invite-content{
     display: flex;
     width: 100%;
     position: relative;
     align-items: center;
     margin-bottom: 0.5rem;
-    padding: 0.5rem 1rem;
+    padding: 1rem 1rem;
     overflow: hidden;
 }
 
 .invite-content-image{
     width: 3rem;
     height: 3rem;
-    margin-right: 0.5rem;
+    margin-right: 1rem;
     position: relative;
     overflow: hidden;
     border-radius: 50%;
@@ -314,11 +357,13 @@ input:focus{
 }
 
 .invite-username{
-    font-size: 1.3rem;
+    font-weight: 500;
+    font-size: 1.1rem;
 }
 
 .invite-email{
     color: grey;
+    font-size: 0.9rem;
 }
 
 .invite-content-buttons{

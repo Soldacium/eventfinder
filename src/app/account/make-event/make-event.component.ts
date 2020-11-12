@@ -22,8 +22,8 @@ export class MakeEventComponent implements OnInit {
    */
 
    /* image + async check if posted */
-   //import * as BalloonEditor from '@ckeditor/ckeditor5-editor-balloon';
-  //public editor = BalloonEditor;
+   // import * as BalloonEditor from '@ckeditor/ckeditor5-editor-balloon';
+  // public editor = BalloonEditor;
   public imagePath;
   imgURL: any;
   public message: string;
@@ -278,16 +278,16 @@ export class MakeEventComponent implements OnInit {
     };
 
     this.eventsService.postEvent(event, this.file);
-    this.eventsService.eventPosted.subscribe((event:any) => {
-      console.log(event)
-      const eventObj = event.post.createdPost
+    this.eventsService.eventPosted.subscribe((event: any) => {
+      console.log(event);
+      const eventObj = event.post.createdPost;
       this.messagesService.createNewGroupConversation(user._id, 'event', eventObj._id, eventObj.title, eventObj.iconImg)
-      .subscribe(res =>{
-        console.log(res)
-        this.router.navigate(['/account/your-events'])
+      .subscribe(res => {
+        console.log(res);
+        this.router.navigate(['/account/your-events']);
       });
-    })
-    
+    });
+
   }
 
 

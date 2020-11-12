@@ -1,4 +1,8 @@
 <main>
+
+
+
+
     <section class="contacts">
 
         <div class="search">
@@ -11,45 +15,77 @@
 
         <div class="contact-types">
             <div class="switch-bg" [ngClass]='contactTypeShown ? "active" : "inactive"'></div>
-            <button (click)='contactTypeShown = true'>Events</button>
-            <button (click)='contactTypeShown = false'>Companions</button>
+            <button (click)='contactTypeShown = true' [ngClass]='contactTypeShown ? "active" : "inactive"'>Events</button>
+            <button (click)='contactTypeShown = false' [ngClass]='!contactTypeShown ? "active" : "inactive"'>Companions</button>
         </div>
 
+        <div class="contacts-display-wrap">
+            <div class="contacts-display users" [ngClass]='contactTypeShown ? "active" : "inactive"'>
+                <div class="contact" *ngFor='let contact of searchedConversations; index as i' (click)='openConversation(contact)'>
 
-        <div class="contacts-display">
+                    <span class="contact-color"></span>
 
-            <div class="contact" *ngFor='let contact of searchedConversations; index as i' (click)='openConversation(contact)'>
-
-                <span class="contact-color"></span>
-
-                <div class="contact-info" *ngIf='conversationsUserInfo[i] | async; let userInfo'>
-                    <div class="contact-img">
-                        <img [src]=[userInfo.image] alt="">
+                    <div class="contact-info" *ngIf='conversationsUserInfo[i] | async; let userInfo'>
+                        <div class="contact-img">
+                            <img [src]=[userInfo.image] alt="">
+                        </div>
+                        <div class="text">
+                            <div class="organisator-name" *ngIf='contact.userID1 !== userID'>{{contact.nick1}}</div>
+                            <div class="organisator-name" *ngIf='contact.userID2 !== userID'>{{contact.nick2}}</div>
+                            <div class="event-name">{{contact.conversationName || userInfo.username}}</div>                
+                        </div>                
                     </div>
-                    <div class="text">
-                        <div class="organisator-name" *ngIf='contact.userID1 !== userID'>{{contact.nick1}}</div>
-                        <div class="organisator-name" *ngIf='contact.userID2 !== userID'>{{contact.nick2}}</div>
-                        <div class="event-name">{{contact.conversationName || userInfo.username}}</div>                
-                    </div>                
-                </div>
-                <div class="contact-message" *ngIf='contact.messages.length >= 1'>
-                    {{contact.messages[contact.messages.length - 1].message}}
-                </div>
-                <div class="contact-message" *ngIf='contact.messages.length === 0'>
-                    
-                </div>
 
+                    <div class="contact-message" *ngIf='contact.messages.length >= 1'>
+                        {{contact.messages[contact.messages.length - 1].message}}
+                    </div>
 
-            </div>
+                    <div class="contact-message" *ngIf='contact.messages.length === 0'>
+                        
+                    </div>
+                </div>
+            </div>  
+
+            <div class="contacts-display group" [ngClass]='contactTypeShown ? "active" : "inactive"'>
+                <div class="contact" *ngFor='let contact of searchedGroupConversations; index as i' (click)='openConversation(contact)'>
+
+                    <span class="contact-color"></span>
+
+                    <div class="contact-info" >
+                        <div class="contact-img">
+                            <img [src]=[contact.image] alt="">
+                        </div>
+                        <div class="text">
+                            <div class="organisator-name" *ngIf='contact.userID1 !== userID'>{{contact.nick1}}</div>
+                            <div class="organisator-name" *ngIf='contact.userID2 !== userID'>{{contact.nick2}}</div>
+                            <div class="event-name">{{contact.conversationName}}</div>                
+                        </div>                
+                    </div>
+
+                    <div class="contact-message" *ngIf='contact.messages.length >= 1'>
+                        {{contact.messages[contact.messages.length - 1].message}}
+                    </div>
+
+                    <div class="contact-message" *ngIf='contact.messages.length === 0'>
+                        
+                    </div>
+
+                </div>
+            </div>          
         </div>
+
     </section>
 
+
+
+
+
+
+
+
+
+
     <section class="conversation" *ngIf='currentConversation'>
-        <div class="row"> 
-            <div class="col-md"> 1 of 3 </div> 
-            <div class="col-md-auto"> 2 of 3 </div> 
-            <div class="col-md-auto"> 3 of 3 </div> 
-        </div>
 
         <div class="conversation-info" >
             <!--
@@ -67,7 +103,8 @@
         -->           
 
             <div class="conversation-name">
-                <div class="organisator-name">{{currentConversation.nick1}}</div>
+
+                <div class="organisator-name" *ngIf='currentConversation.nick1'>{{currentConversation.nick1}}</div>
                 <div class="event-name">{{currentConversation.conversationName}}</div>
             </div>
             <div class="conversation-options">
@@ -105,8 +142,14 @@
 
 
         <div class="write-message">
-            <input type="text" [(ngModel)]='messageText' (keyup.enter)="sendMessage(messageText)">
-            <button class="send" (click)="sendMessage(messageText)"></button>
+
+            <input  type="text" [(ngModel)]='messageText' (keyup.enter)="sendMessage(messageText,'groupMessage')" *ngIf='currentConversation.users'>
+            <button class="send" (click)="sendMessage(messageText,'groupMessage')" *ngIf='currentConversation.users'></button>
+
+            <input type="text" [(ngModel)]='messageText' (keyup.enter)="sendMessage(messageText,'userMessage')" *ngIf='!currentConversation.users'>
+            <button class="send" (click)="sendMessage(messageText,'userMessage')" *ngIf='!currentConversation.users'></button>
+            
+
         </div>
 
 

@@ -30,10 +30,9 @@ const storage = multer.diskStorage({
 });
 
 
-//for posting
+
 router.post('',
     checkAuth,multer({storage: storage}).single('image'),(req,res,next) => {
-    //create new object with mongoose schema
     const url = req.protocol + '://' + req.get('host')
     const post = new Post({
         title: req.body.title,
@@ -55,7 +54,7 @@ router.post('',
 
 });
 
-// editing 
+
 router.put("/:id",
     checkAuth, (req, res, next) => {
     console.log(req,res)
@@ -71,12 +70,9 @@ router.put("/:id",
 });
 
 
-//app.get, app.delete etc. 
 
-//for getting
-//path to filter, only use this shit if website is api/posts
 router.get(':id',(req,res,next) => {
-    //get from database n shit
+
     Post.find().then((documents) => {
         console.log(documents)
         res.status(200).json({
@@ -87,13 +83,13 @@ router.get(':id',(req,res,next) => {
 
 });
 
-//deleting, :id refers to custom id of document
+
 router.delete('/:id',
-    checkAuth,(req,res,next) => { //refers back to service
+    checkAuth,(req,res,next) => { 
     Post.deleteOne({_id: req.params.id}).then(result => {
         console.log(result);
         res.status(200).json({ message: 'post deleted'});
-    }) //refer to :id, or w/e you choose
+    }) 
     
 })
 

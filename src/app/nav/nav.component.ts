@@ -10,19 +10,19 @@ import { AuthService } from '../services/auth.service';
 })
 export class NavComponent implements OnInit, OnDestroy {
 
-  active: boolean = false;
-  authenticated: boolean = false;
+  active = false;
+  authenticated = false;
   private authListenerSub: Subscription;
-  
+
   constructor(public router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
-    
+
     this.authenticated = this.authService.getAuthStatus();
     this.authListenerSub = this.authService.getAuthStatusListener()
     .subscribe(isAuth => {
       this.authenticated = isAuth;
-    })
+    });
   }
 
   ngOnDestroy() {
@@ -34,8 +34,8 @@ export class NavComponent implements OnInit, OnDestroy {
   }
 
   logout(){
-    this.authService.logout()
-    this.router.navigate(['/'])
+    this.authService.logout();
+    this.router.navigate(['/']);
   }
 
 }

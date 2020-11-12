@@ -17,6 +17,23 @@ nav{
     z-index: 100000000000;
 }
 
+nav::before{
+    content: '';
+    position: absolute;
+    right: -15vw;
+    top: -30vw;
+    height: 40vw;
+    width: calc(100% + 4rem);
+    background-image: url('../../assets/icons/general/blob.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    pointer-events: none;
+    transform: rotate(5deg);
+
+}
+
+
+
 .links{
     display: flex;
     justify-content: flex-end; 
@@ -30,10 +47,10 @@ nav a{
     font-size: calc(0.8rem + 0.4vw);
     
     position: relative;
-    padding: 0.5rem 1.5rem;
-    border-radius: 20px;
+    padding: 0.35rem 1.2rem;
+    border-radius: 0.8rem;
     
-    color: white;
+    color: rgb(0, 0, 0);
     transition: 0.3s;
     cursor: pointer;
     
@@ -43,7 +60,8 @@ nav a:hover{
     background-color: rgb(80, 80, 80);
 }
 nav a.active{
-    background-color: rgb(80, 80, 80);;
+    background-color: rgb(255, 225, 58);
+    box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.062);
 }
 
 nav.nav-dark a{
@@ -53,7 +71,7 @@ nav.nav-dark a:hover{
     color: white;
 }
 nav.nav-dark a.active{
-    color: white;
+    color: rgb(41, 41, 41);
 }
 
 ul{

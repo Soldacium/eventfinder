@@ -17,9 +17,6 @@ const userCompanionsRoutes= require('./routes/user-companions');
 const userDataRoutes= require('./routes/user-data');
 const userFeedRoutes= require('./routes/user-feed');
 
-// multer for images
-//const multer = require('multer');
-
 const app = express();
 
 
@@ -34,12 +31,12 @@ mongoose.connect('mongodb+srv://CoolNewUser:VPpkY6t5lUnSqqAG@eventfinder.chq9z.m
     .catch(() =>{
         console.log('nope')
     })
-app.use(bodyParser.json()); //can also do html
+app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({extended: false}));
 
 
 
-// sth sth middleware, needed to comunicate with other IPs
+
 
 app.use((req,res,next) => {
     res.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");

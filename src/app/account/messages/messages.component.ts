@@ -1,26 +1,31 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { query } from '@angular/animations';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Conversation } from 'src/app/models/conversation.model';
+import { ConversationGroup } from 'src/app/models/conversation-group.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { EventsService } from 'src/app/services/events.service';
 import { MessagesService } from 'src/app/services/messages.service';
 import { UserService } from 'src/app/services/user.service';
 import { Message } from '../../models/message.model';
 
+
 @Component({
   selector: 'app-messages',
   templateUrl: './messages.component.html',
   styleUrls: ['./messages.component.css']
 })
-export class MessagesComponent implements OnInit, OnDestroy {
+
+export class MessagesComponent implements OnInit {
 
   @ViewChild('messageBox') messagesDiv: ElementRef;
   messages: Array<Message> = [];
   message: string;
   messageText: string;
 
+  userID: string;
   conversations: Array<Conversation>;
   searchedConversations: Array<Conversation>;
-  currentConversation: Conversation;
+  currentConversation: any;
   conversationsUserInfo = [];
   currentRoom: string;
 
@@ -28,11 +33,10 @@ export class MessagesComponent implements OnInit, OnDestroy {
 
   searchQuery = '';
 
-  userID: string;
-
   savedEvents = [];
 
-  eventGroupConversations = []
+  groupConversations = [];
+  searchedGroupConversations = [];
 
 
   constructor(
@@ -41,10 +45,24 @@ export class MessagesComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private eventsService: EventsService) { }
 
-  ngOnInit(): void {
-    // console.log(this.messagesDiv)
-    // this.messagesService.getConversations()
 
+
+
+
+  ngOnInit(): void {
+    this.loadAllConversaions();
+    this.getSavedEvents();
+    this.setupNewMessageListener();
+  }
+
+
+
+
+
+
+
+
+  loadAllConversaions(){
     if (!this.messagesService.userConversations){
       if (this.userService.getCurrentUserID()){
         this.getConversations();
@@ -56,15 +74,6 @@ export class MessagesComponent implements OnInit, OnDestroy {
     }else{
       this.getReadyConversations();
     }
-
-    this.getSavedEvents();
-
-    this.setupNewMessageListener();
-
-  }
-
-  ngOnDestroy() {
-    // this.leaveMessageRooms()
   }
 
   getConversations(){
@@ -82,11 +91,86 @@ export class MessagesComponent implements OnInit, OnDestroy {
     this.userID = this.userService.getCurrentUserID();
   }
 
-  getGroupConversations(){
 
+
+
+  getSavedEvents(){
+    if (!this.userService.getCurrentUserID() && !this.userService.getCurrentUserData()){
+      this.userService.currentUserUpdated.subscribe(update => {
+        this.userService.getUserData('', true).subscribe(res => {
+          this.savedEvents = this.eventsService.getSavedEvents(false);
+          this.getEventConversations();
+          this.eventsService.eventsReady.subscribe(ready => {
+            this.savedEvents = this.eventsService.getSavedEvents(false);
+            this.getEventConversations();
+          });
+        });
+      });
+    }else if (!this.eventsService.events || this.eventsService.events.length === 0){
+      this.eventsService.eventsReady.subscribe(ready => {
+        this.savedEvents = this.eventsService.getSavedEvents(false);
+        this.getEventConversations();
+      });
+    }else{
+      this.savedEvents = this.eventsService.getSavedEvents(false);
+      this.getEventConversations();
+    }
   }
 
-  sendMessage(message: string){
+  getEventConversations(){
+    this.savedEvents.forEach(event => {
+      this.messagesService.getEventGroupConversation(event._id).subscribe(res => {
+        console.log(res.conversation);
+        this.groupConversations.push(res.conversation[0]);
+        this.searchGroupConversations();
+      });
+    });
+  }
+
+
+
+  joinMessageRooms(){
+    this.conversations.forEach(conversation => {
+      this.messagesService.joinMessageRoom(conversation._id);
+    });
+  }
+
+  joinMessageRoom(room){
+    this.messagesService.joinMessageRoom(room);
+  }
+
+  leaveMessageRooms(){
+    this.conversations.forEach(conversation => {
+      this.messagesService.leaveMessageRoom(conversation._id);
+    });
+  }
+
+
+
+
+
+
+
+  /*
+  getUserInvitesBasicInfo(){
+    this.conversations.forEach(conversation => {
+      this.conversationsUserInfo.push(this.getUserBasicInfo(conversation.userDataID1));
+    });
+  }
+
+  getUserBasicInfo(userDataID){
+    return this.userService.getBasicUserInfo(userDataID);
+  }
+  */
+
+
+
+
+  openConversation(conversation){
+    this.currentConversation = conversation;
+  }
+
+  sendMessage(message: string, mode: string){
     const newMessage: Message = {
       date: new Date().toLocaleDateString('en-US'),
       senderID: this.userID,
@@ -98,7 +182,11 @@ export class MessagesComponent implements OnInit, OnDestroy {
 
     const convoID = this.currentConversation._id;
 
-    this.messagesService.postMessage(convoID, newMessage);
+    if (mode == 'userMessage'){
+      this.messagesService.postMessage(convoID, newMessage);
+    }else if (mode == 'groupMessage'){
+      this.messagesService.postGroupMessage(convoID, newMessage);
+    }
   }
 
   setupNewMessageListener(){
@@ -118,91 +206,40 @@ export class MessagesComponent implements OnInit, OnDestroy {
     });
   }
 
-  openConversation(conversation){
-    this.currentConversation = conversation;
-  }
+
+
+
+
+
+
+
+
 
   searchConversations(){
     const searchedConversations = [];
-    console.log(this.searchQuery);
     this.conversations.forEach(conversation => {
       if (conversation.conversationName.toLowerCase().includes(this.searchQuery)){
         searchedConversations.push(conversation);
       }
     });
-
     this.searchedConversations = searchedConversations;
   }
 
-  joinMessageRooms(){
-    console.log(this.conversations);
-    this.conversations.forEach(conversation => {
-      // this.joinMessageRoom(conversation._id)
-      this.messagesService.joinMessageRoom(conversation._id);
+  searchGroupConversations(){
+    const search = [];
+    this.groupConversations.forEach((convo) => {
+      console.log(convo);
+      if (convo.conversationName.includes(this.searchQuery)){
+        search.push(convo);
+      }
     });
-  }
-
-  joinMessageRoom(room){
-    this.messagesService.joinMessageRoom(room);
-  }
-
-  leaveMessageRooms(){
-    this.conversations.forEach(conversation => {
-      // this.joinMessageRoom(conversation._id)
-      this.messagesService.leaveMessageRoom(conversation._id);
-    });
+    this.searchedGroupConversations = search;
   }
 
 
-  getUserInvitesBasicInfo(){
-    this.conversations.forEach(conversation => {
-      this.conversationsUserInfo.push(this.getUserBasicInfo(conversation.userDataID1));
-    });
-  }
 
-  getUserBasicInfo(userDataID){
-    return this.userService.getBasicUserInfo(userDataID);
-  }
 
-  getSavedEvents(){
 
-    if (!this.userService.getCurrentUserID() && !this.userService.getCurrentUserData()){
-      this.userService.currentUserUpdated.subscribe(update => {
-        this.userService.getUserData('', true).subscribe(res => {
-          this.savedEvents = this.eventsService.getSavedEvents(false);
-          this.getEventConversations()
-          this.eventsService.eventsReady.subscribe(ready => {
-            this.savedEvents = this.eventsService.getSavedEvents(false);
-            this.getEventConversations()
-            console.log(this.savedEvents);
-          });
-        });
 
-      });
-
-    }else if (!this.eventsService.events || this.eventsService.events.length === 0){
-      this.eventsService.eventsReady.subscribe(ready => {
-        this.savedEvents = this.eventsService.getSavedEvents(false);
-        this.getEventConversations()
-        console.log(this.savedEvents);
-      });
-
-    }else{
-
-      this.savedEvents = this.eventsService.getSavedEvents(false);
-      this.getEventConversations()
-      console.log(this.savedEvents);
-    }
-  }
-
-  getEventConversations(){
-    this.savedEvents.forEach(event => {
-      this.messagesService.getEventGroupConversation(event._id).subscribe(res => {
-        this.eventGroupConversations.push(res)
-        console.log(res)
-      })
-    })
-    
-  }
 
 }

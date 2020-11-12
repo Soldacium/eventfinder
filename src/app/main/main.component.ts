@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
-import * as L from 'leaflet'
+import * as L from 'leaflet';
 import { Subject } from 'rxjs';
 import { Event } from '../models/event.model';
 import { User } from '../models/user.model';
@@ -29,12 +29,16 @@ export class MainComponent implements OnInit {
   };
 
   optionsHidden = true;
-  currentEventInfoIsHidden = true;
+  currentEventInfoIsHidden = false;
 
   eventMarkers = [];
 
   currentEventData: any;
   userSavedEvents: Array<object> = [];
+
+
+
+
 
   constructor(
     private eventsService: EventsService,
@@ -43,23 +47,24 @@ export class MainComponent implements OnInit {
     private userService: UserService,
     private titleService: Title) { }
 
+
+
+
+
+
   ngOnInit(): void {
     this.getSavedEvents();
     this.setupListeners();
     this.setTitle('Voyda - Event map');
-
-    this.test1()
-
   }
 
-  test1(){
-    let a: number;
-    console.log(a);
 
-    let b = Array(6);
-    console.log(b[0], b)
 
-  }
+
+
+
+
+
 
   public setTitle(title) {
     this.titleService.setTitle( title);
@@ -77,13 +82,13 @@ export class MainComponent implements OnInit {
     this.markerService.open.subscribe(e => {
       this.currentEventData = {...e};
       this.currentEventInfoIsHidden = false;
-      this.setTitle(`Voyda - ${e.title}`)
-    })
+      this.setTitle(`Voyda - ${e.title}`);
+    });
   }
 
   setupMarkerFocusListener(){
     this.markerService.focusOnEvent.subscribe(focus => {
-      if(focus){
+      if (focus){
         const coords = JSON.parse(this.currentEventData.coords);
         const lat = coords.lat;
         const lon = coords.lon;
@@ -96,8 +101,8 @@ export class MainComponent implements OnInit {
     this.authService.getUserListener().subscribe((user: User) => {
       this.userService.getUserData(user.userDataID, true).subscribe((userData: UserData) => {
         this.userSavedEvents = [...userData.saved];
-      })
-      
+      });
+
     });
   }
 
@@ -124,7 +129,7 @@ export class MainComponent implements OnInit {
 
   getSavedEvents(){
     const userData = this.userService.getCurrentUserData();
-    if(userData){
+    if (userData){
       this.userSavedEvents = [...userData.saved];
     }
   }
@@ -140,7 +145,7 @@ export class MainComponent implements OnInit {
 
 
   onClose(close){
-    if(close){
+    if (close){
       this.currentEventInfoIsHidden = !this.currentEventInfoIsHidden;
     }
   }

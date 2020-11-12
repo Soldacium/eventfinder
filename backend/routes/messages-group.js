@@ -28,7 +28,7 @@ router.post('/:id',  (req,res,next) => { //create new object with mongoose schem
         date: req.body.date,
     })
     console.log(req.body, message)
-    Conversation.updateOne({_id: req.params.id},
+    ConversationGroup.updateOne({_id: req.params.id},
         {$push: {messages: message}}).then(save => {
             res.status(200).json({
                 data: save
@@ -41,6 +41,8 @@ router.post('/:id',  (req,res,next) => { //create new object with mongoose schem
         })
 
 });
+
+
 
 
 // gets all conversations where ethier user is current user
@@ -71,9 +73,6 @@ router.get('', (req,res,next) => {
             })
         })
     }
-
-    
-
 });
 
 //get one conversation with id
@@ -86,6 +85,10 @@ router.get('/:id',(req,res,next) => {
         });
     });
 });
+
+
+
+
 
 //deleting, :id refers to custom id of document
 router.delete('/:id',

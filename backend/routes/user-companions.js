@@ -95,23 +95,19 @@ router.delete('/:id', (req,res,next) => {
     
     if(req.query.mode === 'delete-fromInvite'){
         UserCompanions.findOneAndUpdate({_id: req.params.id},
-            {$pull: {'companionRequests.from': {ID: req.query.inviterID}}}).then(delCompanion => {
-                
+            {$pull: {'companionRequests.from': {ID: req.query.inviterID}}}).then(delCompanion => {   
                 res.status(200).json({
                     companion: delCompanion
-                })
-                
+                })   
             })       
     }
 
     if(req.query.mode === 'delete-toInvite'){
         UserCompanions.findOneAndUpdate({_id: req.params.id},
             {$pull: {'companionRequests.to': {ID: req.query.invitedID}}}).then(delCompanion => {
-                
                 res.status(200).json({
                     companion: delCompanion
-                })
-                
+                })  
             })       
     }
 
@@ -136,7 +132,6 @@ router.put('/:id', (req,res,next) => {
 
 
 router.get('/:id',(req,res,next) => {
-    //get from database n shit
     if(req.query.mode === 'all'){
         UserCompanions.findOne({_id: req.params.id}).then((userCompanions) => {
             res.status(200).json({

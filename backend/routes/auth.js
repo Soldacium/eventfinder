@@ -6,15 +6,11 @@ const router = express.Router()
 const User = require('../models/user');
 
 const checkAuth = require('../middleware/check-auth');
-const { db } = require('../models/user');
-
-
 
 
 
 //for users
 router.post('/signup', (req, res, next) => {
-    console.log(req.body)
     bcrypt.hash(req.body.password, 10,)
     .then(hash => {
         const user = new User({
@@ -55,7 +51,6 @@ router.post('/signup', (req, res, next) => {
 
 router.put('/signup/:id', (req,res,next) => {
     const user = req.body;
-    console.log(user)
     User.updateOne({_id: req.params.id}, user).then(result => {
         res.status(200).json({ message: "Update successful!" });
       });
@@ -80,10 +75,11 @@ router.get('/login/:id',(req,res,next) => {
                 }
             });  
         }
-
     });
-
 });
+
+
+
 
 //for logging
 router.post('/login', (req,res,next) => {

@@ -63,8 +63,8 @@
     <section class="invites" [ngClass]='invitesShown ? "active" : "inactive"'>
         <div class="invites-switch">
             <div class="switch-bg" [ngClass]='invitesTypeShown ? "active" : "inactive"'></div>
-            <button (click)='invitesTypeShown = true'>To</button>
-            <button (click)='invitesTypeShown = false'>From</button>
+            <button (click)='invitesTypeShown = true' [ngClass]='invitesTypeShown ? "active" : "inactive"'>Sent</button>
+            <button (click)='invitesTypeShown = false' [ngClass]='!invitesTypeShown ? "active" : "inactive"'>Recieved</button>
         </div>
         
         <div class="invites-wrap">

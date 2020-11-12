@@ -162,12 +162,13 @@ a{
 }
 
 .date{
-    width: 100%;
+    width: 70%;
+    
     display: flex;
     align-items: center;
     align-content: space-around;
     position: relative;
-    margin: 3rem 0;
+    margin: 3rem auto;
 
 }
 
@@ -190,73 +191,44 @@ a{
     flex-direction: column;
     justify-content: center;
     position: relative;
-    height: 6rem;
+    padding: 0.75rem 1rem;
+    margin: 0 2rem;
+    border-radius: 0.5rem;
     cursor: pointer;
     filter: grayscale(10%) brightness(96%);
     transition: 0.3s;
-    color: white;
+    color: rgb(41, 41, 41);
     z-index: 19;
-    background-color: rgb(41, 41, 41);
-    border: 4px var(--color1) solid;
+    background-color: var(--color1);
     border-width: 4px 0px;
-    
-}
-
-.date-text-bigger{
-    font-weight: 600;
-    font-size: 1.6rem;
-}
-.date-start:hover,
-.date-end:hover{
-    filter: grayscale(0%) brightness(100%);
-    flex: 2 1 15rem;
-    z-index: 20;
-}
-
-.date-start:after,
-.date-end:after{
-    content: '';
-    position: absolute;
-    top: 0px;
-    width: 0;
-    height: 0;
 }
 .date-start::before,
 .date-end::before{
     content: '';
     position: absolute;
-    top: -4px;
-    width: 0;
-    height: 0;
+    left: 0.5rem;
+    top: 0.5rem;
+    border-radius: 0.5rem;
+    width: calc(100% - 1rem);
+    height: calc(100% - 1rem);
+    z-index: -1;
+    background-color: var(--color3);
 }
 
+.date-text-bigger{
+    font-weight: 600;
+    font-size: 1.3rem;
+}
 .date-start{
     margin-right: 2rem;
 }
-.date-start::after{
-    left: 100%;
-    border-top: calc(6rem - 8px) solid rgb(41, 41, 41);
-    border-right: 30px solid transparent;
-}
-.date-start::before{
-    left: 100%;
-    border-top: calc(6rem) solid var(--color1);
-    border-right: 36px solid transparent;
-}
+
 .date-end{
     margin-left: 2rem;
 }
-.date-end::after{
-    right: 100%;
-    border-bottom: calc(6rem - 8px) solid  rgb(41, 41, 41);
-    border-left: 30px solid transparent;
-}
 
-.date-end::before{
-    right: 100%;
-    border-bottom: calc(6rem) solid  var(--color1);
-    border-left: 36px solid transparent;
-}
+
+
 
 .place{
     color: rgb(255, 255, 255);

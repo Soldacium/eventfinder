@@ -30,34 +30,17 @@ export class InfoComponent implements OnInit {
         this.userService.getUserData(this.userService.viewedUserCollectionsIDs.userData).subscribe(data => {
           this.userData = data;
         });
-
         this.checkIfCompanion();
       });
     }else{
       this.userData = this.userService.viewedUserData;
       this.checkIfCompanion();
     }
-
-
   }
 
 
 
-  searchForUserInvite(){
-    const viewedUserID = this.userService.viewedUserID;
 
-    this.invitations.to ? this.invitations.to.forEach(toInvite => {
-      if (toInvite.ID === viewedUserID){
-        this.invateState = 'toInvite';
-      }
-    }) : '';
-
-    this.invitations.from ? this.invitations.from.forEach(fromInvite => {
-      if (fromInvite.ID === viewedUserID){
-        this.invateState = 'fromInvite';
-      }
-    }) : '';
-  }
 
 
   getUserCompanions(){
@@ -75,6 +58,9 @@ export class InfoComponent implements OnInit {
       this.companionsRefs = this.userService.currentUserCompanions;
     }
   }
+
+
+
   checkIfCompanion(){
     const viewedUserID = this.userService.getViewedUserID()
     this.companionsRefs.forEach(companionRef => {
@@ -84,6 +70,22 @@ export class InfoComponent implements OnInit {
     })
   }
 
+
+  searchForUserInvite(){
+    const viewedUserID = this.userService.viewedUserID;
+
+    this.invitations.to ? this.invitations.to.forEach(toInvite => {
+      if (toInvite.ID === viewedUserID){
+        this.invateState = 'toInvite';
+      }
+    }) : '';
+
+    this.invitations.from ? this.invitations.from.forEach(fromInvite => {
+      if (fromInvite.ID === viewedUserID){
+        this.invateState = 'fromInvite';
+      }
+    }) : '';
+  }
 
   acceptCompanionInvite(){
     this.userService.acceptUserCompanionInvite().subscribe(res => {

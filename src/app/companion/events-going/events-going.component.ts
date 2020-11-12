@@ -12,32 +12,30 @@ export class EventsGoingComponent implements OnInit {
   userSaved;
 
   searchQuery;
-  searchedUserSaved = []
+  searchedUserSaved = [];
   constructor(private userService: UserService,
-    private eventsService: EventsService) { }
+              private eventsService: EventsService) { }
 
   ngOnInit(): void {
-    this.getUserSaved()
+    this.getUserSaved();
   }
 
   getUserSaved(){
-    if(!this.userService.viewedUserData){
+    if (!this.userService.viewedUserData){
       this.userService.viewedUserCollectionsIDsReady.subscribe(ready => {
-        this.userSaved = this.eventsService.getSavedEvents(true)
-        this.normalizeSaved()
-            
-      })      
+        this.userSaved = this.eventsService.getSavedEvents(true);
+        this.normalizeSaved();
+      });
     }else{
-      this.userSaved =this.eventsService.getSavedEvents(true);
-      this.normalizeSaved()
-      console.log(this.userService.viewedUserData)
+      this.userSaved = this.eventsService.getSavedEvents(true);
+      this.normalizeSaved();
     }
 
 
   }
 
   normalizeSaved(){
-  
+
     if (this.userSaved && this.userSaved !== []){
       this.normalizeEventTags();
       this.normalizeEventTimes();
@@ -47,22 +45,22 @@ export class EventsGoingComponent implements OnInit {
 
   normalizeEventTags(){
     this.userSaved.forEach(event => {
-      event.tags = JSON.parse(event.tags)
+      event.tags = JSON.parse(event.tags);
     });
   }
 
   normalizeEventTimes(){
     this.userSaved.forEach(event => {
-      let time = JSON.parse(event.time);
+      const time = JSON.parse(event.time);
       const start = time.start.split('T');
       const end = time.end.split('T');
 
       const newTime = {
-        startDate: start[0].replaceAll('-','/'),
+        startDate: start[0].replaceAll('-', '/'),
         startTime: start[1],
-        endDate: end[0].replaceAll('-','/'),
+        endDate: end[0].replaceAll('-', '/'),
         endTime: end[1],
-      }
+      };
 
       event.time = newTime;
     });
@@ -71,17 +69,17 @@ export class EventsGoingComponent implements OnInit {
 
   searchSavedEvents(){
     /*
-    this.searchedUserSaved = this.userSaved.filter(event => 
+    this.searchedUserSaved = this.userSaved.filter(event =>
       event.title.toLowerCase().includes(this.searchQuery.toLowerCase())
     );
     */
-   console.log(this.userSaved)
-    console.log(this.searchedUserSaved)
+   console.log(this.userSaved);
+   console.log(this.searchedUserSaved);
   }
 
 
   findPlace(){
-    
+
   }
 
 }

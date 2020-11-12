@@ -11,41 +11,46 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class FeedComponent implements OnInit {
 
-  feed = []
+  feed = [];
   viewFeed = true;
   moreVisible = false;
 
   expandedPosts = [];
 
   activities = ['Canoe', 'Cycling', 'Tinkering', 'Horseriding', 'Fishing'];
-  constructor(private userService: UserService,
+  constructor(
+    private userService: UserService,
     private userFeedService: UserFeedService,
     private authService: AuthService) { }
 
+
+
+
   ngOnInit(): void {
-    //this.getFeedPosts()
-    this.getUserFeed()
+    this.getUserFeed();
   }
+
+
+
 
 
   expandPost(i){
-    this.expandedPosts.push(i)
+    this.expandedPosts.push(i);
   }
 
   getUserFeed(){
-    if(this.userFeedService.viewedUserFeed.length === 0){
+    if (this.userFeedService.viewedUserFeed.length === 0){
       this.userService.viewedUserCollectionsIDsReady.subscribe(ready => {
-        this.userFeedService.getUserFeed(this.userService.viewedUserCollectionsIDs.userFeed,false).subscribe(feed => {
+        this.userFeedService.getUserFeed(this.userService.viewedUserCollectionsIDs.userFeed, false).subscribe(feed => {
           this.feed = feed;
         });
       });
     }else{
       this.feed = this.userFeedService.viewedUserFeed;
-      console.log(this.feed)
     }
-
-
   }
-  
+
+
+
 
 }

@@ -10,13 +10,13 @@ main{
     height: 100%;
     left: calc(-200px - 45%);
     background-color: rgb(250, 250, 250);
-    border-radius: 0 2rem 2rem 0;
+    border-radius: 0 50% 50% 0;
     box-shadow: 3px 0 3px 1px rgba(0, 0, 0, 0.144);
     transition: 0.4s;
     transition-delay: 0.3s;
 }
 .info-background.active{
-    left: 0;
+    left: -2px;
 }
 
 .info-background.naah{
@@ -27,7 +27,7 @@ section{
     position: relative;
     padding: 0;
     background: white;
-    border-radius: 1rem;
+    border-radius: 0.5rem;
     margin: 4rem 0rem;
     box-shadow: 1px 4px 5px 2px rgba(189, 189, 189, 0.123);
     overflow-x: hidden;

@@ -29,14 +29,14 @@ const storage = multer.diskStorage({
 });
 
 
-//for posting
+
+
+
 router.post('',multer({storage: storage}).single('image'),(req,res,next) => {
-    //create new object with mongoose schema
     const url = req.protocol + '://' + req.get('host')
     const event = new Event({
         title: req.body.title,
         desc: req.body.desc,
-        //imagePath: url + '/images/' + req.file.filename,
 
         organisator: req.body.organisator,
         time: req.body.time, //{start, end}
@@ -72,6 +72,8 @@ router.post('',multer({storage: storage}).single('image'),(req,res,next) => {
 });
 
 
+
+
 // editing 
 router.put("/:id"), (req, res, next) => {
     const event = new Event({
@@ -105,8 +107,9 @@ router.put("/:id"), (req, res, next) => {
 }
 
 
+
+
 router.get('',(req,res,next) => {
-    //get from database n shit
     Event.find().then((documents) => {
         res.status(200).json({
             events: documents
@@ -114,9 +117,9 @@ router.get('',(req,res,next) => {
     });
 });
 
-//deleting, :id refers to custom id of document
+
 router.delete('/:id',(req,res,next) => { 
-    Event.deleteOne({_id: req.params.id}).then(result => { //, userID: req.userData.userId 
+    Event.deleteOne({_id: req.params.id}).then(result => { 
         res.status(200).json({ message: 'post deleted'});
     }) 
 })

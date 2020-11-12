@@ -11,10 +11,10 @@
     </button>
 
 
+
     <section class="general" >
         
         <div class='save'>
-
             <button (click)='saveEvent()' *ngIf='!thisEventIsSaved' class='saveButton saveEvent '>
                 <img src="assets/icons/general/bookmarkBold.svg" alt="">
             </button>
@@ -22,7 +22,6 @@
             <button (click)='unsaveEvent()' *ngIf='thisEventIsSaved' class="saveButton unsaveEvent ">
                 <img src="assets/icons/general/bookmarkBold-full.svg" alt="">
             </button>
-
         </div>
 
 
@@ -31,6 +30,9 @@
         </app-general>
 
     </section>
+
+
+
 
     <section class="desc" >
         <div class="section-title">
@@ -42,6 +44,8 @@
     </section> 
 
 
+
+
     <section class='plan' >
         <div class="section-title">
             Plan
@@ -50,6 +54,8 @@
 
         </app-plan>
     </section>
+
+    
 
 
     <section class="more" >

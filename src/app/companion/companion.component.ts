@@ -53,7 +53,7 @@ export class CompanionComponent implements OnInit, OnDestroy {
   }
 
   checkIfRoute(route: string){
-    return this.router.isActive(`/companion/${this.userID}/${route}`, true)
+    return this.router.isActive(`/companion/${this.userID}/${route}`, true);
   }
 
 

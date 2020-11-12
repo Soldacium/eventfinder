@@ -18,14 +18,24 @@
      </div>  
      <div class="options" [ngClass]='!optionsHidden?"active":"naah"'>
           
-          <div class="options-hide" (click)='optionsHidden = !optionsHidden'>
-               <img src="assets/icons/general/arrow.svg" alt="">
-          </div>
+
           <div class="options-wrap">
                <app-main-options>
 
                </app-main-options>               
           </div>
 
+     </div>
+     <div class="mini-search">
+          <div class="search">
+               <button>
+                    <img src="assets/icons/general/search.svg" alt="">
+               </button>
+               <input type="text" required>
+
+          </div>
+          <div class="options-hide" (click)='optionsHidden = !optionsHidden'>
+               <img src="assets/icons/general/search-map.svg" alt="">
+          </div>
      </div>
 </main>

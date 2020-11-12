@@ -14,9 +14,9 @@ router.post('', (req,res,next) => {
         res.status(200).json({
             message: 'event comments added',
             data: comments
-        })
-    })
-})
+        });
+    });
+});
 
 
 router.post('/:id', (req, res, next) => {
@@ -28,8 +28,8 @@ router.post('/:id', (req, res, next) => {
             {$push: {comments: newComment}}).then(comment => {
                 res.status(200).json({
                     data: newComment
-                })
-            })  
+                });
+            });  
      
     }else if(req.body.mode === 'response'){
         const newResponse = new Comment(req.body.newComment);
@@ -50,15 +50,15 @@ router.post('/:id', (req, res, next) => {
             });
         });
     }
-})
+});
 
 router.get('/:id',(req,res,next) => {
     EventComments.findOne({_id: req.params.id})
     .then(comments => {
         res.status(200).json({
             comments: comments
-        })
-    })
-})
+        });
+    });
+});
 
 module.exports = router;

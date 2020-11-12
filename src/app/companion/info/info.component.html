@@ -1,6 +1,6 @@
 <section class="profile-general">
     <div class="image-background">
-        <img [src]="userData.backgroundImage" *ngIf="userData"> <!--[src]="userData.image" *ngIf="userData" -->
+        <img [src]="userData.backgroundImage" *ngIf="userData">
     </div>  
     <div class="image">
       
@@ -23,66 +23,9 @@
                 <button class='button-companion' (click)='acceptCompanionInvite()' *ngIf='invateState === "fromInvite"'><img src="assets/icons/general/companion-accept.svg" alt=""></button>
                 <button class="button-message"><img src="assets/icons/general/message-full.svg" alt=""></button>
             </div>       
-        </div>
-
-
-        <!--
-            
-        <div class="general-info-info">
-            <div class="info-static">
-                <div *ngIf='userData.email == ""' class='text-inactive'>Not provided</div>
-                <div name='name'>{{userData.email}}</div>
-                <label for="name">Email</label>
-            </div>
-        
-            <div class="info-static">
-                <div *ngIf='userData.phone == ""' class='text-inactive'>Not provided</div>
-                <div name='name'>{{userData.phone}}</div>
-                <label for="name">Phone</label>
-            </div>              
-        </div>            
-        -->
-
-     
+        </div>  
     </div>
 
 </section>
-<!--
-<section class='desc' [innerHTML]='userData.desc' *ngIf='userData.desc !== ""'>
 
-</section>
-
-<section class="contact">
-
-</section>
-
-
-<section class='more'>
-
-</section>
-
-
-
-    email: string;
-    username: string;
-    phone?: string;
-    address?: string;
-    website1?: string;
-    website2?: string;
-    desc?: string;
-    statsTypes?: Array<object>;
-    statsTime?: Array<object>;
-    image?: string;
-    
-    comments?: Array<object>;
-
-    instagram: string;
-    facebook: string;
-    twitter: string;
-    linkedin: string;
-
-    saved?: Array<{_id: string, id: string}>;
-
-    _id?: string;
--->
 

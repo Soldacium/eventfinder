@@ -1,3 +1,7 @@
+input:focus,button:focus{
+    outline: none;
+}
+
 .map{
     height: 100%;
     width: 100%;
@@ -85,11 +89,12 @@ popup-element div{
     right: -30vw;
     width: 30vw;
     height: 100%;
-    z-index: 3;
+    z-index: 4;
+    
     
     border: 2px solid rgba(128, 128, 128, 0);
     box-shadow: 0 0 3px 2px rgba(128, 128, 128, 0.089);
-    transition: 0.3s;
+    transition: 0.66s ease;
 
     background-color: #ffffff;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cg fill='%23eeeeee' fill-opacity='0.18'%3E%3Cpolygon fill-rule='evenodd' points='8 4 12 6 8 8 6 12 4 8 0 6 4 4 6 0 8 4'/%3E%3C/g%3E%3C/svg%3E");
@@ -101,23 +106,113 @@ popup-element div{
 
 
 .options.naah{
-    right: -30vw;
+    right: -100vw;
 }
 .options.active{
     right: 0;
 }
 
-.options-hide{
+
+
+
+.mini-search{
     position: absolute;
-    right: 100%;
-    top: 50%;
+    right: 3rem;
+    bottom: 3rem;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+}
+
+.mini-search > *{
+    position: relative;
+    
+}
+
+.search{
+    display: flex;
+    align-items: center;
+    margin-right: 0.75rem;
+}
+
+.search:hover > input{
+    width: 30rem;
+}
+.search > input:valid{
+    width: 30rem;
+}
+.search > input:focus{
+    width: 30rem;
+}
+
+.search > input{
+    padding: 0.5rem 1.5rem;
+    min-width: 4rem;
+    height: 4rem;
+    font-size: 1.3rem;
+    width: 0;
+    border-radius: 2rem;
+    transition: 0.5s ease;
+    border: 2px solid var(--color1);
+
+}
+.search > button{
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 4rem;
+    width: 4rem;
+    background-color: var(--color1);
+    margin-left: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    border: none;
+}
+.search > button::before{
+    position: absolute;
+    content: '';
+    width: 3.5rem;
+    height: 3.5rem;
+    top: 0.25rem;
+    right: 0.25rem;
+    border-radius: 50%;
+    background-color: var(--color3);
+    box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.062);
+}
+
+.search > button img{
+    position: relative;
     width: 2rem;
-    height: 6rem;
+    height: 2rem;
+
+}
+
+.options-hide{
+    position: relative;
+    width: 4rem;
+    height: 4rem;
     cursor: pointer;
-    background-color: rgba(0, 0, 0, 0.76);
-    transform: translate(-50%, -50%);
-    border-radius: 1rem;
+    
+    border-radius: 50%;
     transition: 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color1);
+}
+
+.options-hide::before{
+    position: absolute;
+    content: '';
+    width: 3.5rem;
+    height: 3.5rem;
+    top: 0.25rem;
+    left: 0.25rem;
+    border-radius: 50%;
+    box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.062);
+    background-color: var(--color3);
 }
 .options-hide:hover{
     background-color: gray;
@@ -126,13 +221,15 @@ popup-element div{
 
 .options-hide img{
     position: relative;
-    width: 100%;
-    height: 100%;
-    filter: invert();
+    top: .25rem;
+    left: .25rem;
+    width: 2.5rem;
+    height: 2.5rem;
+
 }
 
 .options.naah img{
-    transform: rotate(180deg);
+    transform: rotate(0deg);
 }
 
 .options-wrap{

@@ -27,7 +27,6 @@ export class InteractionComponent implements OnInit, OnChanges {
   interactionData = {};
   constructor(
     private messageService: MessagesService,
-    private authService: AuthService,
     private eventsService: EventsService,
     private router: Router) { }
 
@@ -46,7 +45,6 @@ export class InteractionComponent implements OnInit, OnChanges {
 
     if (newInteractionData.currentValue){
       this.interactionData  = newInteractionData.currentValue;
-      console.log(this.interactionData);
       this.eventsService.getComments();
     }
   }

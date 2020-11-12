@@ -6,7 +6,7 @@ main{
     flex-direction: column;
     width: 100%;
     position: relative;
-    padding: 0 10% 20% 10%;
+    padding: 0 15% 20% 15%;
     position: absolute;
     left: 0;
     top: 0;
@@ -29,10 +29,12 @@ button:focus{
 
 section{
     width: 100%;
-    padding: 2rem;
+    padding: 3rem;
     margin-bottom: 3rem;
-    border-radius: 2rem;
-    box-shadow: 0 2px 3px 1px rgba(128, 128, 128, 0.11);
+    border-radius: 1.25rem;
+    /*
+    box-shadow: 0 3px 4px 2px rgba(128, 128, 128, 0.11);
+    */
     z-index: 5;
     position: relative;
     background-color: #ffffff;
@@ -104,18 +106,19 @@ div > .subsection-title:first-of-type{
 
   
 }
-.image-background:after{
+.image-background img{
+  min-width: 100%;
+
+  
+}
+.image-background::after{
+  content: '';
   position: absolute;
   left: 0;
   top: 0;
-  content: '';
   width: 100%;
   height: 100%;
-  box-shadow: 0 -2px 20px -10px rgb(0, 0, 0) inset;
-}
-.image-background img{
-  min-width: 100%;
-  
+  box-shadow: 0 -10px 10px -5px rgba(0, 0, 0, 0.384) inset;
 }
 .image-background > button{
   position: absolute;
@@ -133,6 +136,13 @@ div > .subsection-title:first-of-type{
   background-size: 2rem 2rem;
   background-repeat: no-repeat;
   z-index: 9999;
+  filter: invert();
+  transition: 0.2s ease;
+}
+
+.image-background > button:hover{
+  background-color: rgb(211, 211, 211);
+  cursor: pointer;
 }
 
 .image-background-buttons{
@@ -180,6 +190,7 @@ div > .subsection-title:first-of-type{
     padding-bottom: 0;
     margin-bottom: 0;
     background: transparent;
+    overflow: hidden;
     
 
 }
@@ -194,13 +205,23 @@ div > .subsection-title:first-of-type{
 
 .image > img{
   position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%,-50%);
+  left: calc(50% - 275px);
+  top: calc(50% - 275px);
+  
   width: 550px;
   height: 550px;
+  animation: rotate 120s infinite linear;
   
   filter: grayscale(100%) brightness(50%);
+}
+
+@keyframes rotate{
+  0%{
+    transform: rotate(0deg);
+  }
+  100%{
+    transform: rotate(359.9deg);
+  }
 }
 
 .image-wrap{
@@ -298,10 +319,10 @@ input[type='button']:hover{
 
 .names{
   margin-top: 4rem;
-  padding: 1rem 3rem;
-  color: rgb(41, 41, 41);
-  background-color: white;
-  box-shadow: 0 2px 3px 1px rgba(128, 128, 128, 0.11);
+  padding: 1rem 3.5rem;
+  color: rgb(255, 255, 255);
+  background-color: rgb(41, 41, 41);
+  box-shadow: 0 3px 4px 2px rgba(128, 128, 128, 0.11);
   border-radius: 1rem;
 }
 
@@ -436,7 +457,7 @@ input[type='button']:hover{
     margin-top: 1rem;
     width: 100%;
     background-color: rgb(245, 245, 245);
-    border-radius: 1rem;
+    border-radius: 0.75rem;
     overflow: hidden;
     
   }

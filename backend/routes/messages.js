@@ -19,15 +19,14 @@ router.post('', (req,res,next) => {
     })
 })
 
-//post single message
-router.post('/:id',  (req,res,next) => { //create new object with mongoose schema
+
+router.post('/:id',  (req,res,next) => { 
     
     const message = new Message({
         senderID: req.body.senderID,
         message: req.body.message,
         date: req.body.date,
     })
-    console.log(req.body, message)
     Conversation.updateOne({_id: req.params.id},
         {$push: {messages: message}}).then(save => {
             res.status(200).json({
@@ -43,16 +42,10 @@ router.post('/:id',  (req,res,next) => { //create new object with mongoose schem
 });
 
 
-// gets all conversations where ethier user is current user
+
 router.get('', (req,res,next) => {
     const userID = req.query.userID;
-    /*
-    Conversation.find().then((documents) => {
-        res.status(200).json({
-            events: documents
-        });
-    });
-    */
+
     if(req.query.mode === 'user'){
         Conversation
         .find({$or : [{userID1: userID}, {userID2: userID}]})
@@ -84,7 +77,7 @@ router.get('', (req,res,next) => {
 
 });
 
-//get one conversation with id
+
 router.get('/:id',(req,res,next) => {
     Conversation
     .find({_id: req.params.id})

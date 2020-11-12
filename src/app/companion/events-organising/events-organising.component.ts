@@ -13,27 +13,24 @@ export class EventsOrganisingComponent implements OnInit {
   constructor(private eventsService: EventsService) { }
 
   ngOnInit(): void {
-    this.getEvents()
-    
+    this.getEvents();
+
 
     this.eventsService.eventsReady.subscribe(ready => {
-      if(ready){
-        this.getEvents()
-        console.log(this.events)
+      if (ready){
+        this.getEvents();
       }
-    })
+    });
 
     this.eventsService.eventsUpdated.subscribe((events: any) => {
       this.events = events;
-    })
-    
+    });
+
   }
 
   getEvents(){
     this.events = this.eventsService.getUserEvents();
-    
-    
-    this.events.forEach((event,i) => {
+    this.events.forEach((event, i) => {
     });
   }
 }
